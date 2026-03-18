@@ -1,0 +1,91 @@
+<header>
+  <nav class="navbar navbar-expand-sm navbar-dark bg-dark border-bottom box-shadow mb-0">
+    <div class="container-fluid">
+      <a class="navbar-brand fw-bold" [routerLink]="['/']">CMSX</a>
+      <button class="navbar-toggler" type="button" (click)="toggle()"
+        [attr.aria-expanded]="isExpanded" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="navbar-collapse collapse d-sm-inline-flex" [ngClass]="{ show: isExpanded }">
+
+        <!-- Links do menu (módulos do banco) -->
+        <ul class="navbar-nav flex-grow-1" *ngIf="usuario">
+          <li *ngFor="let m of modulos" class="nav-item" [routerLinkActive]="['active']"
+            [routerLinkActiveOptions]="{ exact: m.url === '/dashboard' }">
+            <a class="nav-link" [routerLink]="[m.url]">{{m.nome}}</a>
+          </li>
+        </ul>
+
+        <!-- Lado direito -->
+        <ul class="navbar-nav ms-auto" *ngIf="usuario">
+
+          <!-- Link para editar a própria aplicação (todos os usuários) -->
+          <li class="nav-item" *ngIf="usuario.aplicacaoid">
+            <a class="nav-link" [routerLink]="['/minha-aplicacao']" title="Minha Aplicação">
+              <span>&#9881;</span> Minha Aplicação
+            </a>
+          </li>
+
+          <!-- Master: links administrativos -->
+          <li class="nav-item" *ngIf="usuario.acessoTotal">
+            <a class="nav-link" [routerLink]="['/aplicacoes']" title="Gerenciar Tenants">
+              &#9883; Tenants
+            </a>
+          </li>
+          <li class="nav-item" *ngIf="usuario.acessoTotal">
+            <a class="nav-link" [routerLink]="['/grupos']" title="Grupos de Acesso">
+              &#128101; Grupos
+            </a>
+          </li>
+          <li class="nav-item" *ngIf="usuario.acessoTotal">
+            <a class="nav-link" [routerLink]="['/vinculos']" title="Vínculos Usuário/App">
+              &#128279; Vínculos
+            </a>
+          </li>
+          <li class="nav-item" *ngIf="usuario.acessoTotal">
+            <a class="nav-link" [routerLink]="['/vinculosmodulo']" title="Acesso a Módulos">
+              &#9646; Módulos/Usuário
+            </a>
+          </li>
+
+          <!-- Usuário logado + Sair -->
+          <li class="nav-item">
+            <span class="nav-link text-secondary pe-1">
+              {{usuario.nome}} <small class="text-muted">({{usuario.acessoTotal ? 'Admin' : 'Tenant'}})</small>
+            </span>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-danger fw-bold" href="#" (click)="logout(); $event.preventDefault()">Sair</a>
+          </li>
+
+        </ul>
+
+        <!-- Não logado -->
+        <ul class="navbar-nav ms-auto" *ngIf="!usuario">
+          <li class="nav-item">
+            <a class="nav-link" [routerLink]="['/login']">Entrar</a>
+          </li>
+        </ul>
+
+      </div>
+    </div>
+  </nav>
+
+  <!-- ── Barra de contexto de tenant (só admin) ── -->
+  <div *ngIf="usuario?.acessoTotal" class="d-flex align-items-center gap-2 px-3 py-1 mb-3"
+    style="background:#2c3e50; border-bottom:2px solid #e67e22">
+    <i class="bi bi-building text-warning"></i>
+    <small class="text-white text-nowrap fw-semibold">Contexto:</small>
+    <select class="form-select form-select-sm" style="max-width:260px"
+      [(ngModel)]="tenantSelecionadoId" (change)="onTenantChange()">
+      <option value="">— Todos os tenants —</option>
+      <option *ngFor="let a of aplicacoes" [value]="a.aplicacaoid">{{ a.nome }}</option>
+    </select>
+    <span *ngIf="tenantSelecionadoId" class="badge bg-warning text-dark">
+      <i class="bi bi-funnel-fill me-1"></i>Filtrando
+    </span>
+    <span *ngIf="!tenantSelecionadoId" class="text-muted small fst-italic">
+      Exibindo dados de todos os tenants
+    </span>
+  </div>
+</header>

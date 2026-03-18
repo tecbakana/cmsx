@@ -1,0 +1,66 @@
+<div class="container-fluid py-3">
+  <h4 class="mb-3">Vínculos Usuário ↔ Aplicação</h4>
+
+  <!-- Novo vínculo -->
+  <div class="card mb-4">
+    <div class="card-header"><strong>Adicionar Vínculo</strong></div>
+    <div class="card-body">
+      <div *ngIf="erro" class="alert alert-danger py-2">{{erro}}</div>
+      <div class="row g-2 align-items-end">
+        <div class="col-md-4">
+          <label class="form-label">Usuário</label>
+          <select class="form-select" [(ngModel)]="usuarioid">
+            <option value="">Selecione...</option>
+            <option *ngFor="let u of usuarios" [value]="u.userid">
+              {{u.nome}} {{u.sobrenome}} ({{u.apelido}})
+            </option>
+          </select>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">Aplicação</label>
+          <select class="form-select" [(ngModel)]="aplicacaoid">
+            <option value="">Selecione...</option>
+            <option *ngFor="let a of aplicacoes" [value]="a.aplicacaoid">{{a.nome}}</option>
+          </select>
+        </div>
+        <div class="col-md-2">
+          <button class="btn btn-primary w-100" (click)="vincular()">Vincular</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filtro -->
+  <div class="d-flex align-items-center gap-2 mb-3">
+    <label class="form-label mb-0">Filtrar por aplicação:</label>
+    <select class="form-select form-select-sm" style="max-width:260px" (change)="filtrarPorApp($any($event.target).value)">
+      <option value="">Todas</option>
+      <option *ngFor="let a of aplicacoes" [value]="a.aplicacaoid">{{a.nome}}</option>
+    </select>
+  </div>
+
+  <!-- Lista -->
+  <table class="table table-striped table-hover">
+    <thead class="table-dark">
+      <tr><th>Usuário</th><th>Login</th><th>Ativo</th><th>Aplicação</th><th></th></tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let v of vinculos">
+        <td>{{v.nome}} {{v.sobrenome}}</td>
+        <td>{{v.apelido}}</td>
+        <td>
+          <span class="badge" [class.bg-success]="v.ativo===1" [class.bg-danger]="v.ativo!==1">
+            {{v.ativo===1?'Ativo':'Inativo'}}
+          </span>
+        </td>
+        <td><code>{{v.appNome}}</code></td>
+        <td>
+          <button class="btn btn-outline-danger btn-sm" (click)="desvincular(v.relacaoid, v.nome)">Remover</button>
+        </td>
+      </tr>
+      <tr *ngIf="vinculos.length === 0">
+        <td colspan="5" class="text-center text-muted">Nenhum vínculo encontrado.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

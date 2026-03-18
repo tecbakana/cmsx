@@ -1,0 +1,435 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="cmsxDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="cmsxDBEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="arquivo" EntityType="cmsxDBModel.arquivo" />
+    <EntitySet Name="atributo" EntityType="cmsxDBModel.atributo" />
+    <EntitySet Name="conteudo" EntityType="cmsxDBModel.conteudo" />
+    <EntitySet Name="conteudovalor" EntityType="cmsxDBModel.conteudovalor" />
+    <EntitySet Name="dict_templates" EntityType="cmsxDBModel.dict_templates" />
+    <EntitySet Name="dictareas" EntityType="cmsxDBModel.dictareas" />
+    <EntitySet Name="formulario" EntityType="cmsxDBModel.formulario" />
+    <EntitySet Name="formularionew" EntityType="cmsxDBModel.formularionew" />
+    <EntitySet Name="imagem" EntityType="cmsxDBModel.imagem" />
+    <EntitySet Name="modulo" EntityType="cmsxDBModel.modulo" />
+    <EntitySet Name="opcao" EntityType="cmsxDBModel.opcao" />
+    <EntitySet Name="produto" EntityType="cmsxDBModel.produto" />
+    <EntitySet Name="refatributoxopcao" EntityType="cmsxDBModel.refatributoxopcao" />
+    <EntitySet Name="relatributoxproduto" EntityType="cmsxDBModel.relatributoxproduto" />
+    <EntitySet Name="unidades" EntityType="cmsxDBModel.unidades" />
+    <EntitySet Name="usuario" EntityType="cmsxDBModel.usuario" />
+    <EntitySet Name="cambio" EntityType="cmsxDBModel.cambio" />
+    <EntitySet Name="categoria" EntityType="cmsxDBModel.categoria" />
+    <EntitySet Name="ciaaerea" EntityType="cmsxDBModel.ciaaerea" />
+    <EntitySet Name="infofoto" EntityType="cmsxDBModel.infofoto" />
+    <EntitySet Name="informativo" EntityType="cmsxDBModel.informativo" />
+    <EntitySet Name="moduloconf" EntityType="cmsxDBModel.moduloconf" />
+    <EntitySet Name="moeda" EntityType="cmsxDBModel.moeda" />
+    <EntitySet Name="newsletter" EntityType="cmsxDBModel.newsletter" />
+    <EntitySet Name="relmoduloaplicacao" EntityType="cmsxDBModel.relmoduloaplicacao" />
+    <EntitySet Name="relmoduloconfaplicacao" EntityType="cmsxDBModel.relmoduloconfaplicacao" />
+    <EntitySet Name="relusuarioaplicacao" EntityType="cmsxDBModel.relusuarioaplicacao" />
+    <EntitySet Name="tipocotacao" EntityType="cmsxDBModel.tipocotacao" />
+    <EntitySet Name="tipoenvio" EntityType="cmsxDBModel.tipoenvio" />
+    <EntitySet Name="socialmedia" EntityType="cmsxDBModel.socialmedia" />
+    <EntitySet Name="dict_socialmedia" EntityType="cmsxDBModel.dict_socialmedia" />
+    <EntitySet Name="aplicacao" EntityType="cmsxDBModel.aplicacao" />
+    <EntitySet Name="areas" EntityType="cmsxDBModel.areas" />
+    <EntitySet Name="relimagemconteudo" EntityType="cmsxDBModel.relimagemconteudo" />
+    <EntitySet Name="templates" EntityType="cmsxDBModel.templates" />
+  </EntityContainer>
+  <EntityType Name="arquivo">
+    <Key>
+      <PropertyRef Name="ArquivoId" />
+    </Key>
+    <Property Name="ArquivoId" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="false" />
+    <Property Name="AreaId" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+    <Property Name="ConteudoId" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+    <Property Name="Nome" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+    <Property Name="TipoId" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="atributo">
+    <Key>
+      <PropertyRef Name="AtributoId" />
+    </Key>
+    <Property Name="AtributoId" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nome" Type="String" Nullable="false" MaxLength="45" FixedLength="false" Unicode="false" />
+    <Property Name="Descricao" Type="String" Nullable="false" MaxLength="45" FixedLength="false" Unicode="false" />
+    <Property Name="ProdutoId" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="conteudo">
+    <Key>
+      <PropertyRef Name="ConteudoId" />
+    </Key>
+    <Property Name="ConteudoId" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="false" />
+    <Property Name="AreaId" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+    <Property Name="Autor" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+    <Property Name="Titulo" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+    <Property Name="Texto" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="DataInclusao" Type="DateTime" Precision="0" />
+    <Property Name="DataFinal" Type="DateTime" Precision="0" />
+    <Property Name="CategoriaId" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="conteudovalor">
+    <Key>
+      <PropertyRef Name="ConteudoId" />
+    </Key>
+    <Property Name="ConteudoId" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="false" />
+    <Property Name="UnidadeId" Type="Guid" />
+    <Property Name="Valor" Type="Decimal" Precision="10" Scale="2" />
+  </EntityType>
+  <EntityType Name="dict_templates">
+    <Key>
+      <PropertyRef Name="idTemplate" />
+    </Key>
+    <Property Name="idTemplate" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Nome" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="Descricao" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="viewRelacionada" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="dictareas">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" />
+    <Property Name="nome" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
+    <Property Name="tipo" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="formulario">
+    <Key>
+      <PropertyRef Name="formularioid" />
+      <PropertyRef Name="nome" />
+    </Key>
+    <Property Name="formularioid" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="false" />
+    <Property Name="nome" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="valor" Type="String" MaxLength="8000" FixedLength="false" Unicode="false" />
+    <Property Name="ativo" Type="Boolean" />
+    <Property Name="datainclusao" Type="DateTime" Precision="0" />
+    <Property Name="areaid" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="formularionew">
+    <Key>
+      <PropertyRef Name="IdForm" />
+    </Key>
+    <Property Name="IdForm" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nome" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Tipo" Type="Int32" />
+    <Property Name="Email" Type="String" MaxLength="155" FixedLength="false" Unicode="false" />
+    <Property Name="Telefone" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="Texto" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="Ativo" Type="Int32" />
+  </EntityType>
+  <EntityType Name="imagem">
+    <Key>
+      <PropertyRef Name="ImagemId" />
+    </Key>
+    <Property Name="ImagemId" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="false" />
+    <Property Name="Url" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+    <Property Name="Largura" Type="Int32" />
+    <Property Name="Altura" Type="Int32" />
+    <Property Name="AreaId" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+    <Property Name="ConteudoId" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+    <Property Name="Descricao" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="ParentId" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="false" />
+    <Property Name="TipoId" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="modulo">
+    <Key>
+      <PropertyRef Name="ModuloId" />
+    </Key>
+    <Property Name="ModuloId" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="false" />
+    <Property Name="Nome" Type="String" MaxLength="400" FixedLength="false" Unicode="false" />
+    <Property Name="Url" Type="String" MaxLength="400" FixedLength="false" Unicode="false" />
+    <Property Name="Posicao" Type="Int32" />
+  </EntityType>
+  <EntityType Name="opcao">
+    <Key>
+      <PropertyRef Name="OpcaoId" />
+    </Key>
+    <Property Name="OpcaoId" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="false" />
+    <Property Name="AtributoId" Type="Guid" Nullable="false" />
+    <Property Name="Qtd" Type="Int32" Nullable="false" />
+    <Property Name="Nome" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="Descricao" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="Estoque" Type="Int32" />
+  </EntityType>
+  <EntityType Name="produto">
+    <Key>
+      <PropertyRef Name="ProdutoId" />
+      <PropertyRef Name="sku" />
+    </Key>
+    <Property Name="ProdutoId" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="false" />
+    <Property Name="Nome" Type="String" MaxLength="130" FixedLength="false" Unicode="false" />
+    <Property Name="Descricao" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Valor" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="Tipo" Type="Int32" />
+    <Property Name="Destaque" Type="Int32" />
+    <Property Name="DataInicio" Type="DateTime" Precision="0" />
+    <Property Name="DataFinal" Type="DateTime" Precision="0" />
+    <Property Name="CategoriaId" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+    <Property Name="AplicacaoId" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+    <Property Name="sku" Type="String" Nullable="false" MaxLength="45" FixedLength="false" Unicode="false" />
+    <Property Name="PagSeguroKey" Type="String" MaxLength="800" FixedLength="false" Unicode="false" />
+    <Property Name="DetalheTecnico" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="DescricaCurta" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="produtocol" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="refatributoxopcao">
+    <Key>
+      <PropertyRef Name="relacaoid" />
+    </Key>
+    <Property Name="relacaoid" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="atributoid" Type="Guid" Nullable="false" />
+    <Property Name="opcaoid" Type="Guid" Nullable="false" />
+  </EntityType>
+  <EntityType Name="relatributoxproduto">
+    <Key>
+      <PropertyRef Name="Relacaoid" />
+    </Key>
+    <Property Name="Relacaoid" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Atributoid" Type="Guid" Nullable="false" />
+    <Property Name="ProdutoId" Type="Guid" Nullable="false" />
+  </EntityType>
+  <EntityType Name="unidades">
+    <Key>
+      <PropertyRef Name="UnidadeId" />
+    </Key>
+    <Property Name="UnidadeId" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nome" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+    <Property Name="Sigla" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="usuario">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="false" />
+    <Property Name="Nome" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="false" />
+    <Property Name="Sobrenome" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="false" />
+    <Property Name="Apelido" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+    <Property Name="Senha" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
+    <Property Name="Ativo" Type="Byte" />
+    <Property Name="DataInclusao" Type="DateTime" Precision="0" />
+  </EntityType>
+  <EntityType Name="cambio">
+    <Key>
+      <PropertyRef Name="CambioGroupId" />
+    </Key>
+    <Property Name="CambioGroupId" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="false" />
+    <Property Name="DataCotacao" Type="DateTime" Precision="0" />
+    <Property Name="MoedasXml" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+    <Property Name="Tipo" Type="Byte" />
+  </EntityType>
+  <EntityType Name="categoria">
+    <Key>
+      <PropertyRef Name="CategoriaId" />
+    </Key>
+    <Property Name="CategoriaId" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="false" />
+    <Property Name="Nome" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="Descricao" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+    <Property Name="TipoCategoria" Type="Int32" />
+    <Property Name="CategoriaIdPai" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+    <Property Name="AplicacaoId" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="ciaaerea">
+    <Key>
+      <PropertyRef Name="CiaAereaId" />
+    </Key>
+    <Property Name="CiaAereaId" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="false" />
+    <Property Name="Descricao" Type="String" MaxLength="4000" FixedLength="false" Unicode="false" />
+    <Property Name="Logotipo" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+    <Property Name="Descricao_Longa" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Ativo" Type="Byte" />
+    <Property Name="TipoNac" Type="Byte" />
+    <Property Name="TipoInt" Type="Byte" />
+    <Property Name="webticket_str" Type="String" MaxLength="450" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="infofoto">
+    <Key>
+      <PropertyRef Name="FotoId" />
+      <PropertyRef Name="CategoriaId" />
+    </Key>
+    <Property Name="FotoId" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="false" />
+    <Property Name="FotoUrl" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+    <Property Name="Descricao" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+    <Property Name="CategoriaId" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="informativo">
+    <Key>
+      <PropertyRef Name="InfoId" />
+    </Key>
+    <Property Name="InfoId" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="false" />
+    <Property Name="Titulo" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+    <Property Name="Data" Type="DateTime" Precision="0" />
+    <Property Name="Texto" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Foto" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+    <Property Name="Ativo" Type="Byte" />
+    <Property Name="TipoEnvio" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="moduloconf">
+    <Key>
+      <PropertyRef Name="ModuloConfId" />
+    </Key>
+    <Property Name="ModuloConfId" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="false" />
+    <Property Name="Descricao" Type="String" MaxLength="800" FixedLength="false" Unicode="false" />
+    <Property Name="Nome" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="moeda">
+    <Key>
+      <PropertyRef Name="MoedaId" />
+      <PropertyRef Name="Nome" />
+    </Key>
+    <Property Name="MoedaId" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="false" />
+    <Property Name="Nome" Type="String" Nullable="false" MaxLength="80" FixedLength="false" Unicode="false" />
+    <Property Name="Sigla" Type="String" MaxLength="34" FixedLength="true" Unicode="false" />
+  </EntityType>
+  <EntityType Name="newsletter">
+    <Key>
+      <PropertyRef Name="NewsId" />
+    </Key>
+    <Property Name="NewsId" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="false" />
+    <Property Name="Titulo" Type="String" MaxLength="3000" FixedLength="false" Unicode="false" />
+    <Property Name="Autor" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+    <Property Name="Data" Type="DateTime" Precision="0" />
+    <Property Name="Frente" Type="Byte" />
+    <Property Name="Texto" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Foto" Type="String" MaxLength="4000" FixedLength="false" Unicode="false" />
+    <Property Name="CategoriaId" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+    <Property Name="Ativo" Type="Byte" />
+  </EntityType>
+  <EntityType Name="relmoduloaplicacao">
+    <Key>
+      <PropertyRef Name="RelacaoId" />
+      <PropertyRef Name="AplicacaoId" />
+      <PropertyRef Name="ModuloId" />
+    </Key>
+    <Property Name="RelacaoId" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="false" />
+    <Property Name="AplicacaoId" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="false" />
+    <Property Name="ModuloId" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="relmoduloconfaplicacao">
+    <Key>
+      <PropertyRef Name="RelacaoId" />
+      <PropertyRef Name="ModuloConfId" />
+      <PropertyRef Name="AplicacaoId" />
+      <PropertyRef Name="DataInclusao" />
+      <PropertyRef Name="DataFinalizacao" />
+    </Key>
+    <Property Name="RelacaoId" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="false" />
+    <Property Name="ModuloConfId" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="false" />
+    <Property Name="AplicacaoId" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="false" />
+    <Property Name="DataInclusao" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="DataFinalizacao" Type="DateTime" Nullable="false" Precision="0" />
+  </EntityType>
+  <EntityType Name="relusuarioaplicacao">
+    <Key>
+      <PropertyRef Name="RelacaoId" />
+      <PropertyRef Name="AplicacaoId" />
+      <PropertyRef Name="UsuarioId" />
+    </Key>
+    <Property Name="RelacaoId" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="false" />
+    <Property Name="AplicacaoId" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="false" />
+    <Property Name="UsuarioId" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="tipocotacao">
+    <Key>
+      <PropertyRef Name="TipoCotacaoId" />
+    </Key>
+    <Property Name="TipoCotacaoId" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="false" />
+    <Property Name="Nome" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="Descricao" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="tipoenvio">
+    <Key>
+      <PropertyRef Name="TipoEnvioId" />
+    </Key>
+    <Property Name="TipoEnvioId" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="false" />
+    <Property Name="TipoEnvioDesc" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="socialmedia">
+    <Key>
+      <PropertyRef Name="SocialMediaId" />
+    </Key>
+    <Property Name="SocialMediaId" Type="String" Nullable="false" MaxLength="45" FixedLength="false" Unicode="false" />
+    <Property Name="AplicacaoId" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+    <Property Name="SocialMediaTypeId" Type="Int32" />
+    <Property Name="SocialMediaLink" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="dict_socialmedia">
+    <Key>
+      <PropertyRef Name="SocialMediaId" />
+    </Key>
+    <Property Name="SocialMediaId" Type="Int32" Nullable="false" />
+    <Property Name="SocialMediaName" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+    <Property Name="SocialMediaUrl" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="aplicacao">
+    <Key>
+      <PropertyRef Name="AplicacaoId" />
+    </Key>
+    <Property Name="AplicacaoId" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="false" />
+    <Property Name="Nome" Type="String" MaxLength="400" FixedLength="false" Unicode="false" />
+    <Property Name="Url" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="DataInicio" Type="DateTime" annotation:StoreGeneratedPattern="Identity" Precision="0" />
+    <Property Name="DataFinal" Type="DateTime" Precision="0" />
+    <Property Name="IdUsuarioInicio" Type="String" MaxLength="36" FixedLength="false" Unicode="false" />
+    <Property Name="IdUsuarioFim" Type="String" MaxLength="36" FixedLength="false" Unicode="false" />
+    <Property Name="PagSeguroToken" Type="String" MaxLength="120" FixedLength="false" Unicode="false" />
+    <Property Name="LayoutChoose" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="Posicao" Type="Int32" />
+    <Property Name="mailUser" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="mailPassword" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+    <Property Name="mailServer" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+    <Property Name="mailPort" Type="Int32" />
+    <Property Name="isSecure" Type="Byte" />
+    <Property Name="pageFacebook" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="pageLinkedin" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="pageInstagram" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="pageTwitter" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="pagePinterest" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="pageFlicker" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="logotipo" Type="Binary" MaxLength="65535" FixedLength="false" />
+    <Property Name="googleAdSense" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="isActive" Type="Boolean" />
+    <Property Name="header" Type="String" MaxLength="245" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="areas">
+    <Key>
+      <PropertyRef Name="AreaId" />
+    </Key>
+    <Property Name="AreaId" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="false" />
+    <Property Name="AplicacaoId" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+    <Property Name="Nome" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+    <Property Name="Url" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+    <Property Name="Descricao" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="AreaIdPai" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+    <Property Name="DataInicial" Type="DateTime" annotation:StoreGeneratedPattern="Identity" Precision="0" />
+    <Property Name="DataFinal" Type="DateTime" Precision="0" />
+    <Property Name="Imagem" Type="Byte" />
+    <Property Name="MenuLateral" Type="Byte" />
+    <Property Name="MenuSplash" Type="Byte" />
+    <Property Name="MenuCentral" Type="Byte" />
+    <Property Name="posicao" Type="Int32" />
+    <Property Name="MenuFixo" Type="Byte" />
+    <Property Name="ListaSimples" Type="Byte" />
+    <Property Name="ListaSplash" Type="Byte" />
+    <Property Name="ListaBanner" Type="Byte" />
+    <Property Name="TipoArea" Type="Int32" />
+  </EntityType>
+  <EntityType Name="relimagemconteudo">
+    <Key>
+      <PropertyRef Name="relid" />
+    </Key>
+    <Property Name="relid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="imagemid" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+    <Property Name="parentid" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="templates">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nome" Type="String" MaxLength="155" FixedLength="false" Unicode="false" />
+    <Property Name="Descricao" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="Url" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+    <Property Name="Ativo" Type="Boolean" />
+  </EntityType>
+</Schema>

@@ -1,0 +1,56 @@
+﻿body {
+  padding-top: 120px;
+}
+body,html,.main-display-area,.col-md-7 {
+   height:100%;
+}
+
+
+.navbar {
+    background-color:#fff;
+    height:120px;
+    border:0px;
+}
+
+.navbar-inner {
+    background-color:#fff;
+    height:120px;
+    border:0px;
+}
+
+.navbar-nav {
+    height: 120px;
+}
+
+.navbar-inverse .navbar-nav  {
+    padding-top:20px;
+    font:bold 18px verdana,tahoma,arial
+}
+
+.navbar-inverse .navbar-nav > li  {
+    padding-top:20px;
+    height:inherit;
+}
+
+.navbar-inverse .navbar-nav > .active > a  {
+    background-color:#fff;
+    color:#666;
+}
+
+.navbar-inverse .navbar-nav > .active > a:hover {
+    background-color:#fff;
+    color:#ff6a00;
+}
+
+.navbar-inverse .navbar-nav > li > a:hover {
+    background-color:#fff;
+    color:#ff6a00;
+}
+
+
+.brand-logo {
+width:120px;
+}
+
+
+

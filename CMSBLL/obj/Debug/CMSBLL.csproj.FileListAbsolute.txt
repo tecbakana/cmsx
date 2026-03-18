@@ -1,0 +1,16 @@
+D:\Developer\CMSX\CMSX\bin\debug\CMSBLL.dll.config
+D:\Developer\CMSX\CMSX\bin\debug\CMSBLL.dll
+D:\Developer\CMSX\CMSX\bin\debug\CMSBLL.pdb
+D:\Developer\CMSX\CMSX\CMSBLL\obj\Debug\CMSBLL.csproj.AssemblyReference.cache
+D:\Developer\CMSX\CMSX\CMSBLL\obj\Debug\CMSBLL.csproj.CoreCompileInputs.cache
+D:\Developer\CMSX\CMSX\CMSBLL\obj\Debug\CMSBLL.csproj.CopyComplete
+D:\Developer\CMSX\CMSX\CMSBLL\obj\Debug\CMSBLL.dll
+D:\Developer\CMSX\CMSX\CMSBLL\obj\Debug\CMSBLL.pdb
+T:\Developer\RepositorioEstudos\CMSX\CMSX\bin\debug\CMSBLL.dll.config
+T:\Developer\RepositorioEstudos\CMSX\CMSX\bin\debug\CMSBLL.dll
+T:\Developer\RepositorioEstudos\CMSX\CMSX\bin\debug\CMSBLL.pdb
+T:\Developer\RepositorioEstudos\CMSX\CMSX\CMSBLL\obj\Debug\CMSBLL.csproj.AssemblyReference.cache
+T:\Developer\RepositorioEstudos\CMSX\CMSX\CMSBLL\obj\Debug\CMSBLL.csproj.CoreCompileInputs.cache
+T:\Developer\RepositorioEstudos\CMSX\CMSX\CMSBLL\obj\Debug\CMSBLL.csproj.CopyComplete
+T:\Developer\RepositorioEstudos\CMSX\CMSX\CMSBLL\obj\Debug\CMSBLL.dll
+T:\Developer\RepositorioEstudos\CMSX\CMSX\CMSBLL\obj\Debug\CMSBLL.pdb

@@ -1,0 +1,62 @@
+<div class="container py-5" style="max-width: 600px">
+  <div class="text-center mb-4">
+    <h3 class="fw-bold">CMSX</h3>
+    <p class="text-muted">Crie sua conta e sua aplicação</p>
+  </div>
+
+  <div *ngIf="sucesso" class="alert alert-success">{{sucesso}}</div>
+  <div *ngIf="erro" class="alert alert-danger">{{erro}}</div>
+
+  <div *ngIf="!sucesso" class="card shadow-sm">
+    <div class="card-body">
+
+      <h6 class="text-muted mb-3 text-uppercase" style="font-size:.75rem; letter-spacing:.08em">Seus dados</h6>
+      <div class="row g-2 mb-3">
+        <div class="col-md-6">
+          <label class="form-label">Nome</label>
+          <input class="form-control" [(ngModel)]="dados.nome" placeholder="João">
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Sobrenome</label>
+          <input class="form-control" [(ngModel)]="dados.sobrenome" placeholder="Silva">
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">Login <small class="text-muted">(até 6 letras)</small></label>
+          <input class="form-control" [(ngModel)]="dados.apelido" maxlength="6" placeholder="joao">
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">Senha</label>
+          <input type="password" class="form-control" [(ngModel)]="dados.senha">
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">Confirmar Senha</label>
+          <input type="password" class="form-control" [(ngModel)]="dados.confirmarSenha">
+        </div>
+      </div>
+
+      <hr>
+      <h6 class="text-muted mb-3 text-uppercase" style="font-size:.75rem; letter-spacing:.08em">Sua Aplicação</h6>
+      <div class="row g-2 mb-4">
+        <div class="col-md-6">
+          <label class="form-label">Nome da Aplicação</label>
+          <input class="form-control" [(ngModel)]="dados.appNome" placeholder="Minha Empresa">
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">URL / Slug</label>
+          <div class="input-group">
+            <span class="input-group-text text-muted">cmsx/</span>
+            <input class="form-control" [(ngModel)]="dados.appUrl" placeholder="minha-empresa">
+          </div>
+        </div>
+      </div>
+
+      <button class="btn btn-primary w-100" (click)="cadastrar()" [disabled]="carregando">
+        {{ carregando ? 'Cadastrando...' : 'Criar conta' }}
+      </button>
+    </div>
+  </div>
+
+  <p class="text-center mt-3 text-muted small">
+    Já tem conta? <a routerLink="/login">Entrar</a>
+  </p>
+</div>

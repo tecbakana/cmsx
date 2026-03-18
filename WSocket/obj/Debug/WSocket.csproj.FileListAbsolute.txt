@@ -1,0 +1,7 @@
+D:\Developer\CMSX\CMSX\WSocket\bin\WSocket.dll.config
+D:\Developer\CMSX\CMSX\WSocket\bin\WSocket.dll
+D:\Developer\CMSX\CMSX\WSocket\bin\WSocket.pdb
+D:\Developer\CMSX\CMSX\WSocket\obj\Debug\WSocket.csproj.AssemblyReference.cache
+D:\Developer\CMSX\CMSX\WSocket\obj\Debug\WSocket.csproj.CoreCompileInputs.cache
+D:\Developer\CMSX\CMSX\WSocket\obj\Debug\WSocket.dll
+D:\Developer\CMSX\CMSX\WSocket\obj\Debug\WSocket.pdb

@@ -1,0 +1,54 @@
+<div class="container-fluid py-4">
+  <h2 class="mb-4">Dashboard</h2>
+  <div *ngIf="!stats" class="text-muted"><em>Carregando...</em></div>
+  <div *ngIf="stats" class="row g-3">
+    <div class="col-md-2 col-sm-4">
+      <div class="card text-white bg-primary h-100">
+        <div class="card-body text-center">
+          <h1>{{stats.usuarios}}</h1>
+          <p class="mb-0">Usuários</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-2 col-sm-4">
+      <div class="card text-white bg-success h-100">
+        <div class="card-body text-center">
+          <h1>{{stats.aplicacoes}}</h1>
+          <p class="mb-0">Aplicações</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-2 col-sm-4">
+      <div class="card text-white bg-info h-100">
+        <div class="card-body text-center">
+          <h1>{{stats.conteudos}}</h1>
+          <p class="mb-0">Conteúdos</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-2 col-sm-4">
+      <div class="card text-white bg-warning h-100">
+        <div class="card-body text-center">
+          <h1>{{stats.areas}}</h1>
+          <p class="mb-0">Áreas</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-2 col-sm-4">
+      <div class="card text-white bg-secondary h-100">
+        <div class="card-body text-center">
+          <h1>{{stats.categorias}}</h1>
+          <p class="mb-0">Categorias</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-2 col-sm-4">
+      <div class="card text-white bg-dark h-100">
+        <div class="card-body text-center">
+          <h1>{{stats.modulos}}</h1>
+          <p class="mb-0">Módulos</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

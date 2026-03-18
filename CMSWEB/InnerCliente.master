@@ -1,0 +1,59 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="InnerCliente.master.cs" Inherits="InnerCliente" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    <title></title>
+    <asp:ContentPlaceHolder id="head" runat="server">
+        
+    </asp:ContentPlaceHolder>
+
+    <link href="css/bootstrap.css"                          rel="stylesheet" />
+    <link href="css/bootstrap-combined.no-icons.min.css"    rel="stylesheet" />
+    <link href="css/bootstrap-responsive.min.css"           rel="stylesheet" />
+    <link href="css/bootstrap-theme.css"                    rel="stylesheet" /> 
+	<link href="css/font-awesome.css"                       rel="stylesheet" />
+	<link href="css/index.css"                              rel="stylesheet" />
+    <link href="Styles/Site.css"                            rel="stylesheet" />
+    <link href="css/index.css"                              rel="stylesheet" />
+    <link href="css/font-awesome.css"                       rel="stylesheet" /> 
+    <link href="css/bootstrap-wysihtml5.css"                rel="stylesheet" />
+    <link href="summernote/summernote.css"                  rel="stylesheet" />
+    <link href="summernote/summernote-bs3.css"              rel="stylesheet" />
+    <link href="summernote/summernote-bs2.css"              rel="stylesheet" />
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
+    <link href="dhtmlmodal/windowfiles/dhtmlwindow.css" rel="stylesheet" />
+    <link href="dhtmlmodal/modalfiles/modal.css" rel="stylesheet" />
+    <link href="css/custom.css" rel="stylesheet" />
+    <link href="css/bstrapmodal.css" rel="stylesheet" />
+    <%--<link href="css/jquery-ui-1.9.2.custom.min.css" rel="stylesheet" />--%>
+    <link href="css/bootstrap-lightbox.min.css" rel="stylesheet" />
+
+    <script src="Scripts/jquery-2.1.1.min.js"></script>
+    <%--<script src="Scripts/bootstrap.js"></script>
+    <script src="Scripts/bootstrap.min.js"></script>--%>
+    <script src="js/bootstrap-wysiwyg.js"></script>
+    <script src="js/bootstrap-wysihtml5.js"></script>
+    <script src="js/prettify.js"></script>
+	<script src="js/jquery.hotkeys.js"></script>
+    <script src="summernote/summernote.js"></script>
+    <script src="dhtmlmodal/windowfiles/dhtmlwindow.js"></script>
+    <script src="dhtmlmodal/modalfiles/modal.js"></script>
+    <script src="js/jquery.maskMoney.js"></script>
+    <script src="Scripts/jquery-ui-1.9.2.custom.min.js"></script>
+<%--    <script src="Scripts/bootstrap-lightbox.min.js"></script>--%>
+   <%-- <script src="Scripts/juice.js"></script>--%>
+
+</head>
+<body>
+    <form id="form1" runat="server" class="container">
+        <asp:ScriptManager runat="server" ID="scrmng1" />
+        <asp:ContentPlaceHolder id="ContentPlaceHolder1" runat="server">
+        
+        </asp:ContentPlaceHolder>
+    </form>
+    <script src="Scripts/bootstrap.min.js"></script>
+    <script src="Scripts/bootstrap-lightbox.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,187 @@
+<div class="container-fluid py-3">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h4>Aplicações (Tenants)</h4>
+    <button class="btn btn-primary btn-sm" (click)="novo()" *ngIf="!modoEdicao">+ Nova Aplicação</button>
+  </div>
+
+  <!-- FORMULÁRIO -->
+  <div *ngIf="modoEdicao" class="card mb-4">
+    <div class="card-header">
+      <strong>{{ selecionado?.aplicacaoid ? 'Editar' : 'Nova' }} Aplicação</strong>
+    </div>
+
+    <!-- ABAS -->
+    <div class="card-body p-0">
+      <ul class="nav nav-tabs px-3 pt-2">
+        <li class="nav-item">
+          <a class="nav-link" [class.active]="abaAtiva==='geral'" (click)="abaAtiva='geral'" href="javascript:void(0)">Geral</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [class.active]="abaAtiva==='email'" (click)="abaAtiva='email'" href="javascript:void(0)">E-mail</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [class.active]="abaAtiva==='redes'" (click)="abaAtiva='redes'" href="javascript:void(0)">Redes Sociais</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [class.active]="abaAtiva==='integ'" (click)="abaAtiva='integ'" href="javascript:void(0)">Integrações</a>
+        </li>
+      </ul>
+
+      <div class="p-3">
+
+        <!-- ABA GERAL -->
+        <div *ngIf="abaAtiva==='geral'" class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label">Nome da Aplicação</label>
+            <input class="form-control" [(ngModel)]="selecionado.nome" placeholder="Ex: Minha Empresa">
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">URL / Slug</label>
+            <input class="form-control" [(ngModel)]="selecionado.url" placeholder="Ex: minha-empresa">
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Template</label>
+            <select class="form-select" [(ngModel)]="selecionado.layoutchoose">
+              <option *ngFor="let l of layouts" [value]="l.valor">{{l.label}}</option>
+            </select>
+          </div>
+          <div class="col-12">
+            <label class="form-label">Header / Cabeçalho personalizado</label>
+            <textarea class="form-control" rows="2" [(ngModel)]="selecionado.header" placeholder="HTML ou texto do cabeçalho"></textarea>
+          </div>
+        </div>
+
+        <!-- ABA EMAIL -->
+        <div *ngIf="abaAtiva==='email'" class="row g-3">
+          <div class="col-md-5">
+            <label class="form-label">Usuário (e-mail)</label>
+            <input class="form-control" [(ngModel)]="selecionado.mailuser" placeholder="noreply@empresa.com">
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Senha</label>
+            <input type="password" class="form-control" [(ngModel)]="selecionado.mailpassword">
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Porta</label>
+            <input type="number" class="form-control" [(ngModel)]="selecionado.mailport">
+          </div>
+          <div class="col-md-8">
+            <label class="form-label">Servidor SMTP</label>
+            <input class="form-control" [(ngModel)]="selecionado.mailserver" placeholder="smtp.gmail.com">
+          </div>
+          <div class="col-md-4 d-flex align-items-end">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" [(ngModel)]="selecionado.issecure" id="chkSecure">
+              <label class="form-check-label" for="chkSecure">Usar SSL/TLS</label>
+            </div>
+          </div>
+        </div>
+
+        <!-- ABA REDES SOCIAIS -->
+        <div *ngIf="abaAtiva==='redes'" class="row g-3">
+          <div class="col-md-4">
+            <label class="form-label">Facebook</label>
+            <div class="input-group">
+              <span class="input-group-text">fb.com/</span>
+              <input class="form-control" [(ngModel)]="selecionado.pagefacebook">
+            </div>
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Instagram</label>
+            <div class="input-group">
+              <span class="input-group-text">@</span>
+              <input class="form-control" [(ngModel)]="selecionado.pageinstagram">
+            </div>
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Twitter / X</label>
+            <div class="input-group">
+              <span class="input-group-text">@</span>
+              <input class="form-control" [(ngModel)]="selecionado.pagetwitter">
+            </div>
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">LinkedIn</label>
+            <input class="form-control" [(ngModel)]="selecionado.pagelinkedin">
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Pinterest</label>
+            <input class="form-control" [(ngModel)]="selecionado.pagepinterest">
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Flickr</label>
+            <input class="form-control" [(ngModel)]="selecionado.pageflicker">
+          </div>
+        </div>
+
+        <!-- ABA INTEGRAÇÕES -->
+        <div *ngIf="abaAtiva==='integ'" class="row g-3">
+          <div class="col-12">
+            <label class="form-label">Token PagSeguro</label>
+            <input class="form-control" [(ngModel)]="selecionado.pagsegurotoken" placeholder="Token da conta PagSeguro">
+          </div>
+          <div class="col-12">
+            <label class="form-label">Código Google AdSense</label>
+            <textarea class="form-control" rows="5" [(ngModel)]="selecionado.ogleadsense" placeholder="Cole aqui o script do Google AdSense"></textarea>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="card-footer d-flex gap-2">
+      <button class="btn btn-success btn-sm" (click)="salvar()">Salvar</button>
+      <button class="btn btn-secondary btn-sm" (click)="cancelar()">Cancelar</button>
+    </div>
+  </div>
+
+  <!-- LISTA -->
+  <table class="table table-striped table-hover" *ngIf="!modoEdicao">
+    <thead class="table-dark">
+      <tr>
+        <th>Nome</th>
+        <th>URL</th>
+        <th>Template</th>
+        <th>Início</th>
+        <th>Status</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let app of lista">
+        <td>{{app.nome}}</td>
+        <td>
+          <code>{{app.url}}</code>
+          <a *ngIf="app.url" [routerLink]="['/s', app.url]" target="_blank"
+            class="ms-1 text-muted small" title="Abrir site público">
+            <i class="bi bi-box-arrow-up-right"></i>
+          </a>
+        </td>
+        <td>{{app.layoutchoose}}</td>
+        <td>{{app.datainicio | date:'dd/MM/yyyy'}}</td>
+        <td>
+          <span class="badge" [class.bg-success]="app.isactive" [class.bg-danger]="!app.isactive">
+            {{app.isactive ? 'Ativo' : 'Inativo'}}
+          </span>
+        </td>
+        <td class="text-nowrap">
+          <button class="btn btn-outline-primary btn-sm me-1" (click)="editar(app)">Editar</button>
+          <a class="btn btn-outline-info btn-sm me-1" [routerLink]="['/preview', app.aplicacaoid]" target="_blank"
+            title="Visualizar site">
+            <i class="bi bi-eye me-1"></i>Preview
+          </a>
+          <button class="btn btn-sm me-1"
+            [class.btn-outline-warning]="app.isactive"
+            [class.btn-outline-success]="!app.isactive"
+            (click)="alternarStatus(app)">
+            {{app.isactive ? 'Inativar' : 'Ativar'}}
+          </button>
+          <button class="btn btn-outline-danger btn-sm" (click)="excluir(app.aplicacaoid)">Excluir</button>
+        </td>
+      </tr>
+      <tr *ngIf="lista.length === 0">
+        <td colspan="6" class="text-center text-muted">Nenhuma aplicação cadastrada.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

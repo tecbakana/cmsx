@@ -1,0 +1,17 @@
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Admin.master" AutoEventWireup="false" CodeFile="summernote_teste.aspx.cs" Inherits="summernote_teste" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
+    <div class="container">
+        <div class="span12">
+            <div class="summernote-container">
+                <div class="summernote">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <asp:Button ID="btnAtualiza" runat="server" OnClick="btnAtualiza_Click" Text="atualizar" />
+</asp:Content>
+

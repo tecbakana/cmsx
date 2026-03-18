@@ -1,0 +1,5 @@
+﻿
+Partial Class summernote_teste
+    Inherits System.Web.UI.Page
+
+End Class

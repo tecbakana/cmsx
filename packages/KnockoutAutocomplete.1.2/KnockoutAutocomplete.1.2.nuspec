@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>KnockoutAutocomplete</id>
+    <version>1.2</version>
+    <title>Knockout Autocomplete</title>
+    <authors>Andreas Gustafsson</authors>
+    <owners>Andreas Gustafsson</owners>
+    <projectUrl>https://github.com/angustafsson/Knockout-AutoComplete</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Autocomplete binding for KnockoutJS</description>
+    <releaseNotes>Added style for package</releaseNotes>
+    <copyright>Copyright 2013</copyright>
+    <tags>Knockout KnockoutJS Javascript Bindings</tags>
+  </metadata>
+</package>

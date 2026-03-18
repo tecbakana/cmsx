@@ -1,0 +1,75 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="bootstrap.master.cs" Inherits="bootstrap"  %>
+<!DOCTYPE html>
+<html lang="eng">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title></title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.css" rel="stylesheet" />
+
+    <link href="css/theme.css" rel="stylesheet" />
+
+    <script type="text/javascript">
+
+        var strorder;
+
+
+        function OnSuccess() {
+
+        }
+
+        function OnError() {
+            alert("Fail");
+        }
+
+        function montaPost(parm) {
+            var obj = parm.split("&");
+            var jpost = "{";
+            for (x = 1; x < obj.length; x++) {
+                jpost += "'area" + x + "':";
+                var objhd = document.getElementById("hdnId_" + x);
+                jpost += "'" + objhd.value;
+                jpost += x < obj.length - 1 ? "'," : "'";
+            }
+            jpost += "}";
+            return jpost;
+        }
+
+        function reorder() {
+            strorder = "";
+            var totalid = $('#table-1 tr td input').length;
+            for (var i = 0; i < totalid; i++) {
+                strorder = strorder + $('#table-1 tr td input')[i].getAttribute("value") + "|";
+            }
+        }
+
+
+    </script>
+
+    <!-- Just for debugging purposes. Don't actually copy this line! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body role="document">
+    <form id="form1" runat="server">
+    <asp:ScriptManager ID="scrm" runat="server" EnablePartialRendering="true" />
+        <asp:ContentPlaceHolder id="ContentPlaceHolder1" runat="server">
+        
+        </asp:ContentPlaceHolder>
+    </form>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/docs.min.js"></script>
+</body>
+</html>

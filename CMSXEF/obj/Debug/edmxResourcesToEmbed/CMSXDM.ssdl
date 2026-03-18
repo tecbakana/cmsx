@@ -1,0 +1,549 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="cmsxModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.1" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+  <EntityType Name="aplicacao">
+    <Key>
+      <PropertyRef Name="AplicacaoId" />
+    </Key>
+    <Property Name="AplicacaoId" Type="varchar" MaxLength="64" Nullable="false" />
+    <Property Name="Nome" Type="varchar" MaxLength="400" />
+    <Property Name="Url" Type="varchar" MaxLength="20" />
+    <Property Name="DataInicio" Type="datetime" StoreGeneratedPattern="Identity" />
+    <Property Name="DataFinal" Type="datetime" />
+    <Property Name="IdUsuarioInicio" Type="varchar" MaxLength="36" />
+    <Property Name="IdUsuarioFim" Type="varchar" MaxLength="36" />
+    <Property Name="PagSeguroToken" Type="varchar" MaxLength="120" />
+    <Property Name="LayoutChoose" Type="varchar" MaxLength="150" />
+    <Property Name="Posicao" Type="int" />
+    <Property Name="mailUser" Type="varchar" MaxLength="150" />
+    <Property Name="mailPassword" Type="varchar" MaxLength="45" />
+    <Property Name="mailServer" Type="varchar" MaxLength="80" />
+    <Property Name="mailPort" Type="int" />
+    <Property Name="isSecure" Type="tinyint" />
+    <Property Name="pageFacebook" Type="varchar" MaxLength="255" />
+    <Property Name="pageLinkedin" Type="varchar" MaxLength="255" />
+    <Property Name="pageInstagram" Type="varchar" MaxLength="255" />
+    <Property Name="pageTwitter" Type="varchar" MaxLength="255" />
+    <Property Name="pagePinterest" Type="varchar" MaxLength="255" />
+    <Property Name="pageFlicker" Type="varchar" MaxLength="255" />
+    <Property Name="logotipo" Type="blob" />
+    <Property Name="googleAdSense" Type="varchar" MaxLength="500" />
+    <Property Name="isActive" Type="bit" />
+    <Property Name="header" Type="varchar" MaxLength="245" />
+  </EntityType>
+  <EntityType Name="areas">
+    <Key>
+      <PropertyRef Name="AreaId" />
+    </Key>
+    <Property Name="AreaId" Type="varchar" MaxLength="64" Nullable="false" />
+    <Property Name="AplicacaoId" Type="varchar" MaxLength="64" />
+    <Property Name="Nome" Type="varchar" MaxLength="80" />
+    <Property Name="Url" Type="varchar" MaxLength="300" />
+    <Property Name="Descricao" Type="varchar" MaxLength="255" />
+    <Property Name="AreaIdPai" Type="varchar" MaxLength="64" />
+    <Property Name="DataInicial" Type="datetime" StoreGeneratedPattern="Identity" />
+    <Property Name="DataFinal" Type="datetime" />
+    <Property Name="Imagem" Type="tinyint" />
+    <Property Name="MenuLateral" Type="tinyint" />
+    <Property Name="MenuSplash" Type="tinyint" />
+    <Property Name="MenuCentral" Type="tinyint" />
+    <Property Name="posicao" Type="int" />
+    <Property Name="MenuFixo" Type="tinyint" />
+    <Property Name="ListaSimples" Type="tinyint" />
+    <Property Name="ListaSplash" Type="tinyint" />
+    <Property Name="ListaBanner" Type="tinyint" />
+    <Property Name="TipoArea" Type="int" />
+  </EntityType>
+  <EntityType Name="arquivo">
+    <Key>
+      <PropertyRef Name="ArquivoId" />
+    </Key>
+    <Property Name="ArquivoId" Type="varchar" MaxLength="64" Nullable="false" />
+    <Property Name="AreaId" Type="varchar" MaxLength="64" />
+    <Property Name="ConteudoId" Type="varchar" MaxLength="64" />
+    <Property Name="Nome" Type="varchar" MaxLength="64" />
+    <Property Name="TipoId" Type="varchar" MaxLength="64" />
+  </EntityType>
+  <EntityType Name="atributo">
+    <Key>
+      <PropertyRef Name="AtributoId" />
+    </Key>
+    <Property Name="AtributoId" Type="uint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nome" Type="varchar" MaxLength="45" Nullable="false" />
+    <Property Name="Descricao" Type="varchar" MaxLength="45" Nullable="false" />
+    <Property Name="ProdutoId" Type="varchar" MaxLength="64" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'def.db_9b3a78_cmsxdb.cambio' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="cambio">
+    <Key>
+      <PropertyRef Name="CambioGroupId" />
+    </Key>
+    <Property Name="CambioGroupId" Type="varchar" MaxLength="64" Nullable="false" />
+    <Property Name="DataCotacao" Type="datetime" />
+    <Property Name="MoedasXml" Type="varchar" MaxLength="1000" />
+    <Property Name="Tipo" Type="tinyint" />
+  </EntityType>
+  <EntityType Name="categoria">
+    <Key>
+      <PropertyRef Name="CategoriaId" />
+    </Key>
+    <Property Name="CategoriaId" Type="varchar" MaxLength="64" Nullable="false" />
+    <Property Name="Nome" Type="varchar" MaxLength="200" />
+    <Property Name="Descricao" Type="varchar" MaxLength="1000" />
+    <Property Name="TipoCategoria" Type="int" />
+    <Property Name="CategoriaIdPai" Type="varchar" MaxLength="64" />
+    <Property Name="AplicacaoId" Type="varchar" MaxLength="64" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'def.db_9b3a78_cmsxdb.ciaaerea' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="ciaaerea">
+    <Key>
+      <PropertyRef Name="CiaAereaId" />
+    </Key>
+    <Property Name="CiaAereaId" Type="varchar" MaxLength="64" Nullable="false" />
+    <Property Name="Descricao" Type="varchar" MaxLength="4000" />
+    <Property Name="Logotipo" Type="varchar" MaxLength="300" />
+    <Property Name="Descricao_Longa" Type="longtext" />
+    <Property Name="Ativo" Type="tinyint" />
+    <Property Name="TipoNac" Type="tinyint" />
+    <Property Name="TipoInt" Type="tinyint" />
+    <Property Name="webticket_str" Type="varchar" MaxLength="450" />
+  </EntityType>
+  <EntityType Name="conteudo">
+    <Key>
+      <PropertyRef Name="ConteudoId" />
+    </Key>
+    <Property Name="ConteudoId" Type="varchar" MaxLength="64" Nullable="false" />
+    <Property Name="AreaId" Type="varchar" MaxLength="64" />
+    <Property Name="Autor" Type="varchar" MaxLength="80" />
+    <Property Name="Titulo" Type="varchar" MaxLength="80" />
+    <Property Name="Texto" Type="longtext" />
+    <Property Name="DataInclusao" Type="datetime" StoreGeneratedPattern="Identity" />
+    <Property Name="DataFinal" Type="datetime" />
+    <Property Name="CategoriaId" Type="varchar" MaxLength="64" />
+  </EntityType>
+  <EntityType Name="conteudovalor">
+    <Key>
+      <PropertyRef Name="ConteudoId" />
+    </Key>
+    <Property Name="ConteudoId" Type="varchar" MaxLength="64" Nullable="false" />
+    <Property Name="UnidadeId" Type="uint" />
+    <Property Name="Valor" Type="decimal" Precision="10" Scale="2" />
+  </EntityType>
+  <EntityType Name="dict_socialmedia">
+    <Key>
+      <PropertyRef Name="SocialMediaId" />
+    </Key>
+    <Property Name="SocialMediaId" Type="int" Nullable="false" />
+    <Property Name="SocialMediaName" Type="varchar" MaxLength="45" />
+    <Property Name="SocialMediaUrl" Type="varchar" MaxLength="45" />
+  </EntityType>
+  <EntityType Name="dict_templates">
+    <Key>
+      <PropertyRef Name="idTemplate" />
+    </Key>
+    <Property Name="idTemplate" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="Nome" Type="varchar" MaxLength="255" />
+    <Property Name="Descricao" Type="varchar" MaxLength="255" />
+    <Property Name="viewRelacionada" Type="varchar" MaxLength="45" />
+  </EntityType>
+  <EntityType Name="dictareas">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="nome" Type="varchar" MaxLength="12" />
+    <Property Name="tipo" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="formulario">
+    <Key>
+      <PropertyRef Name="formularioid" />
+      <PropertyRef Name="nome" />
+    </Key>
+    <Property Name="formularioid" Type="varchar" MaxLength="64" Nullable="false" />
+    <Property Name="nome" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="valor" Type="varchar" MaxLength="8000" />
+    <Property Name="ativo" Type="bit" />
+    <Property Name="datainclusao" Type="datetime" />
+    <Property Name="areaid" Type="varchar" MaxLength="64" />
+  </EntityType>
+  <EntityType Name="formularionew">
+    <Key>
+      <PropertyRef Name="IdForm" />
+    </Key>
+    <Property Name="IdForm" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nome" Type="varchar" MaxLength="100" />
+    <Property Name="Tipo" Type="int" />
+    <Property Name="Email" Type="varchar" MaxLength="155" />
+    <Property Name="Telefone" Type="varchar" MaxLength="15" />
+    <Property Name="Texto" Type="varchar" MaxLength="255" />
+    <Property Name="Ativo" Type="tinyint" />
+  </EntityType>
+  <EntityType Name="imagem">
+    <Key>
+      <PropertyRef Name="ImagemId" />
+    </Key>
+    <Property Name="ImagemId" Type="varchar" MaxLength="64" Nullable="false" />
+    <Property Name="Url" Type="varchar" MaxLength="300" />
+    <Property Name="Largura" Type="int" />
+    <Property Name="Altura" Type="int" />
+    <Property Name="AreaId" Type="varchar" MaxLength="64" />
+    <Property Name="ConteudoId" Type="varchar" MaxLength="64" />
+    <Property Name="Descricao" Type="varchar" MaxLength="255" />
+    <Property Name="ParentId" Type="varchar" MaxLength="64" Nullable="false" />
+    <Property Name="TipoId" Type="varchar" MaxLength="64" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'def.db_9b3a78_cmsxdb.infofoto' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="infofoto">
+    <Key>
+      <PropertyRef Name="FotoId" />
+      <PropertyRef Name="CategoriaId" />
+    </Key>
+    <Property Name="FotoId" Type="varchar" MaxLength="64" Nullable="false" />
+    <Property Name="FotoUrl" Type="varchar" MaxLength="300" />
+    <Property Name="Descricao" Type="varchar" MaxLength="1000" />
+    <Property Name="CategoriaId" Type="varchar" MaxLength="64" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'def.db_9b3a78_cmsxdb.informativo' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="informativo">
+    <Key>
+      <PropertyRef Name="InfoId" />
+    </Key>
+    <Property Name="InfoId" Type="varchar" MaxLength="64" Nullable="false" />
+    <Property Name="Titulo" Type="varchar" MaxLength="300" />
+    <Property Name="Data" Type="datetime" />
+    <Property Name="Texto" Type="longtext" />
+    <Property Name="Foto" Type="varchar" MaxLength="64" />
+    <Property Name="Ativo" Type="tinyint" />
+    <Property Name="TipoEnvio" Type="varchar" MaxLength="64" />
+  </EntityType>
+  <EntityType Name="modulo">
+    <Key>
+      <PropertyRef Name="ModuloId" />
+    </Key>
+    <Property Name="ModuloId" Type="varchar" MaxLength="64" Nullable="false" />
+    <Property Name="Nome" Type="varchar" MaxLength="400" />
+    <Property Name="Url" Type="varchar" MaxLength="400" />
+    <Property Name="Posicao" Type="int" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'def.db_9b3a78_cmsxdb.moduloconf' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="moduloconf">
+    <Key>
+      <PropertyRef Name="ModuloConfId" />
+    </Key>
+    <Property Name="ModuloConfId" Type="varchar" MaxLength="64" Nullable="false" />
+    <Property Name="Descricao" Type="varchar" MaxLength="800" />
+    <Property Name="Nome" Type="varchar" MaxLength="200" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'def.db_9b3a78_cmsxdb.moeda' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="moeda">
+    <Key>
+      <PropertyRef Name="MoedaId" />
+      <PropertyRef Name="Nome" />
+    </Key>
+    <Property Name="MoedaId" Type="varchar" MaxLength="64" Nullable="false" />
+    <Property Name="Nome" Type="varchar" MaxLength="80" Nullable="false" />
+    <Property Name="Sigla" Type="char" MaxLength="34" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'def.db_9b3a78_cmsxdb.newsletter' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="newsletter">
+    <Key>
+      <PropertyRef Name="NewsId" />
+    </Key>
+    <Property Name="NewsId" Type="varchar" MaxLength="64" Nullable="false" />
+    <Property Name="Titulo" Type="varchar" MaxLength="3000" />
+    <Property Name="Autor" Type="varchar" MaxLength="1000" />
+    <Property Name="Data" Type="datetime" />
+    <Property Name="Frente" Type="tinyint" />
+    <Property Name="Texto" Type="longtext" />
+    <Property Name="Foto" Type="varchar" MaxLength="4000" />
+    <Property Name="CategoriaId" Type="varchar" MaxLength="64" />
+    <Property Name="Ativo" Type="tinyint" />
+  </EntityType>
+  <EntityType Name="opcao">
+    <Key>
+      <PropertyRef Name="OpcaoId" />
+    </Key>
+    <Property Name="OpcaoId" Type="varchar" MaxLength="64" Nullable="false" />
+    <Property Name="AtributoId" Type="uint" Nullable="false" />
+    <Property Name="Qtd" Type="uint" Nullable="false" />
+    <Property Name="Nome" Type="varchar" MaxLength="500" />
+    <Property Name="Descricao" Type="varchar" MaxLength="500" />
+    <Property Name="Estoque" Type="utinyint" />
+  </EntityType>
+  <EntityType Name="produto">
+    <Key>
+      <PropertyRef Name="ProdutoId" />
+      <PropertyRef Name="sku" />
+    </Key>
+    <Property Name="ProdutoId" Type="varchar" MaxLength="64" Nullable="false" />
+    <Property Name="Nome" Type="varchar" MaxLength="130" />
+    <Property Name="Descricao" Type="longtext" />
+    <Property Name="Valor" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="Tipo" Type="int" />
+    <Property Name="Destaque" Type="int" />
+    <Property Name="DataInicio" Type="datetime" />
+    <Property Name="DataFinal" Type="datetime" />
+    <Property Name="CategoriaId" Type="varchar" MaxLength="64" />
+    <Property Name="AplicacaoId" Type="varchar" MaxLength="64" />
+    <Property Name="sku" Type="varchar" MaxLength="45" Nullable="false" />
+    <Property Name="PagSeguroKey" Type="varchar" MaxLength="800" />
+    <Property Name="DetalheTecnico" Type="longtext" />
+    <Property Name="DescricaCurta" Type="varchar" MaxLength="150" />
+    <Property Name="produtocol" Type="varchar" MaxLength="45" />
+  </EntityType>
+  <EntityType Name="refatributoxopcao">
+    <Key>
+      <PropertyRef Name="relacaoid" />
+    </Key>
+    <Property Name="relacaoid" Type="uint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="atributoid" Type="uint" Nullable="false" />
+    <Property Name="opcaoid" Type="uint" Nullable="false" />
+  </EntityType>
+  <EntityType Name="relatributoxproduto">
+    <Key>
+      <PropertyRef Name="Relacaoid" />
+    </Key>
+    <Property Name="Relacaoid" Type="uint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Atributoid" Type="uint" Nullable="false" />
+    <Property Name="ProdutoId" Type="uint" Nullable="false" />
+  </EntityType>
+  <EntityType Name="relimagemconteudo">
+    <Key>
+      <PropertyRef Name="relid" />
+    </Key>
+    <Property Name="relid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="imagemid" Type="varchar" MaxLength="45" />
+    <Property Name="parentid" Type="varchar" MaxLength="45" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'def.db_9b3a78_cmsxdb.relmoduloaplicacao' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="relmoduloaplicacao">
+    <Key>
+      <PropertyRef Name="RelacaoId" />
+      <PropertyRef Name="AplicacaoId" />
+      <PropertyRef Name="ModuloId" />
+    </Key>
+    <Property Name="RelacaoId" Type="varchar" MaxLength="64" Nullable="false" />
+    <Property Name="AplicacaoId" Type="varchar" MaxLength="64" Nullable="false" />
+    <Property Name="ModuloId" Type="varchar" MaxLength="64" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'def.db_9b3a78_cmsxdb.relmoduloconfaplicacao' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="relmoduloconfaplicacao">
+    <Key>
+      <PropertyRef Name="RelacaoId" />
+      <PropertyRef Name="ModuloConfId" />
+      <PropertyRef Name="AplicacaoId" />
+      <PropertyRef Name="DataInclusao" />
+      <PropertyRef Name="DataFinalizacao" />
+    </Key>
+    <Property Name="RelacaoId" Type="varchar" MaxLength="64" Nullable="false" />
+    <Property Name="ModuloConfId" Type="varchar" MaxLength="64" Nullable="false" />
+    <Property Name="AplicacaoId" Type="varchar" MaxLength="64" Nullable="false" />
+    <Property Name="DataInclusao" Type="datetime" Nullable="false" />
+    <Property Name="DataFinalizacao" Type="datetime" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'def.db_9b3a78_cmsxdb.relusuarioaplicacao' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="relusuarioaplicacao">
+    <Key>
+      <PropertyRef Name="RelacaoId" />
+      <PropertyRef Name="AplicacaoId" />
+      <PropertyRef Name="UsuarioId" />
+    </Key>
+    <Property Name="RelacaoId" Type="varchar" MaxLength="64" Nullable="false" />
+    <Property Name="AplicacaoId" Type="varchar" MaxLength="64" Nullable="false" />
+    <Property Name="UsuarioId" Type="varchar" MaxLength="64" Nullable="false" />
+  </EntityType>
+  <EntityType Name="socialmedia">
+    <Key>
+      <PropertyRef Name="SocialMediaId" />
+    </Key>
+    <Property Name="SocialMediaId" Type="varchar" MaxLength="45" Nullable="false" />
+    <Property Name="AplicacaoId" Type="varchar" MaxLength="45" />
+    <Property Name="SocialMediaTypeId" Type="int" />
+    <Property Name="SocialMediaLink" Type="varchar" MaxLength="255" />
+  </EntityType>
+  <EntityType Name="templates">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nome" Type="varchar" MaxLength="155" />
+    <Property Name="Descricao" Type="varchar" MaxLength="255" />
+    <Property Name="Url" Type="varchar" MaxLength="80" />
+    <Property Name="Ativo" Type="bit" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'def.db_9b3a78_cmsxdb.tipocotacao' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="tipocotacao">
+    <Key>
+      <PropertyRef Name="TipoCotacaoId" />
+    </Key>
+    <Property Name="TipoCotacaoId" Type="varchar" MaxLength="64" Nullable="false" />
+    <Property Name="Nome" Type="varchar" MaxLength="200" />
+    <Property Name="Descricao" Type="varchar" MaxLength="200" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'def.db_9b3a78_cmsxdb.tipoenvio' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="tipoenvio">
+    <Key>
+      <PropertyRef Name="TipoEnvioId" />
+    </Key>
+    <Property Name="TipoEnvioId" Type="varchar" MaxLength="64" Nullable="false" />
+    <Property Name="TipoEnvioDesc" Type="varchar" MaxLength="300" />
+  </EntityType>
+  <EntityType Name="unidades">
+    <Key>
+      <PropertyRef Name="UnidadeId" />
+    </Key>
+    <Property Name="UnidadeId" Type="uint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nome" Type="varchar" MaxLength="45" />
+    <Property Name="Sigla" Type="varchar" MaxLength="45" />
+  </EntityType>
+  <EntityType Name="usuario">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="varchar" MaxLength="64" Nullable="false" />
+    <Property Name="Nome" Type="varchar" MaxLength="300" Nullable="false" />
+    <Property Name="Sobrenome" Type="varchar" MaxLength="300" Nullable="false" />
+    <Property Name="Apelido" Type="varchar" MaxLength="6" />
+    <Property Name="Senha" Type="varchar" MaxLength="12" />
+    <Property Name="Ativo" Type="tinyint" />
+    <Property Name="DataInclusao" Type="datetime" />
+  </EntityType>
+  <EntityContainer Name="cmsxModelStoreContainer">
+    <EntitySet Name="aplicacao" EntityType="Self.aplicacao" Schema="db_9b3a78_cmsxdb" store:Type="Tables" />
+    <EntitySet Name="areas" EntityType="Self.areas" Schema="db_9b3a78_cmsxdb" store:Type="Tables" />
+    <EntitySet Name="arquivo" EntityType="Self.arquivo" Schema="db_9b3a78_cmsxdb" store:Type="Tables" />
+    <EntitySet Name="atributo" EntityType="Self.atributo" Schema="db_9b3a78_cmsxdb" store:Type="Tables" />
+    <EntitySet Name="categoria" EntityType="Self.categoria" Schema="db_9b3a78_cmsxdb" store:Type="Tables" />
+    <EntitySet Name="conteudo" EntityType="Self.conteudo" Schema="db_9b3a78_cmsxdb" store:Type="Tables" />
+    <EntitySet Name="conteudovalor" EntityType="Self.conteudovalor" Schema="db_9b3a78_cmsxdb" store:Type="Tables" />
+    <EntitySet Name="dict_socialmedia" EntityType="Self.dict_socialmedia" Schema="db_9b3a78_cmsxdb" store:Type="Tables" />
+    <EntitySet Name="dict_templates" EntityType="Self.dict_templates" Schema="db_9b3a78_cmsxdb" store:Type="Tables" />
+    <EntitySet Name="dictareas" EntityType="Self.dictareas" Schema="db_9b3a78_cmsxdb" store:Type="Tables" />
+    <EntitySet Name="formulario" EntityType="Self.formulario" Schema="db_9b3a78_cmsxdb" store:Type="Tables" />
+    <EntitySet Name="formularionew" EntityType="Self.formularionew" Schema="db_9b3a78_cmsxdb" store:Type="Tables" />
+    <EntitySet Name="imagem" EntityType="Self.imagem" Schema="db_9b3a78_cmsxdb" store:Type="Tables" />
+    <EntitySet Name="modulo" EntityType="Self.modulo" Schema="db_9b3a78_cmsxdb" store:Type="Tables" />
+    <EntitySet Name="opcao" EntityType="Self.opcao" Schema="db_9b3a78_cmsxdb" store:Type="Tables" />
+    <EntitySet Name="produto" EntityType="Self.produto" Schema="db_9b3a78_cmsxdb" store:Type="Tables" />
+    <EntitySet Name="refatributoxopcao" EntityType="Self.refatributoxopcao" Schema="db_9b3a78_cmsxdb" store:Type="Tables" />
+    <EntitySet Name="relatributoxproduto" EntityType="Self.relatributoxproduto" Schema="db_9b3a78_cmsxdb" store:Type="Tables" />
+    <EntitySet Name="relimagemconteudo" EntityType="Self.relimagemconteudo" Schema="db_9b3a78_cmsxdb" store:Type="Tables" />
+    <EntitySet Name="socialmedia" EntityType="Self.socialmedia" Schema="db_9b3a78_cmsxdb" store:Type="Tables" />
+    <EntitySet Name="templates" EntityType="Self.templates" Schema="db_9b3a78_cmsxdb" store:Type="Tables" />
+    <EntitySet Name="unidades" EntityType="Self.unidades" Schema="db_9b3a78_cmsxdb" store:Type="Tables" />
+    <EntitySet Name="usuario" EntityType="Self.usuario" Schema="db_9b3a78_cmsxdb" store:Type="Tables" />
+    <EntitySet Name="cambio" EntityType="Self.cambio" store:Type="Tables" store:Schema="db_9b3a78_cmsxdb">
+      <DefiningQuery>SELECT
+`cambio`.`CambioGroupId`, 
+`cambio`.`DataCotacao`, 
+`cambio`.`MoedasXml`, 
+`cambio`.`Tipo`
+FROM `cambio` AS `cambio`</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="ciaaerea" EntityType="Self.ciaaerea" store:Type="Tables" store:Schema="db_9b3a78_cmsxdb">
+      <DefiningQuery>SELECT
+`ciaaerea`.`CiaAereaId`, 
+`ciaaerea`.`Descricao`, 
+`ciaaerea`.`Logotipo`, 
+`ciaaerea`.`Descricao_Longa`, 
+`ciaaerea`.`Ativo`, 
+`ciaaerea`.`TipoNac`, 
+`ciaaerea`.`TipoInt`, 
+`ciaaerea`.`webticket_str`
+FROM `ciaaerea` AS `ciaaerea`</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="infofoto" EntityType="Self.infofoto" store:Type="Tables" store:Schema="db_9b3a78_cmsxdb">
+      <DefiningQuery>SELECT
+`infofoto`.`FotoId`, 
+`infofoto`.`FotoUrl`, 
+`infofoto`.`Descricao`, 
+`infofoto`.`CategoriaId`
+FROM `infofoto` AS `infofoto`</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="informativo" EntityType="Self.informativo" store:Type="Tables" store:Schema="db_9b3a78_cmsxdb">
+      <DefiningQuery>SELECT
+`informativo`.`InfoId`, 
+`informativo`.`Titulo`, 
+`informativo`.`Data`, 
+`informativo`.`Texto`, 
+`informativo`.`Foto`, 
+`informativo`.`Ativo`, 
+`informativo`.`TipoEnvio`
+FROM `informativo` AS `informativo`</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="moduloconf" EntityType="Self.moduloconf" store:Type="Tables" store:Schema="db_9b3a78_cmsxdb">
+      <DefiningQuery>SELECT
+`moduloconf`.`ModuloConfId`, 
+`moduloconf`.`Descricao`, 
+`moduloconf`.`Nome`
+FROM `moduloconf` AS `moduloconf`</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="moeda" EntityType="Self.moeda" store:Type="Tables" store:Schema="db_9b3a78_cmsxdb">
+      <DefiningQuery>SELECT
+`moeda`.`MoedaId`, 
+`moeda`.`Nome`, 
+`moeda`.`Sigla`
+FROM `moeda` AS `moeda`</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="newsletter" EntityType="Self.newsletter" store:Type="Tables" store:Schema="db_9b3a78_cmsxdb">
+      <DefiningQuery>SELECT
+`newsletter`.`NewsId`, 
+`newsletter`.`Titulo`, 
+`newsletter`.`Autor`, 
+`newsletter`.`Data`, 
+`newsletter`.`Frente`, 
+`newsletter`.`Texto`, 
+`newsletter`.`Foto`, 
+`newsletter`.`CategoriaId`, 
+`newsletter`.`Ativo`
+FROM `newsletter` AS `newsletter`</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="relmoduloaplicacao" EntityType="Self.relmoduloaplicacao" store:Type="Tables" store:Schema="db_9b3a78_cmsxdb">
+      <DefiningQuery>SELECT
+`relmoduloaplicacao`.`RelacaoId`, 
+`relmoduloaplicacao`.`AplicacaoId`, 
+`relmoduloaplicacao`.`ModuloId`
+FROM `relmoduloaplicacao` AS `relmoduloaplicacao`</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="relmoduloconfaplicacao" EntityType="Self.relmoduloconfaplicacao" store:Type="Tables" store:Schema="db_9b3a78_cmsxdb">
+      <DefiningQuery>SELECT
+`relmoduloconfaplicacao`.`RelacaoId`, 
+`relmoduloconfaplicacao`.`ModuloConfId`, 
+`relmoduloconfaplicacao`.`AplicacaoId`, 
+`relmoduloconfaplicacao`.`DataInclusao`, 
+`relmoduloconfaplicacao`.`DataFinalizacao`
+FROM `relmoduloconfaplicacao` AS `relmoduloconfaplicacao`</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="relusuarioaplicacao" EntityType="Self.relusuarioaplicacao" store:Type="Tables" store:Schema="db_9b3a78_cmsxdb">
+      <DefiningQuery>SELECT
+`relusuarioaplicacao`.`RelacaoId`, 
+`relusuarioaplicacao`.`AplicacaoId`, 
+`relusuarioaplicacao`.`UsuarioId`
+FROM `relusuarioaplicacao` AS `relusuarioaplicacao`</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="tipocotacao" EntityType="Self.tipocotacao" store:Type="Tables" store:Schema="db_9b3a78_cmsxdb">
+      <DefiningQuery>SELECT
+`tipocotacao`.`TipoCotacaoId`, 
+`tipocotacao`.`Nome`, 
+`tipocotacao`.`Descricao`
+FROM `tipocotacao` AS `tipocotacao`</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="tipoenvio" EntityType="Self.tipoenvio" store:Type="Tables" store:Schema="db_9b3a78_cmsxdb">
+      <DefiningQuery>SELECT
+`tipoenvio`.`TipoEnvioId`, 
+`tipoenvio`.`TipoEnvioDesc`
+FROM `tipoenvio` AS `tipoenvio`</DefiningQuery>
+    </EntitySet>
+  </EntityContainer>
+</Schema>

@@ -1,0 +1,14 @@
+T:\Developer\RepositorioEstudos\CMSX\CMSX\CMXDBContext\bin\Debug\net6.0\CMXDBContext.deps.json
+T:\Developer\RepositorioEstudos\CMSX\CMSX\CMXDBContext\bin\Debug\net6.0\CMXDBContext.dll
+T:\Developer\RepositorioEstudos\CMSX\CMSX\CMXDBContext\bin\Debug\net6.0\CMXDBContext.pdb
+T:\Developer\RepositorioEstudos\CMSX\CMSX\CMXDBContext\obj\Debug\net6.0\CMXDBContext.csproj.AssemblyReference.cache
+T:\Developer\RepositorioEstudos\CMSX\CMSX\CMXDBContext\obj\Debug\net6.0\CMXDBContext.GeneratedMSBuildEditorConfig.editorconfig
+T:\Developer\RepositorioEstudos\CMSX\CMSX\CMXDBContext\obj\Debug\net6.0\CMXDBContext.AssemblyInfoInputs.cache
+T:\Developer\RepositorioEstudos\CMSX\CMSX\CMXDBContext\obj\Debug\net6.0\CMXDBContext.AssemblyInfo.cs
+T:\Developer\RepositorioEstudos\CMSX\CMSX\CMXDBContext\obj\Debug\net6.0\CMXDBContext.csproj.CoreCompileInputs.cache
+T:\Developer\RepositorioEstudos\CMSX\CMSX\CMXDBContext\obj\Debug\net6.0\CMXDBContext.dll
+T:\Developer\RepositorioEstudos\CMSX\CMSX\CMXDBContext\obj\Debug\net6.0\refint\CMXDBContext.dll
+T:\Developer\RepositorioEstudos\CMSX\CMSX\CMXDBContext\obj\Debug\net6.0\CMXDBContext.pdb
+T:\Developer\RepositorioEstudos\CMSX\CMSX\CMXDBContext\obj\Debug\net6.0\ref\CMXDBContext.dll
+T:\Developer\RepositorioEstudos\CMSX\CMSX\CMXDBContext\bin\Debug\net6.0\CMXDBContext.runtimeconfig.json
+T:\Developer\RepositorioEstudos\CMSX\CMSX\CMXDBContext\obj\Debug\net6.0\CMXDBContext.genruntimeconfig.cache

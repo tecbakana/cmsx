@@ -1,0 +1,423 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="cmsxModelStoreContainer" CdmEntityContainer="cmsxEntities">
+    <EntitySetMapping Name="arquivo">
+      <EntityTypeMapping TypeName="cmsxModel.arquivo">
+        <MappingFragment StoreEntitySet="arquivo">
+          <ScalarProperty Name="TipoId" ColumnName="TipoId" />
+          <ScalarProperty Name="Nome" ColumnName="Nome" />
+          <ScalarProperty Name="ConteudoId" ColumnName="ConteudoId" />
+          <ScalarProperty Name="AreaId" ColumnName="AreaId" />
+          <ScalarProperty Name="ArquivoId" ColumnName="ArquivoId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="atributo">
+      <EntityTypeMapping TypeName="cmsxModel.atributo">
+        <MappingFragment StoreEntitySet="atributo">
+          <ScalarProperty Name="ProdutoId" ColumnName="ProdutoId" />
+          <ScalarProperty Name="Descricao" ColumnName="Descricao" />
+          <ScalarProperty Name="Nome" ColumnName="Nome" />
+          <ScalarProperty Name="AtributoId" ColumnName="AtributoId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="conteudo">
+      <EntityTypeMapping TypeName="cmsxModel.conteudo">
+        <MappingFragment StoreEntitySet="conteudo">
+          <ScalarProperty Name="CategoriaId" ColumnName="CategoriaId" />
+          <ScalarProperty Name="DataFinal" ColumnName="DataFinal" />
+          <ScalarProperty Name="DataInclusao" ColumnName="DataInclusao" />
+          <ScalarProperty Name="Texto" ColumnName="Texto" />
+          <ScalarProperty Name="Titulo" ColumnName="Titulo" />
+          <ScalarProperty Name="Autor" ColumnName="Autor" />
+          <ScalarProperty Name="AreaId" ColumnName="AreaId" />
+          <ScalarProperty Name="ConteudoId" ColumnName="ConteudoId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="conteudovalor">
+      <EntityTypeMapping TypeName="cmsxModel.conteudovalor">
+        <MappingFragment StoreEntitySet="conteudovalor">
+          <ScalarProperty Name="Valor" ColumnName="Valor" />
+          <ScalarProperty Name="UnidadeId" ColumnName="UnidadeId" />
+          <ScalarProperty Name="ConteudoId" ColumnName="ConteudoId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="dict_templates">
+      <EntityTypeMapping TypeName="cmsxModel.dict_templates">
+        <MappingFragment StoreEntitySet="dict_templates">
+          <ScalarProperty Name="viewRelacionada" ColumnName="viewRelacionada" />
+          <ScalarProperty Name="Descricao" ColumnName="Descricao" />
+          <ScalarProperty Name="Nome" ColumnName="Nome" />
+          <ScalarProperty Name="idTemplate" ColumnName="idTemplate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="dictareas">
+      <EntityTypeMapping TypeName="cmsxModel.dictareas">
+        <MappingFragment StoreEntitySet="dictareas">
+          <ScalarProperty Name="tipo" ColumnName="tipo" />
+          <ScalarProperty Name="nome" ColumnName="nome" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="formulario">
+      <EntityTypeMapping TypeName="cmsxModel.formulario">
+        <MappingFragment StoreEntitySet="formulario">
+          <ScalarProperty Name="areaid" ColumnName="areaid" />
+          <ScalarProperty Name="datainclusao" ColumnName="datainclusao" />
+          <ScalarProperty Name="ativo" ColumnName="ativo" />
+          <ScalarProperty Name="valor" ColumnName="valor" />
+          <ScalarProperty Name="nome" ColumnName="nome" />
+          <ScalarProperty Name="formularioid" ColumnName="formularioid" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="formularionew">
+      <EntityTypeMapping TypeName="cmsxModel.formularionew">
+        <MappingFragment StoreEntitySet="formularionew">
+          <ScalarProperty Name="Ativo" ColumnName="Ativo" />
+          <ScalarProperty Name="Texto" ColumnName="Texto" />
+          <ScalarProperty Name="Telefone" ColumnName="Telefone" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Tipo" ColumnName="Tipo" />
+          <ScalarProperty Name="Nome" ColumnName="Nome" />
+          <ScalarProperty Name="IdForm" ColumnName="IdForm" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="imagem">
+      <EntityTypeMapping TypeName="cmsxModel.imagem">
+        <MappingFragment StoreEntitySet="imagem">
+          <ScalarProperty Name="TipoId" ColumnName="TipoId" />
+          <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+          <ScalarProperty Name="Descricao" ColumnName="Descricao" />
+          <ScalarProperty Name="ConteudoId" ColumnName="ConteudoId" />
+          <ScalarProperty Name="AreaId" ColumnName="AreaId" />
+          <ScalarProperty Name="Altura" ColumnName="Altura" />
+          <ScalarProperty Name="Largura" ColumnName="Largura" />
+          <ScalarProperty Name="Url" ColumnName="Url" />
+          <ScalarProperty Name="ImagemId" ColumnName="ImagemId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="modulo">
+      <EntityTypeMapping TypeName="cmsxModel.modulo">
+        <MappingFragment StoreEntitySet="modulo">
+          <ScalarProperty Name="Posicao" ColumnName="Posicao" />
+          <ScalarProperty Name="Url" ColumnName="Url" />
+          <ScalarProperty Name="Nome" ColumnName="Nome" />
+          <ScalarProperty Name="ModuloId" ColumnName="ModuloId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="opcao">
+      <EntityTypeMapping TypeName="cmsxModel.opcao">
+        <MappingFragment StoreEntitySet="opcao">
+          <ScalarProperty Name="Estoque" ColumnName="Estoque" />
+          <ScalarProperty Name="Descricao" ColumnName="Descricao" />
+          <ScalarProperty Name="Nome" ColumnName="Nome" />
+          <ScalarProperty Name="Qtd" ColumnName="Qtd" />
+          <ScalarProperty Name="AtributoId" ColumnName="AtributoId" />
+          <ScalarProperty Name="OpcaoId" ColumnName="OpcaoId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="produto">
+      <EntityTypeMapping TypeName="cmsxModel.produto">
+        <MappingFragment StoreEntitySet="produto">
+          <ScalarProperty Name="produtocol" ColumnName="produtocol" />
+          <ScalarProperty Name="DescricaCurta" ColumnName="DescricaCurta" />
+          <ScalarProperty Name="DetalheTecnico" ColumnName="DetalheTecnico" />
+          <ScalarProperty Name="PagSeguroKey" ColumnName="PagSeguroKey" />
+          <ScalarProperty Name="sku" ColumnName="sku" />
+          <ScalarProperty Name="AplicacaoId" ColumnName="AplicacaoId" />
+          <ScalarProperty Name="CategoriaId" ColumnName="CategoriaId" />
+          <ScalarProperty Name="DataFinal" ColumnName="DataFinal" />
+          <ScalarProperty Name="DataInicio" ColumnName="DataInicio" />
+          <ScalarProperty Name="Destaque" ColumnName="Destaque" />
+          <ScalarProperty Name="Tipo" ColumnName="Tipo" />
+          <ScalarProperty Name="Valor" ColumnName="Valor" />
+          <ScalarProperty Name="Descricao" ColumnName="Descricao" />
+          <ScalarProperty Name="Nome" ColumnName="Nome" />
+          <ScalarProperty Name="ProdutoId" ColumnName="ProdutoId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="refatributoxopcao">
+      <EntityTypeMapping TypeName="cmsxModel.refatributoxopcao">
+        <MappingFragment StoreEntitySet="refatributoxopcao">
+          <ScalarProperty Name="opcaoid" ColumnName="opcaoid" />
+          <ScalarProperty Name="atributoid" ColumnName="atributoid" />
+          <ScalarProperty Name="relacaoid" ColumnName="relacaoid" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="relatributoxproduto">
+      <EntityTypeMapping TypeName="cmsxModel.relatributoxproduto">
+        <MappingFragment StoreEntitySet="relatributoxproduto">
+          <ScalarProperty Name="ProdutoId" ColumnName="ProdutoId" />
+          <ScalarProperty Name="Atributoid" ColumnName="Atributoid" />
+          <ScalarProperty Name="Relacaoid" ColumnName="Relacaoid" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="unidades">
+      <EntityTypeMapping TypeName="cmsxModel.unidades">
+        <MappingFragment StoreEntitySet="unidades">
+          <ScalarProperty Name="Sigla" ColumnName="Sigla" />
+          <ScalarProperty Name="Nome" ColumnName="Nome" />
+          <ScalarProperty Name="UnidadeId" ColumnName="UnidadeId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="usuario">
+      <EntityTypeMapping TypeName="cmsxModel.usuario">
+        <MappingFragment StoreEntitySet="usuario">
+          <ScalarProperty Name="DataInclusao" ColumnName="DataInclusao" />
+          <ScalarProperty Name="Ativo" ColumnName="Ativo" />
+          <ScalarProperty Name="Senha" ColumnName="Senha" />
+          <ScalarProperty Name="Apelido" ColumnName="Apelido" />
+          <ScalarProperty Name="Sobrenome" ColumnName="Sobrenome" />
+          <ScalarProperty Name="Nome" ColumnName="Nome" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="cambio">
+      <EntityTypeMapping TypeName="cmsxModel.cambio">
+        <MappingFragment StoreEntitySet="cambio">
+          <ScalarProperty Name="Tipo" ColumnName="Tipo" />
+          <ScalarProperty Name="MoedasXml" ColumnName="MoedasXml" />
+          <ScalarProperty Name="DataCotacao" ColumnName="DataCotacao" />
+          <ScalarProperty Name="CambioGroupId" ColumnName="CambioGroupId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="categoria">
+      <EntityTypeMapping TypeName="cmsxModel.categoria">
+        <MappingFragment StoreEntitySet="categoria">
+          <ScalarProperty Name="AplicacaoId" ColumnName="AplicacaoId" />
+          <ScalarProperty Name="CategoriaIdPai" ColumnName="CategoriaIdPai" />
+          <ScalarProperty Name="TipoCategoria" ColumnName="TipoCategoria" />
+          <ScalarProperty Name="Descricao" ColumnName="Descricao" />
+          <ScalarProperty Name="Nome" ColumnName="Nome" />
+          <ScalarProperty Name="CategoriaId" ColumnName="CategoriaId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ciaaerea">
+      <EntityTypeMapping TypeName="cmsxModel.ciaaerea">
+        <MappingFragment StoreEntitySet="ciaaerea">
+          <ScalarProperty Name="webticket_str" ColumnName="webticket_str" />
+          <ScalarProperty Name="TipoInt" ColumnName="TipoInt" />
+          <ScalarProperty Name="TipoNac" ColumnName="TipoNac" />
+          <ScalarProperty Name="Ativo" ColumnName="Ativo" />
+          <ScalarProperty Name="Descricao_Longa" ColumnName="Descricao_Longa" />
+          <ScalarProperty Name="Logotipo" ColumnName="Logotipo" />
+          <ScalarProperty Name="Descricao" ColumnName="Descricao" />
+          <ScalarProperty Name="CiaAereaId" ColumnName="CiaAereaId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="infofoto">
+      <EntityTypeMapping TypeName="cmsxModel.infofoto">
+        <MappingFragment StoreEntitySet="infofoto">
+          <ScalarProperty Name="CategoriaId" ColumnName="CategoriaId" />
+          <ScalarProperty Name="Descricao" ColumnName="Descricao" />
+          <ScalarProperty Name="FotoUrl" ColumnName="FotoUrl" />
+          <ScalarProperty Name="FotoId" ColumnName="FotoId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="informativo">
+      <EntityTypeMapping TypeName="cmsxModel.informativo">
+        <MappingFragment StoreEntitySet="informativo">
+          <ScalarProperty Name="TipoEnvio" ColumnName="TipoEnvio" />
+          <ScalarProperty Name="Ativo" ColumnName="Ativo" />
+          <ScalarProperty Name="Foto" ColumnName="Foto" />
+          <ScalarProperty Name="Texto" ColumnName="Texto" />
+          <ScalarProperty Name="Data" ColumnName="Data" />
+          <ScalarProperty Name="Titulo" ColumnName="Titulo" />
+          <ScalarProperty Name="InfoId" ColumnName="InfoId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="moduloconf">
+      <EntityTypeMapping TypeName="cmsxModel.moduloconf">
+        <MappingFragment StoreEntitySet="moduloconf">
+          <ScalarProperty Name="Nome" ColumnName="Nome" />
+          <ScalarProperty Name="Descricao" ColumnName="Descricao" />
+          <ScalarProperty Name="ModuloConfId" ColumnName="ModuloConfId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="moeda">
+      <EntityTypeMapping TypeName="cmsxModel.moeda">
+        <MappingFragment StoreEntitySet="moeda">
+          <ScalarProperty Name="Sigla" ColumnName="Sigla" />
+          <ScalarProperty Name="Nome" ColumnName="Nome" />
+          <ScalarProperty Name="MoedaId" ColumnName="MoedaId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="newsletter">
+      <EntityTypeMapping TypeName="cmsxModel.newsletter">
+        <MappingFragment StoreEntitySet="newsletter">
+          <ScalarProperty Name="Ativo" ColumnName="Ativo" />
+          <ScalarProperty Name="CategoriaId" ColumnName="CategoriaId" />
+          <ScalarProperty Name="Foto" ColumnName="Foto" />
+          <ScalarProperty Name="Texto" ColumnName="Texto" />
+          <ScalarProperty Name="Frente" ColumnName="Frente" />
+          <ScalarProperty Name="Data" ColumnName="Data" />
+          <ScalarProperty Name="Autor" ColumnName="Autor" />
+          <ScalarProperty Name="Titulo" ColumnName="Titulo" />
+          <ScalarProperty Name="NewsId" ColumnName="NewsId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="relmoduloaplicacao">
+      <EntityTypeMapping TypeName="cmsxModel.relmoduloaplicacao">
+        <MappingFragment StoreEntitySet="relmoduloaplicacao">
+          <ScalarProperty Name="ModuloId" ColumnName="ModuloId" />
+          <ScalarProperty Name="AplicacaoId" ColumnName="AplicacaoId" />
+          <ScalarProperty Name="RelacaoId" ColumnName="RelacaoId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="relmoduloconfaplicacao">
+      <EntityTypeMapping TypeName="cmsxModel.relmoduloconfaplicacao">
+        <MappingFragment StoreEntitySet="relmoduloconfaplicacao">
+          <ScalarProperty Name="DataFinalizacao" ColumnName="DataFinalizacao" />
+          <ScalarProperty Name="DataInclusao" ColumnName="DataInclusao" />
+          <ScalarProperty Name="AplicacaoId" ColumnName="AplicacaoId" />
+          <ScalarProperty Name="ModuloConfId" ColumnName="ModuloConfId" />
+          <ScalarProperty Name="RelacaoId" ColumnName="RelacaoId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="relusuarioaplicacao">
+      <EntityTypeMapping TypeName="cmsxModel.relusuarioaplicacao">
+        <MappingFragment StoreEntitySet="relusuarioaplicacao">
+          <ScalarProperty Name="UsuarioId" ColumnName="UsuarioId" />
+          <ScalarProperty Name="AplicacaoId" ColumnName="AplicacaoId" />
+          <ScalarProperty Name="RelacaoId" ColumnName="RelacaoId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tipocotacao">
+      <EntityTypeMapping TypeName="cmsxModel.tipocotacao">
+        <MappingFragment StoreEntitySet="tipocotacao">
+          <ScalarProperty Name="Descricao" ColumnName="Descricao" />
+          <ScalarProperty Name="Nome" ColumnName="Nome" />
+          <ScalarProperty Name="TipoCotacaoId" ColumnName="TipoCotacaoId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tipoenvio">
+      <EntityTypeMapping TypeName="cmsxModel.tipoenvio">
+        <MappingFragment StoreEntitySet="tipoenvio">
+          <ScalarProperty Name="TipoEnvioDesc" ColumnName="TipoEnvioDesc" />
+          <ScalarProperty Name="TipoEnvioId" ColumnName="TipoEnvioId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="socialmedia">
+      <EntityTypeMapping TypeName="cmsxModel.socialmedia">
+        <MappingFragment StoreEntitySet="socialmedia">
+          <ScalarProperty Name="SocialMediaLink" ColumnName="SocialMediaLink" />
+          <ScalarProperty Name="SocialMediaTypeId" ColumnName="SocialMediaTypeId" />
+          <ScalarProperty Name="AplicacaoId" ColumnName="AplicacaoId" />
+          <ScalarProperty Name="SocialMediaId" ColumnName="SocialMediaId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="dict_socialmedia">
+      <EntityTypeMapping TypeName="cmsxModel.dict_socialmedia">
+        <MappingFragment StoreEntitySet="dict_socialmedia">
+          <ScalarProperty Name="SocialMediaUrl" ColumnName="SocialMediaUrl" />
+          <ScalarProperty Name="SocialMediaName" ColumnName="SocialMediaName" />
+          <ScalarProperty Name="SocialMediaId" ColumnName="SocialMediaId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="aplicacao">
+      <EntityTypeMapping TypeName="cmsxModel.aplicacao">
+        <MappingFragment StoreEntitySet="aplicacao">
+          <ScalarProperty Name="header" ColumnName="header" />
+          <ScalarProperty Name="isActive" ColumnName="isActive" />
+          <ScalarProperty Name="googleAdSense" ColumnName="googleAdSense" />
+          <ScalarProperty Name="logotipo" ColumnName="logotipo" />
+          <ScalarProperty Name="pageFlicker" ColumnName="pageFlicker" />
+          <ScalarProperty Name="pagePinterest" ColumnName="pagePinterest" />
+          <ScalarProperty Name="pageTwitter" ColumnName="pageTwitter" />
+          <ScalarProperty Name="pageInstagram" ColumnName="pageInstagram" />
+          <ScalarProperty Name="pageLinkedin" ColumnName="pageLinkedin" />
+          <ScalarProperty Name="pageFacebook" ColumnName="pageFacebook" />
+          <ScalarProperty Name="isSecure" ColumnName="isSecure" />
+          <ScalarProperty Name="mailPort" ColumnName="mailPort" />
+          <ScalarProperty Name="mailServer" ColumnName="mailServer" />
+          <ScalarProperty Name="mailPassword" ColumnName="mailPassword" />
+          <ScalarProperty Name="mailUser" ColumnName="mailUser" />
+          <ScalarProperty Name="Posicao" ColumnName="Posicao" />
+          <ScalarProperty Name="LayoutChoose" ColumnName="LayoutChoose" />
+          <ScalarProperty Name="PagSeguroToken" ColumnName="PagSeguroToken" />
+          <ScalarProperty Name="IdUsuarioFim" ColumnName="IdUsuarioFim" />
+          <ScalarProperty Name="IdUsuarioInicio" ColumnName="IdUsuarioInicio" />
+          <ScalarProperty Name="DataFinal" ColumnName="DataFinal" />
+          <ScalarProperty Name="DataInicio" ColumnName="DataInicio" />
+          <ScalarProperty Name="Url" ColumnName="Url" />
+          <ScalarProperty Name="Nome" ColumnName="Nome" />
+          <ScalarProperty Name="AplicacaoId" ColumnName="AplicacaoId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="areas">
+      <EntityTypeMapping TypeName="cmsxModel.areas">
+        <MappingFragment StoreEntitySet="areas">
+          <ScalarProperty Name="TipoArea" ColumnName="TipoArea" />
+          <ScalarProperty Name="ListaBanner" ColumnName="ListaBanner" />
+          <ScalarProperty Name="ListaSplash" ColumnName="ListaSplash" />
+          <ScalarProperty Name="ListaSimples" ColumnName="ListaSimples" />
+          <ScalarProperty Name="MenuFixo" ColumnName="MenuFixo" />
+          <ScalarProperty Name="posicao" ColumnName="posicao" />
+          <ScalarProperty Name="MenuCentral" ColumnName="MenuCentral" />
+          <ScalarProperty Name="MenuSplash" ColumnName="MenuSplash" />
+          <ScalarProperty Name="MenuLateral" ColumnName="MenuLateral" />
+          <ScalarProperty Name="Imagem" ColumnName="Imagem" />
+          <ScalarProperty Name="DataFinal" ColumnName="DataFinal" />
+          <ScalarProperty Name="DataInicial" ColumnName="DataInicial" />
+          <ScalarProperty Name="AreaIdPai" ColumnName="AreaIdPai" />
+          <ScalarProperty Name="Descricao" ColumnName="Descricao" />
+          <ScalarProperty Name="Url" ColumnName="Url" />
+          <ScalarProperty Name="Nome" ColumnName="Nome" />
+          <ScalarProperty Name="AplicacaoId" ColumnName="AplicacaoId" />
+          <ScalarProperty Name="AreaId" ColumnName="AreaId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="relimagemconteudo">
+      <EntityTypeMapping TypeName="cmsxModel.relimagemconteudo">
+        <MappingFragment StoreEntitySet="relimagemconteudo">
+          <ScalarProperty Name="parentid" ColumnName="parentid" />
+          <ScalarProperty Name="imagemid" ColumnName="imagemid" />
+          <ScalarProperty Name="relid" ColumnName="relid" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="templates">
+      <EntityTypeMapping TypeName="cmsxModel.templates">
+        <MappingFragment StoreEntitySet="templates">
+          <ScalarProperty Name="Ativo" ColumnName="Ativo" />
+          <ScalarProperty Name="Url" ColumnName="Url" />
+          <ScalarProperty Name="Descricao" ColumnName="Descricao" />
+          <ScalarProperty Name="Nome" ColumnName="Nome" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

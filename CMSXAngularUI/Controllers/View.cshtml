@@ -1,0 +1,179 @@
+﻿@model IEnumerable<CMSXDB.aplicacao>
+
+@{
+    ViewData["Title"] = "View";
+}
+
+<h1>View</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.AplicacaoId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nome)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Url)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DataInicio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DataFinal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdUsuarioInicio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdUsuarioFim)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PagSeguroToken)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LayoutChoose)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Posicao)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.mailUser)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.mailPassword)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.mailServer)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.mailPort)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.isSecure)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.pageFacebook)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.pageLinkedin)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.pageInstagram)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.pageTwitter)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.pagePinterest)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.pageFlicker)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.logotipo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.googleAdSense)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.isActive)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.header)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.AplicacaoId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nome)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Url)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DataInicio)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DataFinal)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdUsuarioInicio)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdUsuarioFim)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PagSeguroToken)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LayoutChoose)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Posicao)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.mailUser)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.mailPassword)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.mailServer)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.mailPort)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.isSecure)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.pageFacebook)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.pageLinkedin)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.pageInstagram)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.pageTwitter)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.pagePinterest)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.pageFlicker)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.logotipo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.googleAdSense)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.isActive)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.header)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -1,0 +1,10 @@
+T:\Developer\RepositorioEstudos\CMSX\CMSX\CMSXEntitiesDB\bin\Debug\netstandard2.1\CMSXEntitiesDB.deps.json
+T:\Developer\RepositorioEstudos\CMSX\CMSX\CMSXEntitiesDB\bin\Debug\netstandard2.1\CMSXEntitiesDB.dll
+T:\Developer\RepositorioEstudos\CMSX\CMSX\CMSXEntitiesDB\bin\Debug\netstandard2.1\CMSXEntitiesDB.pdb
+T:\Developer\RepositorioEstudos\CMSX\CMSX\CMSXEntitiesDB\obj\Debug\netstandard2.1\CMSXEntitiesDB.csproj.AssemblyReference.cache
+T:\Developer\RepositorioEstudos\CMSX\CMSX\CMSXEntitiesDB\obj\Debug\netstandard2.1\CMSXEntitiesDB.GeneratedMSBuildEditorConfig.editorconfig
+T:\Developer\RepositorioEstudos\CMSX\CMSX\CMSXEntitiesDB\obj\Debug\netstandard2.1\CMSXEntitiesDB.AssemblyInfoInputs.cache
+T:\Developer\RepositorioEstudos\CMSX\CMSX\CMSXEntitiesDB\obj\Debug\netstandard2.1\CMSXEntitiesDB.AssemblyInfo.cs
+T:\Developer\RepositorioEstudos\CMSX\CMSX\CMSXEntitiesDB\obj\Debug\netstandard2.1\CMSXEntitiesDB.csproj.CoreCompileInputs.cache
+T:\Developer\RepositorioEstudos\CMSX\CMSX\CMSXEntitiesDB\obj\Debug\netstandard2.1\CMSXEntitiesDB.dll
+T:\Developer\RepositorioEstudos\CMSX\CMSX\CMSXEntitiesDB\obj\Debug\netstandard2.1\CMSXEntitiesDB.pdb

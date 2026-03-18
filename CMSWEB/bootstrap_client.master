@@ -1,0 +1,40 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="bootstrap_client.master.cs" Inherits="bootstrap_client" %>
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head runat="server">
+    <title></title>
+    <script src="js/knockout.js"></script>
+    <script src="js/Util.js"></script>
+    <script src="Scripts/jquery-2.1.1.js"></script>
+    <script src="js/prettify.js"></script>
+	<script src="js/jquery.hotkeys.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="summernote/summernote.js"></script>
+    <script src="js/typeahead.bundle.js"></script>
+    <link href="css/bootstrap.css"                          rel="stylesheet" />
+    <link href="css/bootstrap-combined.no-icons.min.css"    rel="stylesheet" />
+    <link href="css/bootstrap-responsive.min.css"           rel="stylesheet" />
+	<link href="css/font-awesome.css"                       rel="stylesheet" />
+	<link href="css/index.css"                              rel="stylesheet" />
+    <link href="css/bootstrap-theme.css"                    rel="stylesheet" /> 
+    <link href="Styles/Site.css"                            rel="stylesheet" />
+    <link href="css/index.css"                              rel="stylesheet" />
+    <link href="css/font-awesome.css"                       rel="stylesheet" /> 
+    <link href="summernote/summernote.css"                  rel="stylesheet" />
+    <link href="summernote/summernote-bs3.css"              rel="stylesheet" />
+    <link href="summernote/summernote-bs2.css"              rel="stylesheet" />
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
+<%--    <link href="dhtmlmodal/windowfiles/dhtmlwindow.css" rel="stylesheet" />
+    <link href="dhtmlmodal/modalfiles/modal.css" rel="stylesheet" />--%>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <asp:ScriptManager ID="scrmng1" runat="server" EnablePartialRendering="true" />
+        <asp:ContentPlaceHolder id="ContentPlaceHolder1" runat="server">
+        
+        </asp:ContentPlaceHolder>
+    </form>
+</body>
+</html>

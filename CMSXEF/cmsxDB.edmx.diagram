@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="8c2775939f524ae5af351e6462125a11" Name="Diagram1" ZoomLevel="87">
+        <EntityTypeShape EntityType="cmsxDBModel.arquivo" Width="1.5" PointX="4.75" PointY="0.75" />
+        <EntityTypeShape EntityType="cmsxDBModel.atributo" Width="1.5" PointX="4.875" PointY="3" />
+        <EntityTypeShape EntityType="cmsxDBModel.conteudo" Width="1.5" PointX="6.75" PointY="0.75" />
+        <EntityTypeShape EntityType="cmsxDBModel.conteudovalor" Width="1.5" PointX="0.75" PointY="6.75" />
+        <EntityTypeShape EntityType="cmsxDBModel.dict_templates" Width="1.5" PointX="2.75" PointY="6.75" />
+        <EntityTypeShape EntityType="cmsxDBModel.dictareas" Width="1.5" PointX="6.75" PointY="4.75" />
+        <EntityTypeShape EntityType="cmsxDBModel.formulario" Width="1.5" PointX="4.75" PointY="7.75" />
+        <EntityTypeShape EntityType="cmsxDBModel.formularionew" Width="1.5" PointX="6.75" PointY="7.75" />
+        <EntityTypeShape EntityType="cmsxDBModel.imagem" Width="1.5" PointX="8.75" PointY="0.75" />
+        <EntityTypeShape EntityType="cmsxDBModel.modulo" Width="1.5" PointX="8.75" PointY="4.75" />
+        <EntityTypeShape EntityType="cmsxDBModel.opcao" Width="1.5" PointX="8.75" PointY="7.75" />
+        <EntityTypeShape EntityType="cmsxDBModel.produto" Width="1.5" PointX="0.75" PointY="9.75" />
+        <EntityTypeShape EntityType="cmsxDBModel.refatributoxopcao" Width="1.875" PointX="10.75" PointY="0.75" />
+        <EntityTypeShape EntityType="cmsxDBModel.relatributoxproduto" Width="1.5" PointX="2.75" PointY="10.75" />
+        <EntityTypeShape EntityType="cmsxDBModel.unidades" Width="1.5" PointX="10.75" PointY="3.75" />
+        <EntityTypeShape EntityType="cmsxDBModel.usuario" Width="1.5" PointX="10.75" PointY="6.75" />
+        <EntityTypeShape EntityType="cmsxDBModel.cambio" Width="1.5" PointX="8.75" PointY="10.75" />
+        <EntityTypeShape EntityType="cmsxDBModel.categoria" Width="1.5" PointX="10.75" PointY="10.75" />
+        <EntityTypeShape EntityType="cmsxDBModel.ciaaerea" Width="1.5" PointX="4.75" PointY="11.75" />
+        <EntityTypeShape EntityType="cmsxDBModel.infofoto" Width="1.5" PointX="12.75" PointY="0.75" />
+        <EntityTypeShape EntityType="cmsxDBModel.informativo" Width="1.5" PointX="12.75" PointY="3.75" />
+        <EntityTypeShape EntityType="cmsxDBModel.moduloconf" Width="1.5" PointX="12.75" PointY="7.75" />
+        <EntityTypeShape EntityType="cmsxDBModel.moeda" Width="1.5" PointX="12.75" PointY="10.75" />
+        <EntityTypeShape EntityType="cmsxDBModel.newsletter" Width="1.5" PointX="6.75" PointY="13.75" />
+        <EntityTypeShape EntityType="cmsxDBModel.relmoduloaplicacao" Width="1.5" PointX="8.75" PointY="13.75" />
+        <EntityTypeShape EntityType="cmsxDBModel.relmoduloconfaplicacao" Width="2.875" PointX="10.75" PointY="13.75" />
+        <EntityTypeShape EntityType="cmsxDBModel.relusuarioaplicacao" Width="1.5" PointX="14.125" PointY="16.5" />
+        <EntityTypeShape EntityType="cmsxDBModel.tipocotacao" Width="1.5" PointX="14.75" PointY="0.75" />
+        <EntityTypeShape EntityType="cmsxDBModel.tipoenvio" Width="1.5" PointX="0.75" PointY="14.75" />
+        <EntityTypeShape EntityType="cmsxDBModel.socialmedia" Width="1.5" PointX="15.375" PointY="3.75" />
+        <EntityTypeShape EntityType="cmsxDBModel.dict_socialmedia" Width="1.5" PointX="3.375" PointY="15.75" />
+        <EntityTypeShape EntityType="cmsxDBModel.aplicacao" Width="1.5" PointX="15.375" PointY="6.75" />
+        <EntityTypeShape EntityType="cmsxDBModel.areas" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="cmsxDBModel.relimagemconteudo" Width="1.5" PointX="15.375" PointY="13.75" />
+        <EntityTypeShape EntityType="cmsxDBModel.templates" Width="1.5" PointX="9.375" PointY="16.75" />
+        <EntityTypeShape EntityType="cmsxDBModel.Entity1" Width="1.5" PointX="6" PointY="2.125" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

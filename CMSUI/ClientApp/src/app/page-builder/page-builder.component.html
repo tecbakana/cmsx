@@ -1,0 +1,285 @@
+<div class="container-fluid py-3">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="mb-0"><i class="bi bi-layout-wtf me-2"></i>Page Builder com IA</h4>
+    <button class="btn btn-outline-secondary btn-sm" (click)="configAberta = !configAberta">
+      <i class="bi bi-gear me-1"></i>Configurações de IA
+      <span *ngIf="!cfgTemChavePropria" class="badge bg-warning text-dark ms-1">{{ cfgUsoHoje }}/{{ cfgLimiteEfetivo }}</span>
+      <span *ngIf="cfgTemChavePropria" class="badge bg-success ms-1">Chave própria</span>
+    </button>
+  </div>
+
+  <!-- Painel de configurações de IA -->
+  <div *ngIf="configAberta" class="card mb-3 border-secondary">
+    <div class="card-header fw-semibold"><i class="bi bi-key me-1"></i>Configurações de IA</div>
+    <div class="card-body">
+      <div *ngIf="cfgSucesso" class="alert alert-success py-1 small">{{ cfgSucesso }}</div>
+      <div *ngIf="cfgErro" class="alert alert-danger py-1 small">{{ cfgErro }}</div>
+
+      <div class="row g-2">
+        <div class="col-md-3">
+          <label class="form-label form-label-sm">Provedor preferido</label>
+          <select class="form-select form-select-sm" [(ngModel)]="cfgProvedor">
+            <option value="">— Padrão do sistema —</option>
+            <option value="gemini">Gemini (Google)</option>
+            <option value="anthropic">Claude (Anthropic)</option>
+          </select>
+        </div>
+        <div class="col-md-5">
+          <label class="form-label form-label-sm">
+            Sua ApiKey
+            <span *ngIf="cfgTemChavePropria" class="badge bg-success ms-1">Ativa</span>
+          </label>
+          <div class="input-group input-group-sm">
+            <input class="form-control" [(ngModel)]="cfgApikey"
+              [placeholder]="cfgTemChavePropria ? '••••••••••••••• (deixe vazio para manter)' : 'Cole sua chave aqui'">
+            <button *ngIf="cfgTemChavePropria" class="btn btn-outline-danger" (click)="removerApiKey()" title="Remover chave">
+              <i class="bi bi-x"></i>
+            </button>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label form-label-sm">Modelo (opcional)</label>
+          <input class="form-control form-control-sm" [(ngModel)]="cfgModelo"
+            placeholder="Ex: gemini-2.0-flash">
+        </div>
+        <div class="col-md-3" *ngIf="!cfgTemChavePropria">
+          <label class="form-label form-label-sm">Limite diário</label>
+          <input type="number" class="form-control form-control-sm" [(ngModel)]="cfgLimiteDiario"
+            [placeholder]="cfgLimiteEfetivo">
+        </div>
+        <div class="col-12" *ngIf="!cfgTemChavePropria">
+          <div class="progress" style="height:6px">
+            <div class="progress-bar" [class.bg-warning]="cfgUsoHoje/cfgLimiteEfetivo > 0.7"
+              [class.bg-danger]="cfgUsoHoje/cfgLimiteEfetivo >= 1"
+              [style.width.%]="(cfgUsoHoje/cfgLimiteEfetivo)*100"></div>
+          </div>
+          <small class="text-muted">{{ cfgUsoHoje }} de {{ cfgLimiteEfetivo }} gerações usadas hoje</small>
+        </div>
+      </div>
+
+      <button class="btn btn-primary btn-sm mt-2" (click)="salvarIaConfig()" [disabled]="cfgSalvando">
+        <span *ngIf="cfgSalvando" class="spinner-border spinner-border-sm me-1"></span>
+        Salvar configurações
+      </button>
+
+      <hr class="my-3">
+      <div class="d-flex align-items-center gap-2 flex-wrap">
+        <i class="bi bi-images text-secondary"></i>
+        <span class="small fw-semibold">Unsplash (imagens automáticas):</span>
+        <span *ngIf="unsplashAtivo" class="badge bg-success">Ativo</span>
+        <span *ngIf="!unsplashAtivo" class="badge bg-secondary">Inativo</span>
+        <small *ngIf="!unsplashAtivo" class="text-muted">
+          Configure <code>Unsplash:AccessKey</code> no <code>appsettings.json</code> para resolver imagens nos blocos hero/banner automaticamente.
+        </small>
+        <small *ngIf="unsplashAtivo" class="text-muted">
+          Imagens de blocos hero/banner serão resolvidas automaticamente quando a IA gerar o layout.
+        </small>
+      </div>
+    </div>
+  </div>
+
+  <!-- Templates salvos (admin) -->
+  <div *ngIf="isAdmin" class="card mb-3 border-warning border-opacity-50">
+    <div class="card-header fw-semibold py-2 d-flex justify-content-between align-items-center">
+      <span><i class="bi bi-bookmark-star me-1 text-warning"></i>Templates de Layout
+        <span class="badge bg-secondary ms-1">{{ templates.length }}</span>
+      </span>
+      <button class="btn btn-warning btn-sm" (click)="tplAberto = !tplAberto"
+        [disabled]="layoutAtual.length === 0" title="Salvar layout atual como template">
+        <i class="bi bi-floppy me-1"></i>Salvar como template
+      </button>
+    </div>
+
+    <!-- Formulário salvar template -->
+    <div *ngIf="tplAberto" class="card-body border-bottom pb-3">
+      <div class="row g-2">
+        <div class="col-md-4">
+          <input class="form-control form-control-sm" [(ngModel)]="tplNome" placeholder="Nome do template">
+        </div>
+        <div class="col-md-4">
+          <input class="form-control form-control-sm" [(ngModel)]="tplDescricao" placeholder="Descrição (opcional)">
+        </div>
+        <div class="col-md-2">
+          <select class="form-select form-select-sm" [(ngModel)]="tplTipo">
+            <option value="home">Home</option>
+            <option value="landing">Landing page</option>
+            <option value="institucional">Institucional</option>
+            <option value="blog">Blog</option>
+          </select>
+        </div>
+        <div class="col-md-2 d-flex align-items-center gap-2">
+          <div class="form-check mb-0">
+            <input class="form-check-input" type="checkbox" [(ngModel)]="tplPadrao" id="chkPadrao">
+            <label class="form-check-label small" for="chkPadrao">Padrão</label>
+          </div>
+          <button class="btn btn-warning btn-sm" (click)="salvarComoTemplate()" [disabled]="tplSalvando">
+            <span *ngIf="tplSalvando" class="spinner-border spinner-border-sm"></span>
+            <span *ngIf="!tplSalvando">Salvar</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Lista de templates -->
+    <div *ngIf="templates.length > 0" class="card-body py-2">
+      <div class="d-flex flex-wrap gap-2">
+        <div *ngFor="let t of templates" class="d-flex align-items-center gap-1">
+          <button class="btn btn-sm btn-outline-warning" (click)="carregarTemplate(t)">
+            <i class="bi bi-layout-wtf me-1"></i>{{ t.nome }}
+            <span *ngIf="t.padrao" class="badge bg-warning text-dark ms-1">padrão</span>
+            <span class="badge bg-secondary ms-1">{{ t.tipo }}</span>
+          </button>
+          <button class="btn btn-sm btn-outline-danger" (click)="excluirTemplate(t.templateid, t.nome)" title="Excluir template">
+            <i class="bi bi-trash"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="templates.length === 0" class="card-body py-2">
+      <small class="text-muted fst-italic">Nenhum template salvo ainda. Gere um layout e clique em "Salvar como template".</small>
+    </div>
+  </div>
+
+  <!-- Layouts salvos -->
+  <div *ngIf="layoutsResumo.length > 0" class="card mb-3 border-success border-opacity-25">
+    <div class="card-header fw-semibold py-2">
+      <i class="bi bi-collection me-1"></i>Layouts salvos
+      <span class="badge bg-secondary ms-1">{{ layoutsResumo.length }}</span>
+    </div>
+    <div class="card-body py-2">
+      <div class="d-flex flex-wrap gap-2">
+        <button *ngFor="let l of layoutsResumo"
+          class="btn btn-sm"
+          [class.btn-success]="areaid === l.areaid"
+          [class.btn-outline-success]="areaid !== l.areaid"
+          (click)="selecionarLayoutSalvo(l.areaid)">
+          <i class="bi bi-layout-wtf me-1"></i>{{ l.nome }}
+          <span class="badge ms-1" [class.bg-white]="areaid === l.areaid"
+            [class.text-success]="areaid === l.areaid"
+            [class.bg-success]="areaid !== l.areaid">{{ l.qtdBlocos }}</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Alertas -->
+  <div *ngIf="erro" class="alert alert-danger alert-dismissible" role="alert">
+    {{ erro }}
+    <button type="button" class="btn-close" (click)="erro=''"></button>
+  </div>
+  <div *ngIf="sucesso" class="alert alert-success alert-dismissible" role="alert">
+    {{ sucesso }}
+    <button type="button" class="btn-close" (click)="sucesso=''"></button>
+  </div>
+
+  <div class="row g-3">
+    <!-- ── Painel de configuração ── -->
+    <div class="col-md-4">
+      <div class="card shadow-sm h-100">
+        <div class="card-header fw-semibold"><i class="bi bi-sliders me-1"></i>Configuração</div>
+        <div class="card-body">
+
+          <!-- Seleção de área -->
+          <div class="mb-3">
+            <label class="form-label">Área do site</label>
+            <select class="form-select" [(ngModel)]="areaid" (change)="onAreaChange()">
+              <option value="">— Selecione uma área —</option>
+              <option *ngFor="let a of areas" [value]="a.areaid">{{ a.nome }}</option>
+            </select>
+            <div class="form-text">O layout gerado será salvo nesta área.</div>
+          </div>
+
+          <!-- Provedor de IA -->
+          <div class="mb-3">
+            <label class="form-label">Agente de IA</label>
+            <select class="form-select" [(ngModel)]="provedor">
+              <option value="">— Padrão (appsettings) —</option>
+              <option value="anthropic">Claude (Anthropic)</option>
+              <option value="gemini">Gemini (Google)</option>
+            </select>
+          </div>
+
+          <!-- Descrição para IA -->
+          <div class="mb-3">
+            <label class="form-label">Descreva o layout desejado</label>
+            <textarea class="form-control" rows="6" [(ngModel)]="descricao"
+              placeholder="Ex: Quero uma página de home com um hero de boas-vindas, seguido de uma lista dos últimos produtos, um formulário de contato e um separador."></textarea>
+            <div class="form-text">Descreva em português o que quer ver na página.</div>
+          </div>
+
+          <!-- Botões -->
+          <div class="d-grid gap-2">
+            <button class="btn btn-primary" (click)="gerarLayout()" [disabled]="gerando">
+              <span *ngIf="gerando" class="spinner-border spinner-border-sm me-1"></span>
+              <i *ngIf="!gerando" class="bi bi-magic me-1"></i>
+              {{ gerando ? 'Gerando…' : (layoutAtual.length > 0 ? 'Gerar nova versão' : 'Gerar com IA') }}
+            </button>
+            <button class="btn btn-success" (click)="salvarLayout()" [disabled]="salvando || layoutAtual.length === 0">
+              <span *ngIf="salvando" class="spinner-border spinner-border-sm me-1"></span>
+              <i *ngIf="!salvando" class="bi bi-floppy me-1"></i>
+              {{ salvando ? 'Salvando…' : 'Salvar Layout' }}
+            </button>
+            <button *ngIf="layoutAtual.length > 0" class="btn btn-outline-secondary btn-sm" (click)="limparLayout()">
+              <i class="bi bi-arrow-counterclockwise me-1"></i>Limpar e começar novo
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Preview dos blocos ── -->
+    <div class="col-md-8">
+      <div class="card shadow-sm h-100">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <span class="fw-semibold"><i class="bi bi-eye me-1"></i>Preview do Layout</span>
+          <span class="badge bg-secondary">{{ layoutAtual.length }} bloco(s)</span>
+        </div>
+        <div class="card-body">
+
+          <div *ngIf="layoutAtual.length === 0" class="text-center text-muted py-5">
+            <i class="bi bi-layout-wtf" style="font-size:3rem"></i>
+            <p class="mt-2">Nenhum bloco gerado ainda.<br>
+              Selecione uma área, descreva o layout e clique em <strong>Gerar com IA</strong>.</p>
+          </div>
+
+          <div *ngFor="let bloco of layoutAtual; let i = index" class="card mb-2 border-primary border-opacity-25">
+            <div class="card-header d-flex justify-content-between align-items-center py-2">
+              <div>
+                <i class="bi {{ bloco._icone }} me-1 text-primary"></i>
+                <strong>{{ bloco._nome }}</strong>
+                <span class="badge bg-light text-secondary ms-2 font-monospace" style="font-size:.7rem">{{ bloco.tipo }}</span>
+              </div>
+              <div class="btn-group btn-group-sm">
+                <button class="btn btn-outline-secondary" title="Mover para cima"
+                  (click)="moverBloco(i, 'up')" [disabled]="i === 0">
+                  <i class="bi bi-arrow-up"></i>
+                </button>
+                <button class="btn btn-outline-secondary" title="Mover para baixo"
+                  (click)="moverBloco(i, 'down')" [disabled]="i === layoutAtual.length - 1">
+                  <i class="bi bi-arrow-down"></i>
+                </button>
+                <button class="btn btn-outline-danger" title="Remover bloco"
+                  (click)="removerBloco(i)">
+                  <i class="bi bi-trash"></i>
+                </button>
+              </div>
+            </div>
+            <div class="card-body py-2">
+              <div class="row g-1">
+                <div *ngFor="let p of configVisual(bloco)" class="col-12 col-md-6 d-flex gap-1 align-items-baseline">
+                  <small class="text-muted text-nowrap">{{ p.label }}:</small>
+                  <small class="fw-medium text-truncate" style="max-width:180px" title="{{ p.valor }}">{{ p.valor }}</small>
+                </div>
+                <div *ngIf="configVisual(bloco).length === 0" class="col">
+                  <small class="text-muted fst-italic">Sem configurações definidas.</small>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

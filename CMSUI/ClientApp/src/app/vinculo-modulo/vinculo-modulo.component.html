@@ -1,0 +1,66 @@
+<div class="container-fluid py-3">
+  <h4 class="mb-3">Acesso a Módulos por Usuário</h4>
+
+  <!-- Novo vínculo -->
+  <div class="card mb-4">
+    <div class="card-header"><strong>Conceder Acesso</strong></div>
+    <div class="card-body">
+      <div *ngIf="erro" class="alert alert-danger py-2">{{erro}}</div>
+      <div class="row g-2 align-items-end">
+        <div class="col-md-4">
+          <label class="form-label">Usuário</label>
+          <select class="form-select" [(ngModel)]="usuarioid">
+            <option value="">Selecione...</option>
+            <option *ngFor="let u of usuarios" [value]="u.userid">
+              {{u.nome}} {{u.sobrenome}} ({{u.apelido}})
+            </option>
+          </select>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">Módulo</label>
+          <select class="form-select" [(ngModel)]="moduloid">
+            <option value="">Selecione...</option>
+            <option *ngFor="let m of modulos" [value]="m.moduloid">{{m.nome}}</option>
+          </select>
+        </div>
+        <div class="col-md-2">
+          <button class="btn btn-primary w-100" (click)="vincular()">Conceder</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filtro -->
+  <div class="d-flex align-items-center gap-2 mb-3">
+    <label class="form-label mb-0">Filtrar por usuário:</label>
+    <select class="form-select form-select-sm" style="max-width:280px"
+      [(ngModel)]="filtroUsuario" (change)="carregar()">
+      <option value="">Todos</option>
+      <option *ngFor="let u of usuarios" [value]="u.userid">
+        {{u.nome}} {{u.sobrenome}}
+      </option>
+    </select>
+  </div>
+
+  <!-- Lista -->
+  <table class="table table-striped table-hover">
+    <thead class="table-dark">
+      <tr><th>Usuário</th><th>Login</th><th>Módulo</th><th>URL</th><th></th></tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let v of vinculos">
+        <td>{{v.nomeUsuario}}</td>
+        <td>{{v.apelido}}</td>
+        <td><strong>{{v.nomeModulo}}</strong></td>
+        <td><code>{{v.urlModulo}}</code></td>
+        <td>
+          <button class="btn btn-outline-danger btn-sm"
+            (click)="desvincular(v.relacaoid, v.nomeUsuario)">Remover</button>
+        </td>
+      </tr>
+      <tr *ngIf="vinculos.length === 0">
+        <td colspan="5" class="text-center text-muted">Nenhum vínculo encontrado.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

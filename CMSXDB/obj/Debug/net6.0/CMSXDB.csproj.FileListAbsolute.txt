@@ -1,0 +1,15 @@
+T:\Developer\RepositorioEstudos\CMSX\CMSX\CMSXDB\bin\Debug\net6.0\CMSXDB.dll.config
+T:\Developer\RepositorioEstudos\CMSX\CMSX\CMSXDB\bin\Debug\net6.0\CMSXDB.deps.json
+T:\Developer\RepositorioEstudos\CMSX\CMSX\CMSXDB\bin\Debug\net6.0\CMSXDB.dll
+T:\Developer\RepositorioEstudos\CMSX\CMSX\CMSXDB\bin\Debug\net6.0\CMSXDB.pdb
+T:\Developer\RepositorioEstudos\CMSX\CMSX\CMSXDB\obj\Debug\net6.0\CMSXDB.csproj.AssemblyReference.cache
+T:\Developer\RepositorioEstudos\CMSX\CMSX\CMSXDB\obj\Debug\net6.0\CMSXDB.GeneratedMSBuildEditorConfig.editorconfig
+T:\Developer\RepositorioEstudos\CMSX\CMSX\CMSXDB\obj\Debug\net6.0\CMSXDB.AssemblyInfoInputs.cache
+T:\Developer\RepositorioEstudos\CMSX\CMSX\CMSXDB\obj\Debug\net6.0\CMSXDB.AssemblyInfo.cs
+T:\Developer\RepositorioEstudos\CMSX\CMSX\CMSXDB\obj\Debug\net6.0\CMSXDB.csproj.CoreCompileInputs.cache
+T:\Developer\RepositorioEstudos\CMSX\CMSX\CMSXDB\obj\Debug\net6.0\CMSXDB.dll
+T:\Developer\RepositorioEstudos\CMSX\CMSX\CMSXDB\obj\Debug\net6.0\refint\CMSXDB.dll
+T:\Developer\RepositorioEstudos\CMSX\CMSX\CMSXDB\obj\Debug\net6.0\CMSXDB.pdb
+T:\Developer\RepositorioEstudos\CMSX\CMSX\CMSXDB\obj\Debug\net6.0\ref\CMSXDB.dll
+T:\Developer\RepositorioEstudos\CMSX\CMSX\CMSXDB\bin\Debug\net6.0\CMSXDB.runtimeconfig.json
+T:\Developer\RepositorioEstudos\CMSX\CMSX\CMSXDB\obj\Debug\net6.0\CMSXDB.genruntimeconfig.cache

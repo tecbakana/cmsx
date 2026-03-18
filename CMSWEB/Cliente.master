@@ -1,0 +1,54 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="Cliente.master.cs" Inherits="Cliente" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+          <script language="Javascript" src="js/jquery-1.10.2.js" type="text/javascript"></script>
+          <script language="Javascript" src="Scripts/jquery.maskedinput-1.3.js" type="text/javascript"></script>
+          <link rel="Stylesheet" type="text/css" href="Styles/Site.css" />
+        <script type="text/javascript">
+            jQuery(function ($) {
+                $("#periodo1").mask("99/99/9999");
+                $("#periodo2").mask("99/99/9999");
+            });
+
+        var ajaxwin;
+        function gotoPage(objid,parm) {
+            dt1 = document.getElementById("periodo1");
+            dt2 = document.getElementById("periodo2");
+            objs = document.getElementById(objid);
+
+            if ((dt1.value == "") || (dt2.value == "")) {
+                alert("escolha as datas do perídodo:" + (dt1.value == "" ? "Data Inicial" : "Data Final"));
+                dt1.value == "" ? dt1.focus() : dt2.focus();
+                objs.options.selectedIndex = 0;
+                return false;
+            }
+            else {
+                var parmx = parm.split(";");
+                document.forms[0].action = "<%Response.Write(Request.ServerVariables["PATH_INFO"].ToString()); %>?idtab=" + parmx[1] + "&idcity=34&cidorig=" + parmx[0] + "&idtabrot=" + parmx[1] + "&dtini=" + dt1.value + "&dtfim=" + dt2.value;
+                document.forms[0].submit();
+                return true;
+            }
+        }
+        </script>
+    <asp:ContentPlaceHolder id="head" runat="server">
+    </asp:ContentPlaceHolder>
+
+</head>
+<body style="background-color:#24497B">
+    <form id="form1" runat="server" >
+    <asp:ScriptManager runat="server" ID="scrmng1" />
+    <div style="background-color:#24497B" >
+    <asp:Panel ID="pnlmenu" runat="server">
+  
+    </asp:Panel>
+        <asp:ContentPlaceHolder id="ContentPlaceHolder1" runat="server">
+        
+        </asp:ContentPlaceHolder>
+    </div>
+    </form>
+</body>
+</html>

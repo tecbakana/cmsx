@@ -1,0 +1,532 @@
+/* CSS RESET */
+body,table,tr,td,th,div,span,a,ol,ul,li,font,h1,h2
+{
+	/*font: normal 9pt tahoma,verdana,arial;*/
+	padding:0px;
+	margin:0px;
+	text-align:center;
+	border:0px;
+	border-collapse:collapse;
+	text-align:center;
+}
+
+/*  MAIN  */
+#main
+{
+    border: 0px solid Fuchsia;
+    text-align:center;
+    width: 887px;
+    margin-left:auto;
+    margin-right:auto;
+    background-color:#ffffff;
+}
+
+/* TOPO */
+#topo
+{
+	width:1000px;
+	height:114px;
+	border:1px solid red;
+}
+
+/* MENU TOPO */
+#menutopo
+{
+	width:1000px;
+	height:34px;
+	border:0px solid red;
+	font:bold 9pt tahoma,verdana,arial;
+    background-image:url("../../images/menusuperior_fundo_on.gif");
+}
+
+#menutopo a
+{
+    position:relative;
+    font:bold 9 pt verdana,tahoma,arial;
+    color:#fff;
+    text-decoration:none;
+    background-image:url("../../images/menusuperior_fundo_on.gif");
+    padding-top:4px;
+    padding-bottom:3px;
+    padding-left:11px;
+    padding-right:20px;
+    top:0px;
+    border:0px solid red;
+}
+
+#menutopo  a:hover
+{
+    background-image:url("../../images/menusuperior_fundo_off.gif");
+}
+
+/* BARRA LATERAL */
+
+#barralateral
+{
+   position:relative;
+   background-color:#ffffff;
+   width:230px;
+   height:600px;
+   padding-right:10px;
+   padding-top:10px;
+   padding-left:10px;
+   left:0px;
+   top:0px;
+   border:0px solid blue;
+}
+
+
+#barralateral img
+{
+    position:relative;
+}
+
+/* MENU LATERAL */
+
+.internamenulateral
+{
+    width:198px;
+    border:0px solid black;
+    text-align:left;
+    background-color:#B2C4DC;
+}
+
+#menulateral
+{
+   position:relative;
+   background-color:#B2C4DC;
+   width:217px;
+   height:168px;
+   padding-right:0px;
+   padding-top:5px;
+   padding-left:10px;
+   left:0px;
+   top:10px;
+   border:0px solid red;
+   vertical-align:top;
+}
+
+#menulateral a
+{
+   font:bold 10pt verdana,tahoma,arial;
+   color:#204B6A;
+   text-decoration:none;
+   border:0px solid red;
+   background-color:#B2C4DC;
+}
+
+#menulateral td
+{
+    height:1px;
+    background-color:#B2C4DC;
+    padding:0px;
+}
+
+/* MENU SPLASH */
+
+#menusplash
+{
+   position:relative;
+   background-color:transparent;
+   width:208px;
+   height:231px;
+   top:10px;
+}
+
+#menusplash img
+{
+    position:relative;
+    padding-bottom:   10px;
+	border:0px;
+}
+
+#menusplash a
+{
+   font:normal 9pt tahoma,verdana,arial;
+   color:#333366;
+   text-decoration:none;
+   border:0px;
+}
+/* CONTEUDO */
+#conteudo
+{
+    position:absolute;
+    left:0px;
+    padding-left:20px;
+    top:0px;
+    border:0px;
+    width:550px;
+    height:500px;
+    border:0px solid red;
+    background-color:#F0F0F0;
+    text-align:center;
+}
+
+.fundopadrao
+{
+    background-color:#fff;
+}
+
+.fundopadrao td,table,th,tr,li
+{
+    text-align:left;
+}
+/* AGREGADORA  */
+.agrega
+{
+    position:relative;
+    width:1024px;
+    border:0px solid black;
+}
+
+/* AREAS   */
+
+.areamain
+{
+   width:610px;
+   height:500px;
+   background-color:#fff;
+   position:relative;
+   margin-top:0px;
+   border:0px solid black;
+}
+
+/* MENU AREAS  */
+
+.areamenu
+{
+
+    height:1px;
+    background-color:#A9A8A8;
+    padding:2px;
+    /*width:250px;*/
+    text-align:left;
+    vertical-align:top;
+    border:0px solid red;
+    width:100%;
+}
+
+
+.areamenu td
+{
+   text-align:left;
+   border:0px solid blue;
+   height:20px;
+}
+
+.areamenu td a
+{
+   font:bold 8pt verdana,tahoma,arial;
+   color:#204B6A;
+   text-decoration:none;
+   border:0px solid red;
+   /*background-color:#f0f0f0;*/
+   height:30px;
+}
+
+.areamenuhr a
+{
+   font:bold 9pt verdana,tahoma,arial;
+   color:#204B6A;
+   text-decoration:none;
+   border:0px solid red;
+   background-color:#f0f0f0;
+   height:30px;
+}
+
+/*  AREA TEXTO  */
+.areaFoto
+{
+    width:430px;
+}
+
+.areaFoto img
+{
+    width:430px;
+}
+
+.areatexto
+{
+    position:relative;
+    border:0px solid red;
+    font:normal 9pt verdana, tahoma, arial;
+    width:380px;
+    height:200px; 
+    background-color:#f0f0f0;
+    margin-left:10px;
+    margin-left:10px;
+    text-align:justify;
+}
+
+.areatexto td,tr,span,div,font
+{
+    background-color:#f0f0f0; 
+}
+    
+
+/* RODAPÉ  */
+#rodape
+{
+    border:0px solid red;
+}
+
+/* SEPARADOR  */
+.hrBlue
+{
+    border:0px;
+    background-color:#1C4073;
+    height:1px;
+}
+
+/* HOME  */
+.homemain
+{
+   width:100%;
+   height:100%;
+   background-color:#f0f0f0;
+   position:relative;
+   border:0px solid black;
+   padding-left:10px;
+}
+
+.homeFoto
+{
+    position:relative;
+    width:550px;
+    height:300px;
+    border:0px solid blue;
+}
+
+.homeMenu
+{
+    position:relative;
+    border:0px solid red;
+    left:10px;
+    font:bold 8pt verdana, tahoma, arial;
+    color:#666666;
+    width:151px;
+    height:100px;
+    float:right;
+    padding:20px;
+    text-align:left;
+}
+
+.homeMenu td,div,tr
+{
+    text-align:left;
+}
+
+.homeMenu a
+{
+    font:bold 9pt verdana, tahoma, arial;
+    color:#666666;
+    text-decoration:none;
+    
+}
+
+.homebottom
+{
+
+}
+
+.hometexto
+{
+    position:relative;
+    border:0px solid red;
+    font:normal 9pt verdana, tahoma, arial;
+    width:380px;
+    height:200px; 
+    background-color:#f0f0f0;
+    margin-left:10px;
+    margin-left:10px;
+    text-align:justify;
+}
+
+.hometexto td,tr,span,div,font
+{
+    background-color:#f0f0f0; 
+}
+
+.barras
+{
+    background-color:#fff;
+}
+
+.mainform
+{
+    text-align:left;
+    padding-left:10px;
+}
+.titulo
+{
+    font:bold 12pt verdana,tahoma,arial;
+}
+
+
+.tituloConteudo
+{
+    font:bold 9pt verdana,tahoma,arial;
+    color:#1C4073;
+}
+
+.caixa
+{
+    font:normal 9pt verdana,tahoma,arial;
+}
+
+.caixa_botao
+{
+    font:normal 9pt verdana,tahoma,arial;
+    border:0px solid #666666;
+}
+
+.caixa_botao_send
+{
+    font:normal 9pt verdana,tahoma,arial;
+    border:1px solid #24497B;
+}
+/* AREAS  */
+
+.menuAreas
+{
+    text-align:left;
+    padding-left:20px;
+}
+
+.menuAreas a
+{
+    text-align:left;
+    font:normal 10pt tahoma,verdana,arial;
+    color:#1C4073;   
+    text-decoration:none;
+}
+
+/*  CONTEUDO   */
+
+.hrmenu
+{
+   height:1px;
+   background-color: #293955;  
+}
+
+#conteudomain
+{
+	position:relative;
+	width:100%;
+	height:100%;
+	background-color:#EFEFEF;
+    font:normal 10pt tahoma,verdana,arial;
+    border:0px solid red;
+    padding-left:10px;
+}
+
+#img
+{
+	position:relative;
+	top:1px;
+	left:5px;
+	width:550px;
+	/*height:240px;*/
+	background-color:#EFEFEF;
+    border:0px solid red;
+}
+
+#conteudotitulo
+{
+	position:relative;
+	left:5px;
+	width:550px;
+	height:25px;
+	background-color:#EFEFEF;
+    font:bold 12pt tahoma,verdana,arial;
+    text-align:left;
+}
+
+#conteudomenu
+{
+    position:relative;
+	top:0px;
+	left:5px;
+	width:550px;
+	/*height:25px;*/
+	background-color:transparent;
+    font:normal 10pt tahoma,verdana,arial;
+    border:0px solid black;
+}
+
+#conteudotexto
+{
+    position:relative;
+	top:0px;
+	left:5px;
+	background-color:#EFEFEF;
+	width:550px;
+    font:normal 10pt tahoma,verdana,arial;
+    text-align:left;
+    border:0px solid red;
+    padding-left:10px;
+    padding-top:2px;
+    border:0px solid black;
+}
+
+.conteudotexto
+{
+    text-align:left;
+}
+
+#conteudotexto span div
+{
+    text-align:left;
+}
+
+.formelement
+{
+    width:500px;
+    text-align:left;
+    padding-left:5px;
+    padding-bottom:5px;
+    border:0px solid #666;
+}
+
+.formtable
+{
+    text-align:left;   
+    width:550px;
+    margin-left:5px;
+}
+
+.formtable td,label
+{
+    text-align:left; 
+    font: normal 9pt tahoma, verdana, arial;  
+}
+
+/* TITULO */
+h1
+{
+    font:bold 12pt tahoma,verdana,arial;
+    color:#204B6A;
+}
+
+/* OBSERVAÇÃO */
+.obs
+{
+    font:bold 10pt tahoma,verdana,arial;
+    color:red;
+    width:250px;
+    text-align:left;
+}
+
+/* RODAPE    */
+.rodape
+{
+    width:863px;
+    height:85px;
+    position:relative;
+}
+
+/* iframe */
+iframe
+{
+   background-color:#f0f0f0;   
+}

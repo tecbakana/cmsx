@@ -1,0 +1,228 @@
+{
+  "format": 1,
+  "restore": {
+    "T:\\Developer\\RepositorioEstudos\\CMSX\\CMSX\\CMSXApi\\CMSXApi.fsproj": {}
+  },
+  "projects": {
+    "T:\\Developer\\RepositorioEstudos\\CMSX\\CMSX\\cmsBLLCore\\CMSXBLL.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "T:\\Developer\\RepositorioEstudos\\CMSX\\CMSX\\cmsBLLCore\\CMSXBLL.csproj",
+        "projectName": "CMSXBLL",
+        "projectPath": "T:\\Developer\\RepositorioEstudos\\CMSX\\CMSX\\cmsBLLCore\\CMSXBLL.csproj",
+        "packagesPath": "C:\\Users\\mvoze\\.nuget\\packages\\",
+        "outputPath": "T:\\Developer\\RepositorioEstudos\\CMSX\\CMSX\\cmsBLLCore\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "t:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\mvoze\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {
+              "T:\\Developer\\RepositorioEstudos\\CMSX\\CMSX\\CMSXDB\\CMSXDB.csproj": {
+                "projectPath": "T:\\Developer\\RepositorioEstudos\\CMSX\\CMSX\\CMSXDB\\CMSXDB.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "dependencies": {
+            "Castle.Core": {
+              "target": "Package",
+              "version": "[5.1.1, )"
+            },
+            "Castle.Windsor": {
+              "target": "Package",
+              "version": "[6.0.0, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[7.0.11, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "T:\\Developer\\RepositorioEstudos\\CMSX\\CMSX\\CMSXApi\\CMSXApi.fsproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "T:\\Developer\\RepositorioEstudos\\CMSX\\CMSX\\CMSXApi\\CMSXApi.fsproj",
+        "projectName": "CMSXApi",
+        "projectPath": "T:\\Developer\\RepositorioEstudos\\CMSX\\CMSX\\CMSXApi\\CMSXApi.fsproj",
+        "packagesPath": "C:\\Users\\mvoze\\.nuget\\packages\\",
+        "outputPath": "T:\\Developer\\RepositorioEstudos\\CMSX\\CMSX\\CMSXApi\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "t:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\mvoze\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\sdk\\7.0.401\\FSharp\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {
+              "T:\\Developer\\RepositorioEstudos\\CMSX\\CMSX\\cmsBLLCore\\CMSXBLL.csproj": {
+                "projectPath": "T:\\Developer\\RepositorioEstudos\\CMSX\\CMSX\\cmsBLLCore\\CMSXBLL.csproj"
+              }
+            }
+          }
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "dependencies": {
+            "FSharp.Core": {
+              "include": "Runtime, Compile, Build, Native, Analyzers, BuildTransitive",
+              "target": "Package",
+              "version": "[7.0.400, )",
+              "generatePathProperty": true
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "T:\\Developer\\RepositorioEstudos\\CMSX\\CMSX\\CMSXDB\\CMSXDB.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "T:\\Developer\\RepositorioEstudos\\CMSX\\CMSX\\CMSXDB\\CMSXDB.csproj",
+        "projectName": "CMSXDB",
+        "projectPath": "T:\\Developer\\RepositorioEstudos\\CMSX\\CMSX\\CMSXDB\\CMSXDB.csproj",
+        "packagesPath": "C:\\Users\\mvoze\\.nuget\\packages\\",
+        "outputPath": "T:\\Developer\\RepositorioEstudos\\CMSX\\CMSX\\CMSXDB\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "t:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\mvoze\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "dependencies": {
+            "Castle.Windsor": {
+              "target": "Package",
+              "version": "[6.0.0, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[7.0.11, )"
+            },
+            "System.Data.Entity.Repository": {
+              "target": "Package",
+              "version": "[2.0.0.1, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,24 @@
+<div class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+  <div class="card shadow" style="width: 380px;">
+    <div class="card-body p-4">
+      <h4 class="card-title text-center mb-4">CMSX — Acesso</h4>
+      <div *ngIf="erro" class="alert alert-danger">{{erro}}</div>
+      <form (ngSubmit)="login()">
+        <div class="mb-3">
+          <label class="form-label">Login</label>
+          <input type="text" class="form-control" [(ngModel)]="apelido" name="apelido" required autofocus>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Senha</label>
+          <input type="password" class="form-control" [(ngModel)]="senha" name="senha" required>
+        </div>
+        <button type="submit" class="btn btn-primary w-100" [disabled]="carregando">
+          {{ carregando ? 'Entrando...' : 'Entrar' }}
+        </button>
+      </form>
+      <p class="text-center mt-3 mb-0 text-muted small">
+        Não tem conta? <a routerLink="/signup">Criar conta</a>
+      </p>
+    </div>
+  </div>
+</div>

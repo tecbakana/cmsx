@@ -1,0 +1,8 @@
+D:\CMSX\CMSWEB\Bin\Uol.PagSeguro.dll.config
+D:\CMSX\CMSWEB\Bin\Uol.PagSeguro.dll
+D:\CMSX\CMSWEB\Bin\Uol.PagSeguro.pdb
+D:\CMSX\CMSWEB\Bin\Uol.PagSeguro.XML
+D:\Developer\CMSX\CMSX\CMSPAGSEG\Uol.PagSeguro\obj\Debug\Uol.PagSeguro.csproj.AssemblyReference.cache
+D:\Developer\CMSX\CMSX\CMSPAGSEG\Uol.PagSeguro\obj\Debug\Uol.PagSeguro.csproj.CoreCompileInputs.cache
+D:\Developer\CMSX\CMSX\CMSPAGSEG\Uol.PagSeguro\obj\Debug\Uol.PagSeguro.dll
+D:\Developer\CMSX\CMSX\CMSPAGSEG\Uol.PagSeguro\obj\Debug\Uol.PagSeguro.pdb

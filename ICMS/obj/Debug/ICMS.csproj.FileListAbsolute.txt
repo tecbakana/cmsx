@@ -1,0 +1,13 @@
+D:\Developer\CMSX\CMSX\ICMS\bin\Debug\ICMS.dll.config
+D:\Developer\CMSX\CMSX\ICMS\bin\Debug\ICMS.dll
+D:\Developer\CMSX\CMSX\ICMS\bin\Debug\ICMS.pdb
+D:\Developer\CMSX\CMSX\ICMS\bin\Debug\CMSXEF.dll
+D:\Developer\CMSX\CMSX\ICMS\bin\Debug\EntityFramework.dll
+D:\Developer\CMSX\CMSX\ICMS\bin\Debug\CMSXEF.pdb
+D:\Developer\CMSX\CMSX\ICMS\bin\Debug\CMSXEF.dll.config
+D:\Developer\CMSX\CMSX\ICMS\bin\Debug\EntityFramework.xml
+D:\Developer\CMSX\CMSX\ICMS\obj\Debug\ICMS.csproj.AssemblyReference.cache
+D:\Developer\CMSX\CMSX\ICMS\obj\Debug\ICMS.csproj.CoreCompileInputs.cache
+D:\Developer\CMSX\CMSX\ICMS\obj\Debug\ICMS.csproj.CopyComplete
+D:\Developer\CMSX\CMSX\ICMS\obj\Debug\ICMS.dll
+D:\Developer\CMSX\CMSX\ICMS\obj\Debug\ICMS.pdb

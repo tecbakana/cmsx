@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="EntityFramework6.Npgsql" Version="3.2.1.1" />
+    <PackageReference Include="Npgsql" Version="7.0.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="pgsql.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>pgsql.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="pgsql.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>pgsql.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+</Project>

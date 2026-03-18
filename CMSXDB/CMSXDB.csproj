@@ -1,0 +1,71 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="cmsxDB.Context.tt" />
+    <None Remove="cmsxDB.edmx.sql" />
+    <None Remove="cmsxDB.postgresql.sql" />
+    <None Remove="cmsxDB.tt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="cmsxDB.Context.tt">
+      <LastGenOutput>cmsxDB.Context.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </Content>
+    <Content Include="cmsxDB.edmx.sql" />
+    <Content Include="cmsxDB.postgresql.sql" />
+    <Content Include="cmsxDB.tt">
+      <LastGenOutput>cmsxDB.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Castle.Windsor" Version="6.0.0" />
+    <PackageReference Include="EntityFramework" Version="6.4.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.11" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.11" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="cmsxDB.Context.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>cmsxDB.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Update="cmsxDB.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>cmsxDB.tt</DependentUpon>
+    </Compile>
+    <Compile Update="cmsxDB.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="App.Config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EditorConfigFiles Remove="T:\Developer\RepositorioEstudos\CMSX\CMSX\CMSXDB\.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="T:\Developer\RepositorioEstudos\CMSX\CMSX\CMSXDB\.editorconfig" />
+  </ItemGroup>
+
+</Project>

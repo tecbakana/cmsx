@@ -1,0 +1,179 @@
+﻿@model IEnumerable<CMSXData.Models.Aplicacao>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Nome)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Url)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Datainicio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Datafinal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Idusuarioinicio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Idusuariofim)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Pagsegurotoken)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Layoutchoose)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Posicao)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Mailuser)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Mailpassword)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Mailserver)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Mailport)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Issecure)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Pagefacebook)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Pagelinkedin)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Pageinstagram)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Pagetwitter)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Pagepinterest)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Pageflicker)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Lotipo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ogleadsense)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Isactivea)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Header)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Isactive)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nome)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Url)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Datainicio)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Datafinal)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Idusuarioinicio)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Idusuariofim)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Pagsegurotoken)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Layoutchoose)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Posicao)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Mailuser)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Mailpassword)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Mailserver)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Mailport)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Issecure)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Pagefacebook)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Pagelinkedin)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Pageinstagram)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Pagetwitter)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Pagepinterest)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Pageflicker)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Lotipo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ogleadsense)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Isactivea)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Header)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Isactive)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Aplicacaoid">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Aplicacaoid">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Aplicacaoid">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -1,0 +1,927 @@
+body,html
+{
+   height:100%;	
+}
+body,div,table,tr,td,th,span,font,a
+{
+   font:normal 10pt lucida, tahoma,verdana,arial;
+   border:0px;
+   border-collapse:collapse;
+   /*text-align:center;	*/
+}
+
+body
+{
+   min-width:800px;
+   /*width:1000px;*/
+   text-align:left;
+   background-color:#fff;
+   text-align:left;
+}
+
+.topTable
+{
+	margin-left:0px
+}
+
+table
+{
+   margin-left:0px;	
+}
+
+.textdate { FONT-SIZE: 9pt; COLOR: white; FONT-FAMILY: Verdana; LETTER-SPACING: -1px }
+.search { FONT-WEIGHT: bold; FONT-SIZE: 13pt; COLOR: #00FD00; FONT-FAMILY: Verdana; LETTER-SPACING: +2px }
+.titulo { FONT-WEIGHT: bold; FONT-SIZE: 13pt; COLOR: #000000; FONT-FAMILY: Verdana; }
+.cabec { FONT-WEIGHT: bold; FONT-SIZE: 16px; COLOR: #A85400; FONT-FAMILY: Verdana; }
+.nomeinst1 { FONT-WEIGHT: normal; FONT-SIZE: 9pt; COLOR: #000000; FONT-FAMILY: Verdana, Arial; }
+.nomeinst2 { FONT-WEIGHT: normal; FONT-SIZE: 9pt; COLOR: #000000; FONT-FAMILY: Verdana, Arial; }
+.name { FONT-SIZE: 10pt; COLOR: white; FONT-FAMILY: Verdana; LETTER-SPACING: -1px; TEXT-DECORATION: none }
+
+A.name:visited { FONT-SIZE: 10pt; COLOR: white; FONT-FAMILY: Verdana; LETTER-SPACING: -1px; TEXT-DECORATION: none }
+A.name:link { FONT-SIZE: 10pt; COLOR: white; FONT-FAMILY: Verdana; LETTER-SPACING: -1px; TEXT-DECORATION: none }
+A.name:hover { FONT-SIZE: 12pt; COLOR: #FF8000; FONT-FAMILY: Verdana; LETTER-SPACING: -1px; TEXT-DECORATION: none; FONT-WEIGHT: bold }
+.text { FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: Arial }
+.price { FONT-WEIGHT: bold; COLOR: red }
+A.price:visited { FONT-WEIGHT: bold; COLOR: red }
+A.price:link { FONT-WEIGHT: bold; COLOR: red }
+A.price: hover { FONT-WEIGHT: bold; COLOR: red }
+/*A:link { COLOR: #003399; TEXT-DECORATION: none }
+A:visited { COLOR: #003399; TEXT-DECORATION: none }
+A:hover { COLOR: red; TEXT-DECORATION: underline}*/
+.l { FONT-SIZE: 9pt; COLOR: black; FONT-FAMILY: Verdana; TEXT-DECORATION: none }
+A.l:link { FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: Verdana; LETTER-SPACING: -1px; TEXT-DECORATION: none }
+A.l:visited { FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: Verdana; LETTER-SPACING: -1px; TEXT-DECORATION: none }
+A.l:hover { FONT-SIZE: 12pt; COLOR: red; FONT-FAMILY: Verdana; LETTER-SPACING: -1px; TEXT-DECORATION: none; FONT-WEIGHT: bold }
+.footer { FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: Verdana; TEXT-DECORATION: none }
+A.nav:visited { FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: Verdana; TEXT-DECORATION: none }
+A.nav:link { FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: Verdana; TEXT-DECORATION: none }
+A.nav:hover { FONT-SIZE: 10pt;  COLOR: red; FONT-FAMILY: Verdana; TEXT-DECORATION: none }
+.h { FONT-SIZE: 10pt; COLOR: #ffffff; FONT-FAMILY: tahoma; FONT-WEIGHT: bold; TEXT-DECORATION: none; LETTER-SPACING: -1px }
+A.h:visited { FONT-SIZE: 10pt; COLOR: #ffffff; FONT-FAMILY: tahoma; FONT-WEIGHT: bold; TEXT-DECORATION: underline; LETTER-SPACING: -1px }
+A.h:link { FONT-SIZE: 10pt; COLOR: #ffffff; FONT-FAMILY: Verdana; FONT-WEIGHT: bold; TEXT-DECORATION: underline; LETTER-SPACING: -1px }
+A.h:hover { FONT-SIZE: 10pt; COLOR: red; FONT-FAMILY: Verdana; FONT-WEIGHT: bold; TEXT-DECORATION: underline; LETTER-SPACING: -1px }
+.x { FONT-SIZE: 18px; COLOR: black; FONT-FAMILY: Verdana; TEXT-DECORATION: underline }
+.y { FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: Verdana; TEXT-DECORATION: none; FONT-WEIGHT: bold }
+.y1 { FONT-SIZE: 10pt; COLOR: #C0C0C0; FONT-FAMILY: Verdana; TEXT-DECORATION: none; FONT-WEIGHT: bold }
+.z { FONT-SIZE: 12pt; COLOR: red; FONT-FAMILY: Verdana; TEXT-DECORATION: none; FONT-WEIGHT: bold }
+.w { FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: Verdana; TEXT-DECORATION: none }
+.k { FONT-SIZE: 10pt; COLOR: red; FONT-FAMILY: Verdana; TEXT-DECORATION: none }
+.r { FONT-SIZE: 9pt; COLOR: green; FONT-FAMILY: Verdana; TEXT-DECORATION: none; FONT-WEIGHT: bold }
+.m { FONT-SIZE: 9pt; COLOR: red; FONT-FAMILY: Verdana; TEXT-DECORATION: none }
+.n { FONT-SIZE: 9pt; COLOR: #48D0FD; FONT-FAMILY: Verdana; TEXT-DECORATION: none; FONT-WEIGHT: bold }
+.q { FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: Verdana; TEXT-DECORATION: none }
+.q9 { FONT-SIZE: 9pt; COLOR: black; FONT-FAMILY: Verdana; TEXT-DECORATION: none }
+.q9b { FONT-SIZE: 9pt; COLOR: black; FONT-FAMILY: Verdana; TEXT-DECORATION: none; FONT-WEIGHT: bold }
+.f { FONT-SIZE: 10pt; COLOR: #000000; FONT-FAMILY: Verdana ; LETTER-SPACING: 1px; TEXT-DECORATION: none }
+.ano { FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: Verdana; TEXT-DECORATION: none; FONT-WEIGHT: bold }
+.q8 { FONT-SIZE: 9pt; COLOR: #808080; FONT-FAMILY: Verdana; TEXT-DECORATION: none }
+A.q8:link { FONT-SIZE: 9pt; COLOR: #808080; FONT-FAMILY: Verdana; LETTER-SPACING: -1px; TEXT-DECORATION: none }
+A.q8:visited { FONT-SIZE: 9pt; COLOR: #808080; FONT-FAMILY: Verdana; LETTER-SPACING: -1px; TEXT-DECORATION: none }
+A.q8:hover { FONT-SIZE: 9pt; COLOR: red; FONT-FAMILY: Verdana; LETTER-SPACING: -1px; TEXT-DECORATION: none; FONT-WEIGHT: bold }
+.ajuda { FONT-SIZE: 10pt; COLOR: #000000; FONT-FAMILY: Verdana ; LETTER-SPACING: 0px; TEXT-DECORATION: none }
+A.ajuda:link { FONT-SIZE: 10pt; COLOR: #808080; FONT-FAMILY: Verdana; LETTER-SPACING: 0px; TEXT-DECORATION: none }
+A.ajuda:visited { FONT-SIZE: 10pt; COLOR: #808080; FONT-FAMILY: Verdana; LETTER-SPACING: 0px; TEXT-DECORATION: none }
+A.ajuda:hover { FONT-SIZE: 10pt; COLOR: red; FONT-FAMILY: Verdana; LETTER-SPACING: 0px; TEXT-DECORATION: none; FONT-WEIGHT: bold }
+.titajuda { FONT-SIZE: 12pt; COLOR: #000000; FONT-FAMILY: Verdana ; LETTER-SPACING: 1px; TEXT-DECORATION: none; FONT-WEIGHT: bold }
+A.titajuda:link { FONT-SIZE: 12pt; COLOR: #808080; FONT-FAMILY: Verdana; LETTER-SPACING: 1px; TEXT-DECORATION: none; FONT-WEIGHT: bold }
+A.titajuda:visited { FONT-SIZE: 12pt; COLOR: #808080; FONT-FAMILY: Verdana; LETTER-SPACING: 1px; TEXT-DECORATION: none; FONT-WEIGHT: bold }
+A.titajuda:hover { FONT-SIZE: 13pt; COLOR: red; FONT-FAMILY: Verdana; LETTER-SPACING: 2px; TEXT-DECORATION: none; FONT-WEIGHT: bold }
+.menu { FONT-SIZE: 9pt; COLOR: #000000; FONT-FAMILY: Verdana; FONT-WEIGHT: bold; TEXT-DECORATION: none; LETTER-SPACING: 0px }
+A.menu:visited { FONT-SIZE: 9pt; COLOR: #000000; FONT-FAMILY: Verdana; FONT-WEIGHT: bold; TEXT-DECORATION: none; LETTER-SPACING: 0px }
+A.menu:link { FONT-SIZE: 9pt; COLOR: #000000; FONT-FAMILY: Verdana; FONT-WEIGHT: bold; TEXT-DECORATION: none; LETTER-SPACING: 0px }
+A.menu:hover { FONT-SIZE: 9pt; COLOR: red; FONT-FAMILY: Verdana; FONT-WEIGHT: bold; TEXT-DECORATION: none; LETTER-SPACING: 0px }
+.pduv { FONT-SIZE: 10pt; COLOR: #000000; FONT-FAMILY: Verdana ; LETTER-SPACING: 0px; TEXT-DECORATION: none }
+A.pduv:link { FONT-SIZE: 10pt; COLOR: #000000; FONT-FAMILY: Verdana; LETTER-SPACING: 0px; TEXT-DECORATION: none }
+A.pduv:visited { FONT-SIZE: 10pt; COLOR: #000000; FONT-FAMILY: Verdana; LETTER-SPACING: 0px; TEXT-DECORATION: none }
+A.pduv:hover { FONT-SIZE: 10pt; COLOR: red; FONT-FAMILY: Verdana; LETTER-SPACING: 0px; TEXT-DECORATION: none; FONT-WEIGHT: bold }
+.filme_titulo { FONT-WEIGHT: bold;   FONT-SIZE: 10pt; COLOR: #D50000; FONT-FAMILY: Verdana, Arial; LETTER-SPACING: 0px }
+.filme_chamada { FONT-WEIGHT: normal;   FONT-SIZE: 9pt; COLOR: #000000; FONT-FAMILY: Verdana, Arial; LETTER-SPACING: 0px }
+.filme_lnk { FONT-WEIGHT: bold;   FONT-SIZE: 10pt; COLOR: #000000; FONT-FAMILY: Verdana, Arial; LETTER-SPACING: 1px }
+
+/*----NOVO MENU----*/
+.lbem{color:#000; font:9pt/10ptVerdana, Arial, Helvetica, sans-serif; font-weight:normal; text-align:left; text-decoration:none; border:0px solid #7D829D}
+.lbbu{color:#000; font:9pt/10ptVerdana, Arial, Helvetica, sans-serif; font-weight:normal; text-align:left; text-decoration:none;}
+.inbu{color:#000; font:9pt/10ptVerdana, Arial, Helvetica, sans-serif; font-weight:normal; text-align:left; text-decoration:none;}
+.sebu{color:#000; font:10pt/11pt Verdana, Arial, Helvetica, sans-serif; font-weight:normal; text-align:left; text-decoration:none;}
+.btsb{color:#0080C0; font:9pt/10ptVerdana, Arial, Helvetica, sans-serif; font-weight:bold; text-align:center; text-decoration:underline;}
+.lbus{color:#000; font:9pt/10ptVerdana, Arial, Helvetica, sans-serif; font-weight:normal; text-align:left; text-decoration:none;}
+.mini{color:#B30000; font:9px/10px Verdana, Arial, Helvetica, sans-serif; font-weight:bold; text-align:left; text-decoration:none;}
+.mnba {background-image:url('images/bt_liso_azul_95x15.gif'); background-repeat:no-repeat; background-position:center; color:#ffffff; font:11px/13px Calibri, Verdana, Arial, Helvetica, sans-serif; font-weight:bold; text-align:center; text-decoration:none; }
+.mnpr {background-image:url('images/bt_liso_cinza_95x15.gif'); background-repeat:no-repeat; background-position:center; color:#000000; font:11px/13px Calibri, Verdana, Arial, Helvetica, sans-serif; font-weight:bold; text-align:center; text-decoration:none; }
+  .frmt { /* esta classe é somente 
+               para formatar a fonte */
+  font: 9pt verdana, arial, helvetica, sans-serif; 
+  }
+  .dctx{
+  position:relative; 
+  font:10px verdana, arial, helvetica, sans-serif; 
+  padding:0;
+  color:#000000;
+  text-decoration:none;
+  border-bottom:0px #000000;
+  cursor:help; 
+  }
+  .dctx:hover{
+  text-decoration:none;
+  background:transparent;
+  }
+  .dctx span{display: none}
+  .dctx:hover span{ 
+  display:block;
+  position:absolute;
+  width:250px; 
+  top:2em;
+  text-align:justify;
+  left:0;
+  font: 9pt verdana, arial, helvetica, sans-serif; 
+  text-decoration:none;
+  padding:5px 5px;
+  border:1px solid #000000;
+  background:#FFFFD2; 
+  color:#000000;
+  z-index:250;
+  }
+  
+
+/* MENU GERAL */
+#menu1_geral {font:bold 7pt verdana,tahoma, arial;color:#FFF; width:100%; position:relative; height:15px; z-index:100;background-color:#24497B;margin:0px;padding:0px}
+#menu1_geral td { height:15px}
+#menu1_geral td a {font:bold 7pt verdana,tahoma, arial;text-decoration:none;color:#eee;padding:2px;padding-left:10px;padding-right:10px}
+#menu1_geral td a:hover{background-color:#3C5B80;color:#ffffff}
+
+/* MENU PROFESSOR */
+#menu_professor {font:bold 7pt verdana,tahoma, arial;color:#FFF; width:100%; position:relative; height:15px; z-index:100;background-color:#666666;margin:0px;padding:0px~;border-top:1px solid #eee}
+#menu_professor td { height:15px}
+#menu_professor td a {font:bold 7pt verdana,tahoma, arial;text-decoration:none;color:#eee;padding:2px;padding-left:10px;padding-right:10px}
+#menu_professor td a:hover{background-color:#999999;color:#ffffff}
+
+/* CADASTRO */
+.cadastro {font:bold 7pt verdana,tahoma, arial;color:#FFF; position:relative; height:15px; z-index:100;background-color:#FF3;margin:0px;padding:0px~;border-top:1px solid #eee; height:15px;text-align:center;}
+.cadastro a {font:bold 12pt verdana,tahoma, arial;text-decoration:none;color:#fff;padding:2px;padding-left:10px;padding-right:10px}
+.cadastro a:hover{background-color:#F90;color:#ffffff;text-decoration:none}
+
+/* MENU INSTITUCIONAL */
+#menuInstitucional
+{
+	font:bold 7pt verdana,tahoma, arial;color:#FFF; width:100%; position:relative; height:15px; z-index:100;background-color:#FC3;margin:0px;padding:0px;
+	text-align:center;
+	}
+#menuInstitucional td{text-align:center;}
+#menuInstitucional td a {font:bold 9pt verdana,tahoma, arial;text-decoration:none;color:#24497B;padding:2px;padding-left:10px;padding-right:10px}
+
+/*  --- PRINCIPAL  -- */
+.principal
+{
+   font: normal 8pt lucida,tahoma, verdana,arial;
+   color:#;
+   text-align:left;
+   padding-left:10px;
+}
+
+.principal h2
+{
+     color:	#24497B;
+}
+
+ h2
+{
+     color:	#24497B;
+}
+
+/* --- CAIXA OBSERVAÇÕES -- */
+
+.observacao
+{
+	position:relative;
+	background-color:#FFFFBF;
+	font:normal 9pt tahoma,verdana, arial;
+	color:#999999;
+	width:600px;
+	padding:10px;
+}
+
+.observacao h3
+{
+     color:#804B17;
+}
+
+.observacao table
+{
+	position:relative;
+}
+
+.observacao td
+{
+	background-color:#FFFFBF;
+}
+.observacao .ans
+{
+   background-color:#eee;	
+   padding:5px;
+   font-size:8pt;
+}
+
+/* BUSCA */
+.newlbbu
+{
+    font: bold 10pt verdana,tahoma,arial;
+	color:#AAA;	
+}
+
+.fld-aula
+{
+    border:0px;
+	font:normal 9pt lucida,tahoma,verdana,arial;
+	background-color:#F1F2FA;	
+}
+
+/* botões estilizados */
+
+/* ------------------------------------------
+CSS3 FACEBOOK-STYLE BUTTONS (Nicolas Gallagher)
+Licensed under Unlicense
+http://github.com/necolas/css3-facebook-buttons
+------------------------------------------ */
+
+/* -----------------------------------------------CORREÇÃO CHROME------------------------------*/
+
+
+.alivre-a { 
+    position: relative; 
+    z-index: 1;
+    overflow: visible; 
+    display: inline-block; 
+    padding: 3px 6px 3px;
+    border: 0px;
+    margin: 0;
+    text-decoration: none; 
+    text-align: center;
+    font: bold 11px/normal 'lucida grande', tahoma, verdana, arial, sans-serif; 
+    white-space: nowrap; 
+    cursor: pointer; 
+    /* outline: none; */
+	 background-color: #24497B;
+	/* background-color: #C637C6;*/
+    color:#eee;
+    /* IE hacks */
+    zoom: 0; 
+    *display: inline; 
+}
+
+
+.alivre-a:hover,
+.alivre-a:focus,
+.alivre-a:active {
+    border:0px;
+    background-color: #7484BA;
+	color:#eee;
+}
+
+.alivre-a:active {
+    border:0px;
+    background: #ddd;
+    filter: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+}
+
+/* ------------------------------------------------------------------------------------------------------------- BUTTON */
+
+.alivre { 
+    position: relative; 
+    z-index: 1;
+    overflow: visible; 
+    display: inline-block; 
+    padding: 3px 6px 3px;
+    border: 0px;
+    margin: 0;
+    text-decoration: none; 
+    text-align: center;
+    font: bold 11px/normal 'lucida grande', tahoma, verdana, arial, sans-serif; 
+    white-space: nowrap; 
+    cursor: pointer; 
+    /* outline: none; */
+ background-color: #24497B;
+	/* background-color: #C637C6;*/
+
+    color:#eee;
+    /* IE hacks */
+    zoom: 0; 
+    *display: inline; 
+}
+
+.alivre-div,
+.alivre-td,
+.alivre-table,
+.alivre-span,
+.alivre-input
+{
+ background-color: #24497B;
+	/* background-color: #C637C6;*/
+  padding: 9px 9px 9px;
+}
+
+
+.alivre:hover,
+.alivre:focus,
+.alivre:active {
+    border:0px;
+    background-color: #7484BA;
+	color:#eee;
+}
+
+.alivre:active {
+    border:0px;
+    background: #ddd;
+    filter: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+}
+
+.alivre.menor
+{
+   font-size:9px;	
+}
+
+/* overrides extra padding on button elements in Firefox */
+.alivre::-moz-focus-inner {
+    padding: 0;
+    border: 0;
+}
+
+/* ............................................................................................................. Icons */
+
+.alivre.icon:before {
+    content: "";
+    position: relative; 
+    top: 1px; 
+    float:left;
+    width: 10px; 
+    height: 12px; 
+    margin: 0 0.5em 0 0; 
+    background: url(images/alivre-icons.png) 99px 99px no-repeat;
+}
+
+.alivre.edit:before  { background-position: 0 0; }
+.alivre.add:before  { background-position: -10px 0; }
+.alivre.secure:before  { background-position: -20px 0; }
+.alivre.prev:before  { background-position: -30px 0; }
+.alivre.next:before  { float:right; margin: 0 -0.25em 0 0.5em; background-position: -40px 0; }
+.alivre.movie:before  { float:right; margin: 0 -0.25em 0 0.5em; background-position: -50px 0; }
+/* ------------------------------------------------------------------------------------------------------------- BUTTON EXTENSIONS */
+
+/* ............................................................................................................. Large */
+
+.alivre.large {
+    FONT-SIZE: 12pt;
+}
+
+/* ............................................................................................................. Submit, etc */
+
+.alivre.confirm {
+    border: 0px;
+    color: #fff;
+    background-color: #5B74A8;
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#637bad), to(#5872a7));
+    background-image: -moz-linear-gradient(#637bad, #5872a7);
+    background-image: -o-linear-gradient(#637bad, #5872a7);
+    background-image: linear-gradient(#637bad, #5872a7);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#637bad', EndColorStr='#5872a7'); /* for IE 6 - 9 */
+}
+
+.alivre.confirm:active {
+    border:0px;
+    background: #4F6AA3;
+    filter: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+}
+
+/* ............................................................................................................. Special */
+
+.alivre.special {
+    border: 0px;
+    color: #fff;
+    background-color: #69a74e;
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#75ae5c), to(#67a54b));
+    background-image: -moz-linear-gradient(#75ae5c, #67a54b);
+    background-image: -o-linear-gradient(#75ae5c, #67a54b);
+    background-image: linear-gradient(#75ae5c, #67a54b);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#75ae5c', EndColorStr='#67a54b'); /* for IE 6 - 9 */
+}
+
+.alivre.special:active {
+    border: 0px;
+    background: #609946;
+    filter: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+}
+
+/* ............................................................................................................. Disable */
+
+.alivre.disable {
+    z-index: 0;
+    border: 0px;
+    color: #b8b8b8;
+    background: #f2f2f2;
+    cursor: default;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+}
+
+.alivre.confirm.disable {
+    color: #fff;
+    border:0px;
+    background: #adbad4;
+}
+
+.alivre.special.disable {
+    color: #fff;
+    border:0px;
+    background: #b4d3a7;
+}
+
+.alivre.disable.icon:before,
+.alivre.disable.icon:after {
+    opacity: 0.5;
+}
+
+/* ------------------------------------------------------------------------------------------------------------- BUTTON GROUPS */
+
+.alivre-group {
+    display: inline-block;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    /* IE hacks */
+    zoom: 1; 
+    *display: inline; 
+	width:100%;
+    border:0px;
+}
+
+.alivre + .alivre,
+.alivre + .alivre-group,
+.alivre-group + .alivre,
+.alivre-group + .alivre-group {
+    margin-left: 3px;
+    border:0px;
+}
+
+.alivre-group li {
+    float: left;
+    padding: 0;
+    margin: 0;
+    border:0px;
+}
+
+.alivre-group .alivre {
+    float: left;
+    margin-left: -1px; 
+    border:0px;
+}
+
+.alivre-group .alivre:hover,
+.alivre-group .alivre:focus,
+.alivre-group .alivre:active {
+    z-index:2;
+    border:0px;
+}
+
+.alivre-group > .alivre:first-child,
+.alivre-group li:first-child .alivre { 
+    margin-left: 0; 
+    border:0px;
+}
+
+/* ------------------------------------------------------------------------------------------------------------- BUTTON CONTAINER BLUE */
+/* For mixing buttons and button groups, e.g., in a navigation bar */
+
+.alivre-toolbar-blue{
+    padding: 2px;
+    border:0px;
+    background: #24497B;
+}
+
+.alivre-toolbar-blue .alivre,
+.alivre-toolbar-blue .alivre-group {
+    vertical-align: bottom;
+}
+
+.alivre-toolbar-blue a
+{
+    border:0px;	
+}
+
+
+/* ------------------------------------------------------------------------------------------------------------- BUTTON CONTAINER */
+/* For mixing buttons and button groups, e.g., in a navigation bar */
+
+.alivre-toolbar {
+    padding: 6px;
+    border: 0px;
+    background: #f2f2f2;
+}
+
+.alivre-toolbar .alivre,
+.alivre-toolbar .alivre-group {
+    vertical-align: bottom;
+}
+
+/*-----------------------EXTRA BUTTONS */
+/* background alternates */
+.alivre.btcinza
+{
+	color:#666;
+    background-color: #f2f2f2;
+}
+.alivre.btcinza:hover
+{
+	color:#333;
+    background-color: #ddd;
+}
+
+.alivre.orange
+{
+	color:#fff;
+    background-color:#F60;
+}
+
+.alivre.green
+{
+	color:#fff;
+    background-color:#2D6523;
+}
+
+/*----------------------RODAPE ----*/
+.rodape
+{
+	background-color:#2c343b;
+	background-image:url(images/alivre_rodape.jpg);
+	background-repeat:no-repeat;
+	background-position:left;
+	height:100px;
+	width:100%;
+}
+
+/*------------- TABELAS -------------------------*/
+.usuData, .usuDisc
+{
+   font:normal 9newpt lucida grande,verdana,tahoma;
+	border:1px solid black;
+	border-collapse:collapse;	
+	width:750px;
+}
+
+.usuData th
+{
+   font:bold 9pt lucida grande,verdana,tahoma;
+   background-color:#069;
+   color:#fff;	
+}
+
+.usuData .thsub1
+{
+   font-weight:bold;
+	font-size:8pt;
+   background-color:#F2971C;
+   color:#666;	
+}
+
+.usuData .thsub2
+{
+   font-weight:bold;
+	font-size:8pt;
+   background-color:#FC6;
+   color:#666;	
+}
+
+.usuDisc th
+{
+    font:bold 9pt lucida grande,verdana,tahoma;
+    background-color:#F90;
+    color:#fff;	  	
+}
+
+.usuData td
+{
+    font-weight:bold;
+    background-color:#fff;
+	 color:#666;  	
+}
+
+.usuDisc td
+{
+    font-weight:bold;
+    background-color:#fff;
+	 color:#666;  	
+}
+
+/*------------------------------------------*/
+.drag input
+{
+   height:18px;	
+}
+
+/*------------------------------------------*/
+.incexcdisc
+{
+	 text-align:center;
+	 background-color:#FFFFA4;
+	 border:1px solid #7D7351;
+	 padding:0;
+	 border-collapse:collapse;
+	 width:80%	
+}
+
+/*-------------------------------------------*/
+.tabMain
+{
+	text-align:left;
+	background-color:#ffffff;
+	border:0px;
+	border-collapse:collapse;
+	padding:0px;
+	width:100%;
+}
+
+/*-------------------------------------------*/
+.barraLogin
+ {
+	 width:100%;
+	 height:30px;
+    background-color: #24497B;
+	/* background-color: #cc00cc;*/
+	 position:fixed;
+	 z-index:985;
+	 border:0px;
+	 margin:0 auto;
+	 text-align:center;
+ }
+ /*-------------------------------------------*/
+.conteudoTopo
+ {
+	 width:100%;
+	 height:30px;
+	 background-color:transparent;
+	 border:0px;
+	 margin:0 auto;
+	 text-align:center;
+	 position:relative;
+	 margin-top:1em;
+ }
+/*-------------------------------------------*/
+.conteudoGeral
+ {
+	 width:100%;
+	 height:30px;
+	 background-color:#ffffff;
+	 border:0px;
+	 margin:0 auto;
+	 text-align:center;
+	 position:relative;
+	 margin-top:1em;
+ }
+ 
+*+html .conteudoGeral
+{ /* ie7 hack */
+	 width:100%;
+	 height:30px;
+	 background-color:#ffffff;
+	 border:0px;
+	 margin:0 auto;
+	 text-align:center;
+	 position:relative;
+	 top:35px;
+}
+
+ * html .conteudoGeral
+ { /* ie6 hack */
+	 width:100%;
+	 height:30px;
+	 background-color:#ffffff;
+	 border:0px;
+	 margin:0 auto;
+	 text-align:center;
+	 position:relative;
+	 top:35px;
+ }
+ 
+ /*-------------------------------------------*/
+ .subGeral
+ {
+	  border:0px solid red;
+	  margin:0 auto;
+	  text-align:right;
+	  width:1000px;
+	  margin-top:40px;
+	  position:relative;
+ }
+ 
+*+html .subGeral
+ {
+	  border:0px solid red;
+	  margin:0 auto;
+	  text-align:right;
+	  width:1000px;
+	  top:60px;
+	  position:relative;
+ }
+ 
+ * html .subGeral
+ {
+	  border:0px solid red;
+	  margin:0 auto;
+	  text-align:right;
+	  width:1000px;
+	  top:60px;
+	  position:relative;
+ }
+ 
+ 
+ 
+ /*--------------------------------------------*/
+
+ /*-------------------------------------------*/
+ .divFpage
+ {
+	  border:0px solid red;
+	  margin:0 auto;
+	  text-align:right;
+	  width:1000px;
+	  margin-top:35px;
+	  position:relative;
+ }
+ 
+*+html .divFpage
+ {
+	  border:0px solid red;
+	  margin:0 auto;
+	  text-align:right;
+	  width:1000px;
+	  top:65px;
+	  position:relative;
+ }
+ 
+ * html .divFpage
+ {
+	  border:0px solid red;
+	  margin:0 auto;
+	  text-align:right;
+	  width:1000px;
+	  top:65px;
+	  position:relative;
+ }
+  
+ /*--------------------------------------------*/
+ 
+ 
+/*-------------------------------------------*/
+.bx td
+ {
+	 text-align:left
+ }
+ 
+ /*------------------------------------------*/
+#footer {
+   position:fixed;
+   left:0px;
+   bottom:0;
+   clear:both;
+   height:25px;
+   width:100%;
+   background:#666;
+   z-index:999;
+}
+
+
+/* NEW LIGHT - BUSCA */
+.sCorpo
+{
+   position:relative;
+	width:100%;	
+}
+
+.sSeparador
+{
+     height:1px;
+	  border:0px;
+	  background-color:#ccc;	
+}
+
+.sTitle
+{
+   font-family:lucida grande,verdana, tahoma, arial;
+	color:#666;
+}
+
+.sVoltaBusca
+{
+    position:relative;
+	 border-right:1px solid #eee;
+	 padding-right:5px;
+	 float:left;	
+	 width:150px;
+}
+
+.sSubTitle
+{
+    position:relative;
+	 padding-left:5px;
+	 float:right;
+	 width:800px
+}
+
+.sVoltaBusca a
+{
+   text-decoration:none;
+	font:bold 7pt lucida grande, verdana, tahoma, arial;
+	color:#999;	
+}
+
+.sLista
+{
+    font:normal 9pt verdana,tahoma, arial;
+	 color:#333;	
+}
+
+.sListaRpt
+{
+	
+}
+
+.sListaItem
+{
+	list-style-type:none;
+	width:100%;
+}
+
+.sListaFilho
+{
+	position:relative;
+	font:9pt lucida grande, verdana, tahoma, arial;
+	color:#000;
+	height:30px;
+	text-align:left;
+	vertical-align:middle;
+}
+
+.sListaFilho a
+{
+   padding-top:5px;
+	padding-bottom:5px;
+}
+
+.sListaFilho :hover
+{
+   background-color:#eee;	
+}
+
+.sListaDados
+{
+	position:relative;
+	font:normal 8pt verdana,arial;	
+}
+
+.sListaDadosTit
+{
+	position:relative;
+	font:bold 9pt verdana,arial;	
+}
+.sTableMat
+{
+	text-align:center;
+	border-collapse:collapse;
+	border:0px;
+	padding:0px;
+	widht:100%;
+}
+
+.sTableMat th
+{
+   background-color:#FBC868;	
+}
+
+.sTableMat th
+{
+    padding:3px 0 3px 0;
+	vertical-align:middle;	
+}
+.sTableMat td
+{
+    padding:3px 0 3px 0;
+	vertical-align:middle;	
+}
+/**/
+/*
+
+Sticky Footer by Ryan Fait
+http://ryanfait.com/
+
+*/
