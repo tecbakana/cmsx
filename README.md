@@ -1,4 +1,7 @@
 # CMSX — CMS Multi-Tenant com Page Builder IA
+![.NET](https://img.shields.io/badge/.NET-6-blue)
+![AI](https://img.shields.io/badge/AI-LLM-green)
+
 
 Sistema de gestão de conteúdo (CMS) multi-tenant desenvolvido com ASP.NET Core 6, Angular 15, Entity Framework Core 7 e SQL Server.
 
