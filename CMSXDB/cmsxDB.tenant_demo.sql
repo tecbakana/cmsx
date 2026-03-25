@@ -21,14 +21,14 @@ IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME='aplica
 GO
 
 -- 2. Usuário demo (login: demo / senha: demo)
-IF NOT EXISTS (SELECT 1 FROM [dbo].[usuarios] WHERE [apelido] = 'demo')
+IF NOT EXISTS (SELECT 1 FROM [dbo].[usuario] WHERE [apelido] = 'demo')
 BEGIN
     DECLARE @userId   NVARCHAR(36) = NEWID();
     DECLARE @appId    NVARCHAR(36) = NEWID();
     DECLARE @relId    NVARCHAR(36) = NEWID();
     DECLARE @areaId   NVARCHAR(36) = NEWID();
 
-    INSERT INTO [dbo].[usuarios]
+    INSERT INTO [dbo].[usuario]
         ([userid],[nome],[sobrenome],[apelido],[senha],[ativo],[datainclusao])
     VALUES
         (@userId, 'Demo', 'CMSX', 'demo', 'demo', 1, GETDATE());

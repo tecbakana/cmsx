@@ -276,7 +276,7 @@ O usuário quer criar uma página{contextoArea} com a seguinte descrição: ""{d
 Dados do tenant e blocos disponíveis:
 {JsonSerializer.Serialize(contexto, new JsonSerializerOptions { WriteIndented = false })}
 
-IMPORTANTE sobre o perfil_tenant: use os dados reais do tenant para preencher o conteúdo dos blocos (nome da empresa, telefone, endereço etc.). Onde o valor for "aguardando informação", use esse texto literalmente como placeholder no conteúdo gerado.
+IMPORTANTE sobre o perfil_tenant: use os dados reais do tenant para preencher o conteúdo dos blocos (nome da empresa, telefone, endereço etc.). Onde o valor for ""aguardando informação"", use esse texto literalmente como placeholder no conteúdo gerado.
 
 Retorne APENAS um JSON válido no seguinte formato, sem texto adicional, sem markdown, sem explicações:
 {{
