@@ -1,7 +1,9 @@
 <header>
   <nav class="navbar navbar-expand-sm navbar-dark bg-dark border-bottom box-shadow mb-0">
     <div class="container-fluid">
-      <a class="navbar-brand fw-bold" [routerLink]="['/']">CMSX</a>
+      <a class="navbar-brand" [routerLink]="['/']">
+        <img src="/assets/logo.png" alt="Multiplai" height="32" style="object-fit:contain">
+      </a>
       <button class="navbar-toggler" type="button" (click)="toggle()"
         [attr.aria-expanded]="isExpanded" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>

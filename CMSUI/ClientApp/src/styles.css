@@ -1,16 +1,30 @@
 /* You can add global styles to this file, and also import other style files */
 
-/* Provide sufficient contrast against white background */
+/* Multiplai Design System */
+:root {
+  --multiplai-primary:   #C433C4;
+  --multiplai-primary-d: #a028a0;
+  --multiplai-dark:      #363F4E;
+  --multiplai-light:     #f8f0f8;
+}
+
 a {
-  color: #0366d6;
+  color: var(--multiplai-primary);
 }
 
 code {
-  color: #e01a76;
+  color: var(--multiplai-primary);
 }
 
 .btn-primary {
   color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+  background-color: var(--multiplai-primary);
+  border-color: var(--multiplai-primary);
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active {
+  background-color: var(--multiplai-primary-d);
+  border-color: var(--multiplai-primary-d);
 }

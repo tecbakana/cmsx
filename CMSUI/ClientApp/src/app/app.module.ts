@@ -23,6 +23,7 @@ import { VinculoComponent } from './vinculo/vinculo.component';
 import { VinculoModuloComponent } from './vinculo-modulo/vinculo-modulo.component';
 import { PageBuilderComponent } from './page-builder/page-builder.component';
 import { SiteComponent } from './site/site.component';
+import { LandingComponent } from './landing/landing.component';
 
 @NgModule({
   declarations: [
@@ -43,14 +44,15 @@ import { SiteComponent } from './site/site.component';
     VinculoComponent,
     VinculoModuloComponent,
     PageBuilderComponent,
-    SiteComponent
+    SiteComponent,
+    LandingComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule,
     RouterModule.forRoot([
-      { path: '', component: HomeComponent, pathMatch: 'full' },
+      { path: '', component: LandingComponent, pathMatch: 'full' },
       { path: 'dashboard', component: HomeComponent },
       { path: 'login', component: LoginComponent },
       { path: 'signup', component: SignupComponent },
