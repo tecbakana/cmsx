@@ -228,7 +228,9 @@ namespace CMSUI.Controllers
 
             // Monta o contexto do tenant
             var blocos = _context.DictBlocos
-                .Select(b => new { b.Tipobloco, b.Nome, b.Descricao, b.SchemaConfig })
+                .Select(b => new { b.Tipobloco, b.Nome, b.Descricao, campos = b.SchemaConfig != null
+                    ? System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(b.SchemaConfig)!.Keys.ToArray()
+                    : Array.Empty<string>() })
                 .ToList();
 
             var areas = _context.Areas
@@ -263,21 +265,57 @@ namespace CMSUI.Controllers
                 linkedin      = string.IsNullOrWhiteSpace(tenantApp?.Pagelinkedin)  ? "aguardando informação" : tenantApp.Pagelinkedin
             };
 
-            var contexto = new
-            {
-                perfil_tenant         = tenantPerfil,
-                blocos_disponiveis    = blocos,
-                areas_do_tenant       = areas,
-                formularios_do_tenant = formularios,
-                categorias_do_tenant  = categorias
-            };
-
             var areaNome = dto.Areaid != null
                 ? _context.Areas.FirstOrDefault(a => a.Areaid == dto.Areaid)?.Nome
                 : null;
             var contextoArea = areaNome != null ? $" para a área \"{areaNome}\"" : "";
 
-            var prompt = $@"Você é um especialista em design e criação de páginas web.
+            var tenantPerfilJson = JsonSerializer.Serialize(tenantPerfil, new JsonSerializerOptions { WriteIndented = false });
+            var blocosJson       = JsonSerializer.Serialize(blocos,       new JsonSerializerOptions { WriteIndented = false });
+
+            string prompt;
+
+            if (dto.Blocos != null && dto.Blocos.Count > 0)
+            {
+                // Modo híbrido: AI preenche conteúdo da estrutura pré-definida pelo usuário
+                var estrutura = JsonSerializer.Serialize(
+                    dto.Blocos.Select(b => new { tipo = b.Tipo }),
+                    new JsonSerializerOptions { WriteIndented = false });
+
+                prompt = $@"Você é um especialista em conteúdo web.
+O usuário montou a seguinte estrutura de blocos para a página{contextoArea}:
+{estrutura}
+
+Preencha o conteúdo de cada bloco com base nesta descrição: ""{dto.Descricao}""
+
+Perfil do tenant (use os dados reais para o conteúdo; ""aguardando informação"" = use como placeholder):
+{tenantPerfilJson}
+
+Blocos disponíveis e seus campos:
+{blocosJson}
+
+Retorne APENAS um JSON válido mantendo EXATAMENTE os tipos e a ordem dos blocos recebidos:
+{{""blocos"":[{{""tipo"":""<tipobloco>"",""config"":{{<campos preenchidos>}}}}]}}
+
+Regras:
+- Mantenha EXATAMENTE a mesma ordem e tipos de blocos
+- Preencha os configs com conteúdo adequado à descrição
+- Use IDs reais do tenant quando necessário (areaid, formularioid, cateriaid)
+- JSON completo e não truncado";
+            }
+            else
+            {
+                // Modo livre: AI decide estrutura e conteúdo
+                var contexto = new
+                {
+                    perfil_tenant         = tenantPerfil,
+                    blocos_disponiveis    = blocos,
+                    areas_do_tenant       = areas,
+                    formularios_do_tenant = formularios,
+                    categorias_do_tenant  = categorias
+                };
+
+                prompt = $@"Você é um especialista em design e criação de páginas web.
 O usuário quer criar uma página{contextoArea} com a seguinte descrição: ""{dto.Descricao}""
 
 Dados do tenant e blocos disponíveis:
@@ -296,10 +334,12 @@ Retorne APENAS um JSON válido no seguinte formato, sem texto adicional, sem mar
 }}
 
 Regras importantes:
-- Use no máximo 6 blocos
+- Use no máximo 4 blocos
+- Sua resposta deve ser completa e não truncada — gere apenas o que couber em resposta completa
 - Use os IDs reais dos dados do tenant quando necessário (areaid, formularioid, cateriaid)
 - Ordene os blocos de forma que faça sentido visual para a página descrita
 - O JSON deve ser completo e válido — não truncar";
+            }
 
             // Verifica cache
             var provedorEfetivo = dto.Provedor ?? iaConfig?.Provedor;
@@ -477,6 +517,12 @@ Regras importantes:
             public string Descricao { get; set; } = "";
             public string? Areaid { get; set; }
             public string? Provedor { get; set; }
+            public List<BlocoPreDefinidoDto>? Blocos { get; set; }
+        }
+
+        public class BlocoPreDefinidoDto
+        {
+            public string Tipo { get; set; } = "";
         }
     }
 }

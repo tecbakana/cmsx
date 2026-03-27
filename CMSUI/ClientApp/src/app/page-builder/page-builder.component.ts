@@ -194,7 +194,8 @@ export class PageBuilderComponent implements OnInit {
     this.http.post<any>(`${this.baseUrl}pagebuilder/gerar-layout`, {
       descricao: this.descricao,
       areaid: this.areaid || null,
-      provedor: this.provedor || null
+      provedor: this.provedor || null,
+      blocos: this.layoutAtual.length > 0 ? this.layoutAtual.map(b => ({ tipo: b.tipo })) : null
     }).subscribe({
       next: r => {
         this.gerando = false;
@@ -262,6 +263,10 @@ export class PageBuilderComponent implements OnInit {
 
   removerBloco(index: number) {
     this.layoutAtual.splice(index, 1);
+  }
+
+  adicionarBloco(b: DictBloco) {
+    this.layoutAtual = [...this.layoutAtual, this.enriquecerBloco({ tipo: b.tipobloco, config: {} })];
   }
 
   private enriquecerBloco(b: any): BlocoLayout {

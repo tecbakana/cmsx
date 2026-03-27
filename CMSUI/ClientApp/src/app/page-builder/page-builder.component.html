@@ -241,11 +241,28 @@
             </select>
           </div>
 
+          <!-- Catálogo de blocos -->
+          <div class="mb-3">
+            <label class="form-label">Montar estrutura manualmente <span class="text-muted small fw-normal">(opcional)</span></label>
+            <div class="d-flex flex-wrap gap-1">
+              <button *ngFor="let b of blocos" class="btn btn-outline-secondary btn-sm"
+                (click)="adicionarBloco(b)" [title]="b.descricao">
+                <i class="bi {{ b.icone }} me-1"></i>{{ b.nome }}
+              </button>
+            </div>
+            <div class="form-text">
+              <span *ngIf="layoutAtual.length === 0">Clique para adicionar blocos. A IA criará a estrutura se nenhum for adicionado.</span>
+              <span *ngIf="layoutAtual.length > 0" class="text-primary fw-semibold">{{ layoutAtual.length }} bloco(s) definido(s) — a IA preencherá o conteúdo.</span>
+            </div>
+          </div>
+
           <!-- Descrição para IA -->
           <div class="mb-3">
-            <label class="form-label">Descreva o layout desejado</label>
-            <textarea class="form-control" rows="6" [(ngModel)]="descricao"
-              placeholder="Ex: Quero uma página de home com um hero de boas-vindas, seguido de uma lista dos últimos produtos, um formulário de contato e um separador."></textarea>
+            <label class="form-label">{{ layoutAtual.length > 0 ? 'Descreva o conteúdo desejado' : 'Descreva o layout desejado' }}</label>
+            <textarea class="form-control" rows="5" [(ngModel)]="descricao"
+              [placeholder]="layoutAtual.length > 0
+                ? 'Ex: Página de boas-vindas para clínica odontológica com foco em agendamento e confiança.'
+                : 'Ex: Quero uma página de home com um hero de boas-vindas, seguido de uma lista dos últimos produtos, um formulário de contato e um separador.'"></textarea>
             <div class="form-text">Descreva em português o que quer ver na página.</div>
           </div>
 
@@ -254,7 +271,11 @@
             <button class="btn btn-primary" (click)="gerarLayout()" [disabled]="gerando">
               <span *ngIf="gerando" class="spinner-border spinner-border-sm me-1"></span>
               <i *ngIf="!gerando" class="bi bi-magic me-1"></i>
-              {{ gerando ? 'Gerando…' : (layoutAtual.length > 0 ? 'Gerar nova versão' : 'Gerar com IA') }}
+              <ng-container *ngIf="!gerando">
+                <ng-container *ngIf="layoutAtual.length === 0">Gerar com IA</ng-container>
+                <ng-container *ngIf="layoutAtual.length > 0">Preencher com IA</ng-container>
+              </ng-container>
+              <ng-container *ngIf="gerando">Gerando…</ng-container>
             </button>
             <button class="btn btn-success" (click)="salvarLayout()" [disabled]="salvando || layoutAtual.length === 0">
               <span *ngIf="salvando" class="spinner-border spinner-border-sm me-1"></span>
