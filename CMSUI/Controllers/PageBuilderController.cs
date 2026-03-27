@@ -465,6 +465,7 @@ Regras importantes:
             }
 
             var sb = new System.Text.StringBuilder(json.TrimEnd().TrimEnd(','));
+            if (inString) sb.Append('"'); // fecha string aberta (JSON truncado no meio de um valor)
             while (stack.Count > 0)
                 sb.Append(stack.Pop() == '{' ? '}' : ']');
 
