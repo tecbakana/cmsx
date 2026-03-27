@@ -1,5 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { AdminContextService } from '../admin-context.service';
 
 interface DictBloco {
   tipobloco: string;
@@ -34,6 +35,7 @@ export class PageBuilderComponent implements OnInit {
   sucesso: string = '';
 
   // Templates
+  usuario: any = {};
   isAdmin = false;
   templates: any[] = [];
   tplAberto = false;
@@ -57,11 +59,13 @@ export class PageBuilderComponent implements OnInit {
   cfgErro = '';
   unsplashAtivo = false;
 
-  constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string) {}
+  constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string, private adminCtx: AdminContextService) {}
 
   ngOnInit() {
     const u = JSON.parse(sessionStorage.getItem('usuario') || '{}');
+    this.usuario = u;
     this.isAdmin = !!u.acessoTotal;
+    this.adminCtx.tenant$.subscribe(() => this.carregarAreas());
     this.carregarAreas();
     this.carregarBlocos();
     this.carregarIaConfig();
@@ -71,10 +75,19 @@ export class PageBuilderComponent implements OnInit {
   }
 
   carregarAreas() {
-    this.http.get<any[]>(`${this.baseUrl}areas`).subscribe({
+    this.http.get<any[]>(`${this.baseUrl}areas`, { params: this.appParams() }).subscribe({
       next: r => this.areas = r,
       error: () => {}
     });
+  }
+
+  private appParams(): HttpParams {
+    let p = new HttpParams();
+    if (!this.usuario.acessoTotal && this.usuario.aplicacaoid)
+      p = p.set('aplicacaoid', this.usuario.aplicacaoid);
+    else if (this.usuario.acessoTotal && this.adminCtx.tenantId)
+      p = p.set('aplicacaoid', this.adminCtx.tenantId);
+    return p;
   }
 
   carregarLayoutsResumo() {
