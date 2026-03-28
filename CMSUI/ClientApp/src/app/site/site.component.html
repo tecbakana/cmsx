@@ -28,7 +28,10 @@
       <div class="container">
         <span class="navbar-brand fw-bold" [style.color]="bloco.config.cor_texto || '#ffffff'"
           style="cursor:pointer" (click)="navegarArea(site.areas[0]?.url)">
-          {{ bloco.config.titulo || site.nome }}
+          <img *ngIf="bloco.config.logo" [src]="bloco.config.logo"
+            [alt]="bloco.config.titulo || site.nome"
+            [style.height]="bloco.config.logo_altura || '40px'" style="object-fit:contain">
+          <ng-container *ngIf="!bloco.config.logo">{{ bloco.config.titulo || site.nome }}</ng-container>
         </span>
         <div class="navbar-nav flex-row flex-wrap gap-3">
           <a *ngFor="let area of bloco.dados" class="nav-link"
