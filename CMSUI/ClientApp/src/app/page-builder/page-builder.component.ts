@@ -192,6 +192,8 @@ export class PageBuilderComponent implements OnInit {
     this.erro = '';
     this.sucesso = '';
 
+    const colunasPorIndice = this.layoutAtual.map(b => b.coluna);
+
     this.http.post<any>(`${this.baseUrl}pagebuilder/gerar-layout`, {
       descricao: this.descricao,
       areaid: this.areaid || null,
@@ -203,7 +205,11 @@ export class PageBuilderComponent implements OnInit {
         const deCacheStr = r.provedor === 'cache' ? ' (cache)' : '';
         try {
           const parsed = JSON.parse(r.layout ?? '{"blocos":[]}');
-          this.layoutAtual = (parsed.blocos ?? []).map((b: any) => this.enriquecerBloco(b));
+          this.layoutAtual = (parsed.blocos ?? []).map((b: any, i: number) => {
+            const bloco = this.enriquecerBloco(b);
+            if (colunasPorIndice[i]) bloco.coluna = colunasPorIndice[i];
+            return bloco;
+          });
           if (r.provedor !== 'cache') this.carregarIaConfig(); // atualiza contador
           this.sucesso = `Layout gerado${deCacheStr}!`;
         } catch {
