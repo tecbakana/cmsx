@@ -266,7 +266,11 @@ export class PageBuilderComponent implements OnInit {
   }
 
   adicionarBloco(b: DictBloco) {
-    this.layoutAtual = [...this.layoutAtual, this.enriquecerBloco({ tipo: b.tipobloco, config: {} })];
+    this.layoutAtual = [...this.layoutAtual, this.enriquecerBloco({ tipo: b.tipobloco, config: {}, coluna: 'full' })];
+  }
+
+  setColunaBloco(index: number, coluna: string) {
+    this.layoutAtual[index] = { ...this.layoutAtual[index], coluna };
   }
 
   private enriquecerBloco(b: any): BlocoLayout {

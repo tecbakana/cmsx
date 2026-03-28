@@ -82,6 +82,51 @@ export class SiteComponent implements OnInit, OnDestroy {
     return (this.getAreaAtual()?.blocos ?? []).filter((b: any) => b.tipo !== 'menu-navegacao');
   }
 
+  private static FULL_BLEED = new Set(['hero', 'hero-cta', 'banner-imagem', 'contador', 'rodape']);
+
+  private _linhasCachedArea = '';
+  private _linhas: { blocos: any[]; fullBleed: boolean }[] = [];
+
+  getLinhas(): { blocos: any[]; fullBleed: boolean }[] {
+    if (this._linhasCachedArea === this.areaAtualUrl && this._linhas.length > 0)
+      return this._linhas;
+    this._linhasCachedArea = this.areaAtualUrl;
+
+    const result: { blocos: any[]; fullBleed: boolean }[] = [];
+    let rowBlocos: any[] = [];
+    let rowCols = 0;
+
+    const flush = () => {
+      if (rowBlocos.length > 0) { result.push({ blocos: rowBlocos, fullBleed: false }); rowBlocos = []; rowCols = 0; }
+    };
+    const colSize = (coluna?: string) => coluna === '1/2' ? 6 : coluna === '1/3' ? 4 : 12;
+
+    for (const bloco of this.getBlocosConteudo()) {
+      if (SiteComponent.FULL_BLEED.has(bloco.tipo)) {
+        flush();
+        result.push({ blocos: [bloco], fullBleed: true });
+      } else {
+        const cols = colSize(bloco.coluna);
+        if (cols === 12) { flush(); result.push({ blocos: [bloco], fullBleed: false }); }
+        else if (rowCols + cols > 12) { flush(); rowBlocos = [bloco]; rowCols = cols; }
+        else { rowBlocos.push(bloco); rowCols += cols; }
+      }
+    }
+    flush();
+    this._linhas = result;
+    return result;
+  }
+
+  getColClass(coluna?: string): string {
+    if (coluna === '1/2') return 'col-12 col-md-6';
+    if (coluna === '1/3') return 'col-12 col-md-4';
+    return 'col-12';
+  }
+
+  temBlocoRodape(): boolean {
+    return this.getBlocosConteudo().some(b => b.tipo === 'rodape');
+  }
+
   navegarArea(url: string) {
     this.areaAtualUrl = url;
     if (this.slug) this.router.navigate(['/s', this.slug, url]);
