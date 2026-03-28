@@ -204,7 +204,7 @@ export class PageBuilderComponent implements OnInit {
   onAreaChange() {
     const area = this.areas.find(a => a.areaid === this.areaid);
     this.areaNome = area?.nome ?? '';
-    this.layoutAtual = [];
+    this.setLayoutAtual([]);
     this.erro = '';
     this.sucesso = '';
 
@@ -213,9 +213,9 @@ export class PageBuilderComponent implements OnInit {
         next: r => {
           try {
             const parsed = JSON.parse(r.layout ?? '{"blocos":[]}');
-            this.layoutAtual = (parsed.blocos ?? []).map((b: any) => this.enriquecerBloco(b));
+            this.setLayoutAtual((parsed.blocos ?? []).map((b: any) => this.enriquecerBloco(b)));
           } catch {
-            this.layoutAtual = [];
+            this.setLayoutAtual([]);
           }
         },
         error: () => {}
@@ -245,11 +245,11 @@ export class PageBuilderComponent implements OnInit {
         const deCacheStr = r.provedor === 'cache' ? ' (cache)' : '';
         try {
           const parsed = JSON.parse(r.layout ?? '{"blocos":[]}');
-          this.layoutAtual = (parsed.blocos ?? []).map((b: any, i: number) => {
+          this.setLayoutAtual((parsed.blocos ?? []).map((b: any, i: number) => {
             const bloco = this.enriquecerBloco(b);
             if (colunasPorIndice[i]) bloco.coluna = colunasPorIndice[i];
             return bloco;
-          });
+          }));
           if (r.provedor !== 'cache') this.carregarIaConfig(); // atualiza contador
           this.sucesso = `Layout gerado${deCacheStr}!`;
         } catch {
@@ -301,7 +301,7 @@ export class PageBuilderComponent implements OnInit {
   }
 
   limparLayout() {
-    this.layoutAtual = [];
+    this.setLayoutAtual([]);
     this.descricao = '';
     this.areaid = '';
     this.erro = '';
@@ -313,16 +313,18 @@ export class PageBuilderComponent implements OnInit {
     const alvo = direcao === 'up' ? index - 1 : index + 1;
     if (alvo < 0 || alvo >= novo.length) return;
     [novo[index], novo[alvo]] = [novo[alvo], novo[index]];
-    this.layoutAtual = novo;
+    this.setLayoutAtual(novo);
   }
 
   removerBloco(index: number) {
-    this.layoutAtual.splice(index, 1);
+    const novo = [...this.layoutAtual];
+    novo.splice(index, 1);
     if (this.trocandoIndex === index) this.trocandoIndex = null;
+    this.setLayoutAtual(novo);
   }
 
   adicionarBloco(b: DictBloco) {
-    this.layoutAtual = [...this.layoutAtual, this.enriquecerBloco({ tipo: b.tipobloco, config: {}, coluna: 'full' })];
+    this.setLayoutAtual([...this.layoutAtual, this.enriquecerBloco({ tipo: b.tipobloco, config: {}, coluna: 'full' })]);
   }
 
   trocandoIndex: number | null = null;
@@ -339,6 +341,7 @@ export class PageBuilderComponent implements OnInit {
   confirmarInline() {
     if (!this.inlineEditando) return;
     const { blocoIndex, key } = this.inlineEditando;
+    this.invalidarConfigVisual(blocoIndex);
     this.layoutAtual[blocoIndex] = {
       ...this.layoutAtual[blocoIndex],
       config: { ...this.layoutAtual[blocoIndex].config, [key]: this.inlineValor }
@@ -399,7 +402,7 @@ export class PageBuilderComponent implements OnInit {
     if (!confirm(`Carregar o template "${t.nome}"? O layout atual será substituído.`)) return;
     try {
       const parsed = JSON.parse(t.layout ?? '{"blocos":[]}');
-      this.layoutAtual = (parsed.blocos ?? []).map((b: any) => this.enriquecerBloco(b));
+      this.setLayoutAtual((parsed.blocos ?? []).map((b: any) => this.enriquecerBloco(b)));
       this.sucesso = `Template "${t.nome}" carregado.`;
     } catch {
       this.erro = 'Erro ao carregar o template.';
@@ -520,16 +523,30 @@ export class PageBuilderComponent implements OnInit {
     return 'text';
   }
 
+  private _configVisualCache = new Map<BlocoLayout, { key: string; label: string; valor: string }[]>();
+
+  private setLayoutAtual(blocos: BlocoLayout[]) {
+    this._configVisualCache.clear();
+    this.layoutAtual = blocos;
+  }
+
   configVisual(bloco: BlocoLayout): { key: string; label: string; valor: string }[] {
+    if (this._configVisualCache.has(bloco)) return this._configVisualCache.get(bloco)!;
     const dict = this.blocos.find(d => d.tipobloco === bloco.tipo);
     let schema: any = {};
     try { schema = JSON.parse(dict?.schemaConfig ?? '{}'); } catch {}
-    return Object.entries(bloco.config ?? {})
+    const result = Object.entries(bloco.config ?? {})
       .filter(([, v]) => v !== '' && v !== null && v !== undefined)
       .map(([k, v]) => ({
         key: k,
         label: schema[k]?.label ?? k,
         valor: Array.isArray(v) ? `${(v as any[]).length} item(s)` : String(v).substring(0, 100)
       }));
+    this._configVisualCache.set(bloco, result);
+    return result;
+  }
+
+  private invalidarConfigVisual(index: number) {
+    this._configVisualCache.delete(this.layoutAtual[index]);
   }
 }
