@@ -191,6 +191,57 @@ namespace CMSUI.Controllers
         public IActionResult GetUnsplashStatus() =>
             Ok(new { ativo = !string.IsNullOrWhiteSpace(_config["Unsplash:AccessKey"]) });
 
+        // ── Extração de paleta de cores via IA ──────────────────────────────
+
+        public class ExtrairPaletaDto
+        {
+            public string ImagemBase64 { get; set; } = "";
+            public string MimeType { get; set; } = "image/jpeg";
+            public string? Provedor { get; set; }
+        }
+
+        [Authorize]
+        [HttpPost("extrair-paleta")]
+        public async Task<IActionResult> ExtrairPaleta([FromBody] ExtrairPaletaDto dto)
+        {
+            var (_, claimAppId) = UserContext();
+            var iaConfig = claimAppId != null
+                ? _context.IaConfigs.FirstOrDefault(c => c.Aplicacaoid == claimAppId)
+                : null;
+
+            var prompt = @"Analise esta imagem e extraia uma paleta de 5 cores que representem bem o estilo visual.
+Retorne APENAS um JSON válido, sem texto adicional:
+{""primaria"":""#XXXXXX"",""secundaria"":""#XXXXXX"",""fundo"":""#XXXXXX"",""texto"":""#XXXXXX"",""destaque"":""#XXXXXX""}
+Regras:
+- primaria: cor principal da marca/imagem
+- secundaria: cor complementar
+- fundo: cor adequada para fundo de página (clara se possível)
+- texto: cor adequada para texto sobre o fundo
+- destaque: cor vibrante para botões/CTAs";
+
+            try
+            {
+                var imageBytes = Convert.FromBase64String(dto.ImagemBase64);
+                var provedorEfetivo = dto.Provedor ?? iaConfig?.Provedor;
+                var agente = _agentFactory.Criar(provedorEfetivo, iaConfig?.Apikey, iaConfig?.Modelo);
+                var resposta = LimparMarkdown(await agente.GerarComImagemAsync(imageBytes, dto.MimeType, prompt));
+                JsonDocument.Parse(resposta); // valida JSON
+                return Ok(new { paleta = resposta });
+            }
+            catch (JsonException ex)
+            {
+                return UnprocessableEntity(new { erro = "IA retornou JSON inválido.", detalhe = ex.Message });
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (HttpRequestException ex)
+            {
+                return StatusCode(502, $"Erro ao chamar a IA: {ex.Message}");
+            }
+        }
+
         [Authorize]
         [HttpDelete("ia-config/apikey")]
         public IActionResult RemoverApiKey()

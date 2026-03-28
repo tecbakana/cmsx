@@ -182,6 +182,54 @@
     </div>
   </div>
 
+  <!-- Paleta de cores via IA -->
+  <div class="card mb-3 border-purple border-opacity-50" style="border-color:#6f42c1!important">
+    <div class="card-header fw-semibold py-2 d-flex justify-content-between align-items-center">
+      <span><i class="bi bi-palette me-1" style="color:#6f42c1"></i>Paleta de Cores via IA</span>
+      <div class="d-flex gap-2 align-items-center">
+        <label class="btn btn-sm mb-0" style="background:#6f42c1;color:#fff" [class.disabled]="paletaExtraindo">
+          <span *ngIf="paletaExtraindo" class="spinner-border spinner-border-sm me-1"></span>
+          <i *ngIf="!paletaExtraindo" class="bi bi-upload me-1"></i>
+          {{ paletaExtraindo ? 'Analisando…' : 'Enviar imagem' }}
+          <input type="file" accept="image/jpeg,image/png,image/webp" class="d-none"
+            (change)="extrairPaleta($event)" [disabled]="paletaExtraindo">
+        </label>
+        <button class="btn btn-outline-secondary btn-sm" (click)="paletaAberta = !paletaAberta" *ngIf="paleta">
+          <i class="bi" [class.bi-chevron-down]="!paletaAberta" [class.bi-chevron-up]="paletaAberta"></i>
+        </button>
+      </div>
+    </div>
+    <div *ngIf="paletaErro" class="card-body py-2">
+      <div class="alert alert-danger py-1 small mb-0">{{ paletaErro }}</div>
+    </div>
+    <div *ngIf="paleta && paletaAberta" class="card-body py-2">
+      <div class="d-flex flex-wrap gap-3">
+        <div *ngFor="let cor of [
+          {label:'Primária',   hex:paleta.primaria},
+          {label:'Secundária', hex:paleta.secundaria},
+          {label:'Fundo',      hex:paleta.fundo},
+          {label:'Texto',      hex:paleta.texto},
+          {label:'Destaque',   hex:paleta.destaque}
+        ]" class="d-flex flex-column align-items-center gap-1" style="min-width:70px">
+          <div [style.background]="cor.hex" class="rounded border"
+            style="width:48px;height:48px;cursor:pointer" title="Clique para copiar"
+            (click)="copiarCor(cor.hex)"></div>
+          <small class="font-monospace fw-semibold">{{ cor.hex }}</small>
+          <small class="text-muted" style="font-size:.7rem">{{ cor.label }}</small>
+        </div>
+      </div>
+      <small class="text-muted d-block mt-2"><i class="bi bi-info-circle me-1"></i>Clique numa cor para copiar o hex e use nos campos de cor dos blocos.</small>
+    </div>
+    <div *ngIf="paleta && !paletaAberta" class="card-body py-1">
+      <div class="d-flex gap-2 align-items-center">
+        <div *ngFor="let hex of [paleta.primaria, paleta.secundaria, paleta.fundo, paleta.texto, paleta.destaque]"
+          [style.background]="hex" class="rounded-circle border" style="width:24px;height:24px;cursor:pointer"
+          (click)="copiarCor(hex)" [title]="hex"></div>
+        <small class="text-muted ms-1">Paleta extraída — clique para copiar</small>
+      </div>
+    </div>
+  </div>
+
   <!-- Layouts salvos -->
   <div *ngIf="layoutsResumo.length > 0" class="card mb-3 border-success border-opacity-25">
     <div class="card-header fw-semibold py-2">
@@ -379,7 +427,19 @@
               <div class="row g-1">
                 <div *ngFor="let p of configVisual(bloco)" class="col-12 col-md-6 d-flex gap-1 align-items-baseline">
                   <small class="text-muted text-nowrap">{{ p.label }}:</small>
-                  <small class="fw-medium text-truncate" style="max-width:180px" title="{{ p.valor }}">{{ p.valor }}</small>
+                  <!-- editando inline -->
+                  <ng-container *ngIf="inlineEditando?.blocoIndex === i && inlineEditando?.key === p.key; else valorReadonly">
+                    <input class="form-control form-control-sm py-0 px-1" style="font-size:.75rem;height:1.4rem"
+                      [(ngModel)]="inlineValor"
+                      (keydown.enter)="confirmarInline()"
+                      (keydown.escape)="cancelarInline()"
+                      (blur)="confirmarInline()"
+                      autofocus>
+                  </ng-container>
+                  <ng-template #valorReadonly>
+                    <small class="fw-medium text-truncate" style="max-width:180px;cursor:text" title="Clique para editar"
+                      (click)="iniciarInline(i, p.key, bloco.config[p.key])">{{ p.valor }}</small>
+                  </ng-template>
                 </div>
                 <div *ngIf="configVisual(bloco).length === 0" class="col">
                   <small class="text-muted fst-italic">Sem configurações definidas.</small>

@@ -53,6 +53,46 @@ export class PageBuilderComponent implements OnInit {
   tplPadrao = false;
   tplSalvando = false;
 
+  // Paleta de cores
+  paletaAberta = false;
+  paletaExtraindo = false;
+  paletaErro = '';
+  paleta: { primaria: string; secundaria: string; fundo: string; texto: string; destaque: string } | null = null;
+
+  extrairPaleta(event: Event) {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (!file) return;
+    this.paletaExtraindo = true;
+    this.paletaErro = '';
+    this.paleta = null;
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      const base64 = (reader.result as string).split(',')[1];
+      this.http.post<any>(`${this.baseUrl}pagebuilder/extrair-paleta`, {
+        imagemBase64: base64,
+        mimeType: file.type,
+        provedor: this.provedor || null
+      }).subscribe({
+        next: r => {
+          this.paletaExtraindo = false;
+          try { this.paleta = JSON.parse(r.paleta); }
+          catch { this.paletaErro = 'Erro ao processar paleta.'; }
+        },
+        error: e => {
+          this.paletaExtraindo = false;
+          const body = e?.error;
+          this.paletaErro = body?.detalhe ?? body?.erro ?? 'Erro ao extrair paleta.';
+        }
+      });
+    };
+    reader.readAsDataURL(file);
+  }
+
+  copiarCor(hex: string) {
+    navigator.clipboard.writeText(hex);
+  }
+
   // Configurações de IA
   configAberta = false;
   cfgProvedor = '';
@@ -287,6 +327,27 @@ export class PageBuilderComponent implements OnInit {
 
   trocandoIndex: number | null = null;
 
+  // Edição inline
+  inlineEditando: { blocoIndex: number; key: string } | null = null;
+  inlineValor = '';
+
+  iniciarInline(blocoIndex: number, key: string, valorAtual: any) {
+    this.inlineEditando = { blocoIndex, key };
+    this.inlineValor = valorAtual ?? '';
+  }
+
+  confirmarInline() {
+    if (!this.inlineEditando) return;
+    const { blocoIndex, key } = this.inlineEditando;
+    this.layoutAtual[blocoIndex] = {
+      ...this.layoutAtual[blocoIndex],
+      config: { ...this.layoutAtual[blocoIndex].config, [key]: this.inlineValor }
+    };
+    this.inlineEditando = null;
+  }
+
+  cancelarInline() { this.inlineEditando = null; }
+
   trocarBloco(index: number, b: DictBloco) {
     const coluna = this.layoutAtual[index].coluna;
     this.layoutAtual[index] = this.enriquecerBloco({ tipo: b.tipobloco, config: {}, coluna });
@@ -459,13 +520,14 @@ export class PageBuilderComponent implements OnInit {
     return 'text';
   }
 
-  configVisual(bloco: BlocoLayout): { label: string; valor: string }[] {
+  configVisual(bloco: BlocoLayout): { key: string; label: string; valor: string }[] {
     const dict = this.blocos.find(d => d.tipobloco === bloco.tipo);
     let schema: any = {};
     try { schema = JSON.parse(dict?.schemaConfig ?? '{}'); } catch {}
     return Object.entries(bloco.config ?? {})
       .filter(([, v]) => v !== '' && v !== null && v !== undefined)
       .map(([k, v]) => ({
+        key: k,
         label: schema[k]?.label ?? k,
         valor: Array.isArray(v) ? `${(v as any[]).length} item(s)` : String(v).substring(0, 100)
       }));
