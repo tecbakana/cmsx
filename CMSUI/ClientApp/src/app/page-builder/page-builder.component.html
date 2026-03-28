@@ -337,6 +337,18 @@
                     (click)="setColunaBloco(i, '1/3')" title="Um terço">
                     ⅓
                   </button>
+                  <button class="btn btn-sm"
+                    [class.btn-secondary]="bloco.coluna === 'auto'"
+                    [class.btn-outline-secondary]="bloco.coluna !== 'auto'"
+                    (click)="setColunaBloco(i, 'auto')" title="Largura do conteúdo">
+                    Auto
+                  </button>
+                  <button class="btn btn-sm"
+                    [class.btn-secondary]="bloco.coluna === 'fill'"
+                    [class.btn-outline-secondary]="bloco.coluna !== 'fill'"
+                    (click)="setColunaBloco(i, 'fill')" title="Preencher espaço restante">
+                    Fill
+                  </button>
                 </div>
                 <!-- Ações -->
                 <div class="btn-group btn-group-sm">

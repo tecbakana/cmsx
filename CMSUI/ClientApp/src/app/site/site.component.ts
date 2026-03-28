@@ -99,7 +99,7 @@ export class SiteComponent implements OnInit, OnDestroy {
     const flush = () => {
       if (rowBlocos.length > 0) { result.push({ blocos: rowBlocos, fullBleed: false }); rowBlocos = []; rowCols = 0; }
     };
-    const colSize = (coluna?: string) => coluna === '1/2' ? 6 : coluna === '1/3' ? 4 : 12;
+    const colSize = (coluna?: string) => coluna === '1/2' ? 6 : coluna === '1/3' ? 4 : (coluna === 'auto' || coluna === 'fill') ? 0 : 12;
 
     for (const bloco of this.getBlocosConteudo()) {
       if (SiteComponent.FULL_BLEED.has(bloco.tipo)) {
@@ -120,6 +120,8 @@ export class SiteComponent implements OnInit, OnDestroy {
   getColClass(coluna?: string): string {
     if (coluna === '1/2') return 'col-12 col-md-6';
     if (coluna === '1/3') return 'col-12 col-md-4';
+    if (coluna === 'auto') return 'col-auto';
+    if (coluna === 'fill') return 'col';
     return 'col-12';
   }
 
