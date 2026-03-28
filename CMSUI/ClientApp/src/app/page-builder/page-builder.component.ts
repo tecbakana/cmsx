@@ -13,6 +13,7 @@ interface DictBloco {
 interface BlocoLayout {
   tipo: string;
   config: any;
+  coluna?: string;
   _nome?: string;
   _icone?: string;
 }
