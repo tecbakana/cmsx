@@ -554,13 +554,29 @@
                 </button>
               </div>
             </div>
-            <!-- array → textarea JSON -->
+            <!-- array → editor dinâmico de itens -->
             <div *ngIf="campo.type === 'array'" class="col-12">
-              <label class="form-label form-label-sm">{{ campo.label }} <span class="text-muted">(JSON)</span></label>
-              <textarea class="form-control form-control-sm font-monospace" rows="5"
-                [ngModel]="editandoConfig[campo.key] | json"
-                (ngModelChange)="editandoConfig[campo.key] = parseJsonSafe($event, editandoConfig[campo.key])"
-                [placeholder]="campo.placeholder"></textarea>
+              <div class="d-flex justify-content-between align-items-center mb-1">
+                <label class="form-label form-label-sm mb-0">{{ campo.label }}</label>
+                <button class="btn btn-outline-secondary btn-sm" (click)="adicionarItem(campo.key)">
+                  <i class="bi bi-plus me-1"></i>Adicionar item
+                </button>
+              </div>
+              <div *ngFor="let item of editandoConfig[campo.key]; let ii = index"
+                class="d-flex gap-2 align-items-start mb-2 p-2 border rounded bg-light">
+                <div class="flex-fill row g-1">
+                  <div *ngFor="let k of getItemKeys(campo.key)" class="col-md-4">
+                    <input class="form-control form-control-sm" [placeholder]="k"
+                      [(ngModel)]="editandoConfig[campo.key][ii][k]">
+                  </div>
+                </div>
+                <button class="btn btn-outline-danger btn-sm" (click)="removerItem(campo.key, ii)" title="Remover">
+                  <i class="bi bi-x"></i>
+                </button>
+              </div>
+              <div *ngIf="!editandoConfig[campo.key]?.length" class="text-muted small fst-italic">
+                Nenhum item. Clique em "Adicionar item".
+              </div>
             </div>
             <!-- string / demais -->
             <div *ngIf="campo.type !== 'boolean' && campo.type !== 'text' && campo.type !== 'html' && campo.type !== 'color' && campo.type !== 'number' && campo.type !== 'url' && campo.type !== 'array'"

@@ -497,6 +497,25 @@ export class PageBuilderComponent implements OnInit {
     try { return JSON.parse(valor); } catch { return fallback; }
   }
 
+  getItemKeys(campoKey: string): string[] {
+    const items = this.editandoConfig[campoKey];
+    if (items?.length > 0) return Object.keys(items[0]);
+    const def = this.editandoSchema[campoKey]?.default;
+    if (def?.length > 0) return Object.keys(def[0]);
+    return [];
+  }
+
+  adicionarItem(campoKey: string) {
+    const keys = this.getItemKeys(campoKey);
+    const novoItem: any = {};
+    keys.forEach((k: string) => novoItem[k] = '');
+    this.editandoConfig[campoKey] = [...(this.editandoConfig[campoKey] ?? []), novoItem];
+  }
+
+  removerItem(campoKey: string, index: number) {
+    this.editandoConfig[campoKey] = this.editandoConfig[campoKey].filter((_: any, i: number) => i !== index);
+  }
+
   fecharEditorBloco() {
     this.editandoIndex = null;
     this.editandoConfig = {};
