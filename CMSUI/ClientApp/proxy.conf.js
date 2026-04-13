@@ -1,12 +1,11 @@
 const { env } = require('process');
 
-const target = env.ASPNETCORE_HTTPS_PORT ? `https://localhost:${env.ASPNETCORE_HTTPS_PORT}` :
-  env.ASPNETCORE_URLS ? env.ASPNETCORE_URLS.split(';')[0] : 'http://localhost:57026';
+// CMSAPI roda em http://localhost:5124 — separado do host Angular (CMSUI)
+const target = env.CMSAPI_URL || 'http://localhost:5124';
 
 const PROXY_CONFIG = [
   {
     context: [
-      "/weatherforecast",
       "/usuarios",
       "/aplicacaos",
       "/dashboard",
@@ -25,8 +24,9 @@ const PROXY_CONFIG = [
       "/faq",
       "/site",
       "/layouttemplates",
-      "/pedidos"
-   ],
+      "/pedidos",
+      "/swagger"
+    ],
     proxyTimeout: 60000,
     timeout: 60000,
     target: target,

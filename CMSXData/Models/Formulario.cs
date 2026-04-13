@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace CMSXData.Models;
@@ -12,7 +11,7 @@ public partial class Formulario
 
     public string? Valor { get; set; }
 
-    public BitArray? Ativo { get; set; }
+    public bool? Ativo { get; set; }
 
     public DateTime? Datainclusao { get; set; }
 

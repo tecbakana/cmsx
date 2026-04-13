@@ -11,5 +11,5 @@ public partial class Cambio
 
     public string? Moedasxml { get; set; }
 
-    public short? Tipo { get; set; }
+    public byte? Tipo { get; set; }
 }

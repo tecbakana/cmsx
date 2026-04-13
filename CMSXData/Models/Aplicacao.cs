@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace CMSXData.Models;
@@ -32,7 +31,7 @@ public partial class Aplicacao
 
     public int? Mailport { get; set; }
 
-    public short? Issecure { get; set; }
+    public byte? Issecure { get; set; }
 
     public string? Pagefacebook { get; set; }
 
@@ -50,14 +49,12 @@ public partial class Aplicacao
 
     public string? Ogleadsense { get; set; }
 
-    public BitArray? Isactivea { get; set; }
-
     public string? Header { get; set; }
 
     /// <summary>
     /// Id unico da aplicacao
     /// </summary>
-    public Guid Aplicacaoid { get; set; }
+    public string? Aplicacaoid { get; set; }
 
     public bool? Isactive { get; set; }
 

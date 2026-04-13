@@ -10,7 +10,7 @@ open System.Reflection
 [<assembly: System.Reflection.AssemblyCompanyAttribute("CMSXApi")>]
 [<assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")>]
 [<assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")>]
-[<assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")>]
+[<assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b58954eee674f5bc0feeec6bbef3a219a82821dc")>]
 [<assembly: System.Reflection.AssemblyProductAttribute("CMSXApi")>]
 [<assembly: System.Reflection.AssemblyTitleAttribute("CMSXApi")>]
 [<assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")>]

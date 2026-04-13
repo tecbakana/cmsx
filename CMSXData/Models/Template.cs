@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace CMSXData.Models;
@@ -14,5 +13,5 @@ public partial class Template
 
     public string? Url { get; set; }
 
-    public BitArray? Ativo { get; set; }
+    public bool? Ativo { get; set; }
 }

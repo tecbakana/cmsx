@@ -11,7 +11,7 @@
     "CMSUI": {
       "commandName": "Project",
       "launchBrowser": true,
-      "applicationUrl": "http://localhost:5124",
+      "applicationUrl": "http://localhost:5050",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "ASPNETCORE_HOSTINGSTARTUPASSEMBLIES": "Microsoft.AspNetCore.SpaProxy"

@@ -15,7 +15,7 @@ public partial class Informativo
 
     public string? Foto { get; set; }
 
-    public short? Ativo { get; set; }
+    public byte? Ativo { get; set; }
 
     public string? Tipoenvio { get; set; }
 }

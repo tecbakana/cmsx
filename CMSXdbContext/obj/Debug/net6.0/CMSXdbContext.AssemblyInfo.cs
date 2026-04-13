@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CMSXdbContext")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b58954eee674f5bc0feeec6bbef3a219a82821dc")]
 [assembly: System.Reflection.AssemblyProductAttribute("CMSXdbContext")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CMSXdbContext")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
