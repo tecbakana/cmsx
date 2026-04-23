@@ -13,9 +13,9 @@ public partial class Usuario
 
     public string? Senha { get; set; }
 
-    public short? Ativo { get; set; }
+    public byte? Ativo { get; set; }
 
     public DateTime? Datainclusao { get; set; }
 
-    public Guid? Userid { get; set; }
+    public string? Userid { get; set; }
 }

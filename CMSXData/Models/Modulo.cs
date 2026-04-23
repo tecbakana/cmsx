@@ -11,5 +11,5 @@ public partial class Modulo
 
     public int? Posicao { get; set; }
 
-    public Guid? Moduloid { get; set; }
+    public string? Moduloid { get; set; }
 }

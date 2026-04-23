@@ -21,24 +21,26 @@ public partial class Area
 
     public DateTime? Datafinal { get; set; }
 
-    public short? Imagem { get; set; }
+    public byte? Imagem { get; set; }
 
-    public short? Menulateral { get; set; }
+    public byte? Menulateral { get; set; }
 
-    public short? Menusplash { get; set; }
+    public byte? Menusplash { get; set; }
 
-    public short? Menucentral { get; set; }
+    public byte? Menucentral { get; set; }
 
     public int? Posicao { get; set; }
 
-    public short? Menufixo { get; set; }
+    public byte? Menufixo { get; set; }
 
-    public short? Listasimples { get; set; }
+    public byte? Listasimples { get; set; }
 
-    public short? Listasplash { get; set; }
+    public byte? Listasplash { get; set; }
 
-    public short? Listabanner { get; set; }
+    public byte? Listabanner { get; set; }
 
     public int? Tipoarea { get; set; }
     public string? Layout { get; set; }
+
+    public string? PageBuilderVersion { get; set; }
 }

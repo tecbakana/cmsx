@@ -1,3 +1,8 @@
 is_global = true
 build_property.RootNamespace = CMSXEntitiesDB
-build_property.ProjectDir = T:\Developer\RepositorioEstudos\CMSX\CMSX\CMSXEntitiesDB\
+build_property.ProjectDir = T:\Developer\RepositorioTrabalho\tecbakana\cmsx\CMSXEntitiesDB\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.CsWinRTUseWindowsUIXamlProjections = false
+build_property.EffectiveAnalysisLevelStyle = 
+build_property.EnableCodeStyleSeverity = 

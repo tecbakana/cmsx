@@ -2,6 +2,7 @@ import { Component, Inject, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { HttpClient } from '@angular/common/http';
+import { StringService } from '../services/string.service';
 
 @Component({ templateUrl: './site.component.html' })
 export class SiteComponent implements OnInit, OnDestroy {
@@ -23,13 +24,16 @@ export class SiteComponent implements OnInit, OnDestroy {
     private router: Router,
     private http: HttpClient,
     private sanitizer: DomSanitizer,
-    @Inject('BASE_URL') private baseUrl: string
+    @Inject('BASE_URL') private baseUrl: string,
+    private stringService: StringService
   ) {}
 
   ngOnInit() {
     this.slug = this.route.snapshot.paramMap.get('slug');
     this.previewId = this.route.snapshot.paramMap.get('id');
-    this.areaAtualUrl = this.route.snapshot.paramMap.get('area') ?? '';
+    const areaParam = this.route.snapshot.paramMap.get('area') ?? '';
+    this.areaAtualUrl = this.stringService.decode(areaParam);
+    //this.areaAtualUrl = this.stringService.decode(this.route.snapshot.paramMap.get('area') ?? '');
 
     const url = this.slug
       ? `${this.baseUrl}site/slug/${this.slug}`
@@ -43,9 +47,16 @@ export class SiteComponent implements OnInit, OnDestroy {
         this.carregando = false;
         if (!this.areaAtualUrl) {
           const areas: any[] = r.areas ?? [];
+
+          
           const home = areas.find((a: any) => a.url?.toLowerCase() === 'home' && a.temLayout);
           const primeira = areas.find((a: any) => a.temLayout);
-          this.areaAtualUrl = home?.url ?? primeira?.url ?? areas[0]?.url ?? '';
+          console.log('[area areas]', areas);
+          this.route.paramMap.subscribe(params => {
+            const a = params.get('area');
+            console.log('[area paramMap]',a);
+            if (a) this.areaAtualUrl = a;
+          });
         }
       },
       error: e => {
@@ -80,6 +91,53 @@ export class SiteComponent implements OnInit, OnDestroy {
 
   getBlocosConteudo(): any[] {
     return (this.getAreaAtual()?.blocos ?? []).filter((b: any) => b.tipo !== 'menu-navegacao');
+  }
+
+  private static FULL_BLEED = new Set(['hero', 'hero-cta', 'banner-imagem', 'contador', 'rodape']);
+
+  private _linhasCachedArea = '';
+  private _linhas: { blocos: any[]; fullBleed: boolean }[] = [];
+
+  getLinhas(): { blocos: any[]; fullBleed: boolean }[] {
+    if (this._linhasCachedArea === this.areaAtualUrl && this._linhas.length > 0)
+      return this._linhas;
+    this._linhasCachedArea = this.areaAtualUrl;
+
+    const result: { blocos: any[]; fullBleed: boolean }[] = [];
+    let rowBlocos: any[] = [];
+    let rowCols = 0;
+
+    const flush = () => {
+      if (rowBlocos.length > 0) { result.push({ blocos: rowBlocos, fullBleed: false }); rowBlocos = []; rowCols = 0; }
+    };
+    const colSize = (coluna?: string) => coluna === '1/2' ? 6 : coluna === '1/3' ? 4 : (coluna === 'auto' || coluna === 'fill') ? 0 : 12;
+
+    for (const bloco of this.getBlocosConteudo()) {
+      if (SiteComponent.FULL_BLEED.has(bloco.tipo)) {
+        flush();
+        result.push({ blocos: [bloco], fullBleed: true });
+      } else {
+        const cols = colSize(bloco.coluna);
+        if (cols === 12) { flush(); result.push({ blocos: [bloco], fullBleed: false }); }
+        else if (rowCols + cols > 12) { flush(); rowBlocos = [bloco]; rowCols = cols; }
+        else { rowBlocos.push(bloco); rowCols += cols; }
+      }
+    }
+    flush();
+    this._linhas = result;
+    return result;
+  }
+
+  getColClass(coluna?: string): string {
+    if (coluna === '1/2') return 'col-12 col-md-6';
+    if (coluna === '1/3') return 'col-12 col-md-4';
+    if (coluna === 'auto') return 'col-auto';
+    if (coluna === 'fill') return 'col';
+    return 'col-12';
+  }
+
+  temBlocoRodape(): boolean {
+    return this.getBlocosConteudo().some(b => b.tipo === 'rodape');
   }
 
   navegarArea(url: string) {

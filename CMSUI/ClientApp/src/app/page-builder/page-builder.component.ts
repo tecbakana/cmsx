@@ -1,5 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { AdminContextService } from '../admin-context.service';
 
 interface DictBloco {
   tipobloco: string;
@@ -12,6 +13,7 @@ interface DictBloco {
 interface BlocoLayout {
   tipo: string;
   config: any;
+  coluna?: string;
   _nome?: string;
   _icone?: string;
 }
@@ -33,7 +35,15 @@ export class PageBuilderComponent implements OnInit {
   erro: string = '';
   sucesso: string = '';
 
+  // Galeria de mídias
+  galeriaAberta = false;
+  galeriaImagens: any[] = [];
+  uploadando = false;
+  galeriaPickerAberto = false;
+  galeriaPickerCampo: string | null = null;
+
   // Templates
+  usuario: any = {};
   isAdmin = false;
   templates: any[] = [];
   tplAberto = false;
@@ -42,6 +52,46 @@ export class PageBuilderComponent implements OnInit {
   tplTipo = 'home';
   tplPadrao = false;
   tplSalvando = false;
+
+  // Paleta de cores
+  paletaAberta = false;
+  paletaExtraindo = false;
+  paletaErro = '';
+  paleta: { primaria: string; secundaria: string; fundo: string; texto: string; destaque: string } | null = null;
+
+  extrairPaleta(event: Event) {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (!file) return;
+    this.paletaExtraindo = true;
+    this.paletaErro = '';
+    this.paleta = null;
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      const base64 = (reader.result as string).split(',')[1];
+      this.http.post<any>(`${this.baseUrl}pagebuilder/extrair-paleta`, {
+        imagemBase64: base64,
+        mimeType: file.type,
+        provedor: this.provedor || null
+      }).subscribe({
+        next: r => {
+          this.paletaExtraindo = false;
+          try { this.paleta = JSON.parse(r.paleta); }
+          catch { this.paletaErro = 'Erro ao processar paleta.'; }
+        },
+        error: e => {
+          this.paletaExtraindo = false;
+          const body = e?.error;
+          this.paletaErro = body?.detalhe ?? body?.erro ?? 'Erro ao extrair paleta.';
+        }
+      });
+    };
+    reader.readAsDataURL(file);
+  }
+
+  copiarCor(hex: string) {
+    navigator.clipboard.writeText(hex);
+  }
 
   // Configurações de IA
   configAberta = false;
@@ -57,11 +107,13 @@ export class PageBuilderComponent implements OnInit {
   cfgErro = '';
   unsplashAtivo = false;
 
-  constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string) {}
+  constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string, private adminCtx: AdminContextService) {}
 
   ngOnInit() {
     const u = JSON.parse(sessionStorage.getItem('usuario') || '{}');
+    this.usuario = u;
     this.isAdmin = !!u.acessoTotal;
+    this.adminCtx.tenant$.subscribe(() => { this.carregarAreas(); this.carregarLayoutsResumo(); });
     this.carregarAreas();
     this.carregarBlocos();
     this.carregarIaConfig();
@@ -71,14 +123,23 @@ export class PageBuilderComponent implements OnInit {
   }
 
   carregarAreas() {
-    this.http.get<any[]>(`${this.baseUrl}areas`).subscribe({
+    this.http.get<any[]>(`${this.baseUrl}areas`, { params: this.appParams() }).subscribe({
       next: r => this.areas = r,
       error: () => {}
     });
   }
 
+  private appParams(): HttpParams {
+    let p = new HttpParams();
+    if (!this.usuario.acessoTotal && this.usuario.aplicacaoid)
+      p = p.set('aplicacaoid', this.usuario.aplicacaoid);
+    else if (this.usuario.acessoTotal && this.adminCtx.tenantId)
+      p = p.set('aplicacaoid', this.adminCtx.tenantId);
+    return p;
+  }
+
   carregarLayoutsResumo() {
-    this.http.get<any[]>(`${this.baseUrl}pagebuilder/layouts-resumo`).subscribe({
+    this.http.get<any[]>(`${this.baseUrl}pagebuilder/layouts-resumo`, { params: this.appParams() }).subscribe({
       next: r => this.layoutsResumo = r,
       error: () => {}
     });
@@ -143,7 +204,7 @@ export class PageBuilderComponent implements OnInit {
   onAreaChange() {
     const area = this.areas.find(a => a.areaid === this.areaid);
     this.areaNome = area?.nome ?? '';
-    this.layoutAtual = [];
+    this.setLayoutAtual([]);
     this.erro = '';
     this.sucesso = '';
 
@@ -152,9 +213,9 @@ export class PageBuilderComponent implements OnInit {
         next: r => {
           try {
             const parsed = JSON.parse(r.layout ?? '{"blocos":[]}');
-            this.layoutAtual = (parsed.blocos ?? []).map((b: any) => this.enriquecerBloco(b));
+            this.setLayoutAtual((parsed.blocos ?? []).map((b: any) => this.enriquecerBloco(b)));
           } catch {
-            this.layoutAtual = [];
+            this.setLayoutAtual([]);
           }
         },
         error: () => {}
@@ -171,17 +232,24 @@ export class PageBuilderComponent implements OnInit {
     this.erro = '';
     this.sucesso = '';
 
+    const colunasPorIndice = this.layoutAtual.map(b => b.coluna);
+
     this.http.post<any>(`${this.baseUrl}pagebuilder/gerar-layout`, {
       descricao: this.descricao,
       areaid: this.areaid || null,
-      provedor: this.provedor || null
+      provedor: this.provedor || null,
+      blocos: this.layoutAtual.length > 0 ? this.layoutAtual.map(b => ({ tipo: b.tipo })) : null
     }).subscribe({
       next: r => {
         this.gerando = false;
         const deCacheStr = r.provedor === 'cache' ? ' (cache)' : '';
         try {
           const parsed = JSON.parse(r.layout ?? '{"blocos":[]}');
-          this.layoutAtual = (parsed.blocos ?? []).map((b: any) => this.enriquecerBloco(b));
+          this.setLayoutAtual((parsed.blocos ?? []).map((b: any, i: number) => {
+            const bloco = this.enriquecerBloco(b);
+            if (colunasPorIndice[i]) bloco.coluna = colunasPorIndice[i];
+            return bloco;
+          }));
           if (r.provedor !== 'cache') this.carregarIaConfig(); // atualiza contador
           this.sucesso = `Layout gerado${deCacheStr}!`;
         } catch {
@@ -206,7 +274,7 @@ export class PageBuilderComponent implements OnInit {
     this.sucesso = '';
 
     const payload = {
-      blocos: this.layoutAtual.map(b => ({ tipo: b.tipo, config: b.config }))
+      blocos: this.layoutAtual.map(b => ({ tipo: b.tipo, config: b.config, coluna: b.coluna }))
     };
 
     this.http.put(`${this.baseUrl}pagebuilder/layout/${this.areaid}`, payload).subscribe({
@@ -224,8 +292,16 @@ export class PageBuilderComponent implements OnInit {
     this.onAreaChange();
   }
 
+  abrirPreview() {
+    const appId = this.usuario.aplicacaoid ?? this.adminCtx.tenantId;
+    const area = this.areas.find((a: any) => a.areaid === this.areaid);
+    const areaUrl = area?.url;
+    const url = areaUrl ? `/preview/${appId}/${areaUrl}` : `/preview/${appId}`;
+    window.open(url, '_blank');
+  }
+
   limparLayout() {
-    this.layoutAtual = [];
+    this.setLayoutAtual([]);
     this.descricao = '';
     this.areaid = '';
     this.erro = '';
@@ -237,11 +313,52 @@ export class PageBuilderComponent implements OnInit {
     const alvo = direcao === 'up' ? index - 1 : index + 1;
     if (alvo < 0 || alvo >= novo.length) return;
     [novo[index], novo[alvo]] = [novo[alvo], novo[index]];
-    this.layoutAtual = novo;
+    this.setLayoutAtual(novo);
   }
 
   removerBloco(index: number) {
-    this.layoutAtual.splice(index, 1);
+    const novo = [...this.layoutAtual];
+    novo.splice(index, 1);
+    if (this.trocandoIndex === index) this.trocandoIndex = null;
+    this.setLayoutAtual(novo);
+  }
+
+  adicionarBloco(b: DictBloco) {
+    this.setLayoutAtual([...this.layoutAtual, this.enriquecerBloco({ tipo: b.tipobloco, config: {}, coluna: 'full' })]);
+  }
+
+  trocandoIndex: number | null = null;
+
+  // Edição inline
+  inlineEditando: { blocoIndex: number; key: string } | null = null;
+  inlineValor = '';
+
+  iniciarInline(blocoIndex: number, key: string, valorAtual: any) {
+    this.inlineEditando = { blocoIndex, key };
+    this.inlineValor = valorAtual ?? '';
+  }
+
+  confirmarInline() {
+    if (!this.inlineEditando) return;
+    const { blocoIndex, key } = this.inlineEditando;
+    this.invalidarConfigVisual(blocoIndex);
+    this.layoutAtual[blocoIndex] = {
+      ...this.layoutAtual[blocoIndex],
+      config: { ...this.layoutAtual[blocoIndex].config, [key]: this.inlineValor }
+    };
+    this.inlineEditando = null;
+  }
+
+  cancelarInline() { this.inlineEditando = null; }
+
+  trocarBloco(index: number, b: DictBloco) {
+    const coluna = this.layoutAtual[index].coluna;
+    this.layoutAtual[index] = this.enriquecerBloco({ tipo: b.tipobloco, config: {}, coluna });
+    this.trocandoIndex = null;
+  }
+
+  setColunaBloco(index: number, coluna: string) {
+    this.layoutAtual[index] = { ...this.layoutAtual[index], coluna };
   }
 
   private enriquecerBloco(b: any): BlocoLayout {
@@ -285,7 +402,7 @@ export class PageBuilderComponent implements OnInit {
     if (!confirm(`Carregar o template "${t.nome}"? O layout atual será substituído.`)) return;
     try {
       const parsed = JSON.parse(t.layout ?? '{"blocos":[]}');
-      this.layoutAtual = (parsed.blocos ?? []).map((b: any) => this.enriquecerBloco(b));
+      this.setLayoutAtual((parsed.blocos ?? []).map((b: any) => this.enriquecerBloco(b)));
       this.sucesso = `Template "${t.nome}" carregado.`;
     } catch {
       this.erro = 'Erro ao carregar o template.';
@@ -300,15 +417,159 @@ export class PageBuilderComponent implements OnInit {
     });
   }
 
-  configVisual(bloco: BlocoLayout): { label: string; valor: string }[] {
+  // ── Galeria de mídias ────────────────────────────────────────────────
+
+  toggleGaleria() {
+    this.galeriaAberta = !this.galeriaAberta;
+    if (this.galeriaAberta) this.carregarGaleria();
+  }
+
+  carregarGaleria() {
+    this.http.get<any[]>(`${this.baseUrl}media`, { params: this.appParams() }).subscribe({
+      next: r => this.galeriaImagens = r,
+      error: () => {}
+    });
+  }
+
+  uploadImagem(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (!input.files?.length) return;
+    const form = new FormData();
+    form.append('arquivo', input.files[0]);
+    this.uploadando = true;
+    this.http.post<any>(`${this.baseUrl}media/upload`, form, { params: this.appParams() }).subscribe({
+      next: () => { this.uploadando = false; this.carregarGaleria(); },
+      error: e => { this.uploadando = false; this.erro = e?.error?.erro ?? 'Erro ao fazer upload.'; }
+    });
+    input.value = '';
+  }
+
+  deletarImagem(blobName: string, nome: string) {
+    if (!confirm(`Deletar "${nome}"?`)) return;
+    this.http.delete(`${this.baseUrl}media`, { params: new HttpParams().set('blobName', blobName) }).subscribe({
+      next: () => this.carregarGaleria(),
+      error: () => {}
+    });
+  }
+
+  copiarUrl(url: string) {
+    navigator.clipboard.writeText(url).then(() => {
+      this.sucesso = 'URL copiada!';
+      setTimeout(() => { if (this.sucesso === 'URL copiada!') this.sucesso = ''; }, 2000);
+    });
+  }
+
+  abrirGaleriaPicker(campo: string) {
+    this.galeriaPickerCampo = campo;
+    this.galeriaPickerAberto = true;
+    this.carregarGaleria();
+  }
+
+  selecionarImagemParaCampo(url: string) {
+    if (this.galeriaPickerCampo) this.editandoConfig[this.galeriaPickerCampo] = url;
+    this.galeriaPickerAberto = false;
+    this.galeriaPickerCampo = null;
+  }
+
+  // ── Editor de bloco (modal) ───────────────────────────────────────────
+  editandoIndex: number | null = null;
+  editandoConfig: any = {};
+  editandoSchema: any = {};
+  editandoNome = '';
+  editandoCampos: { key: string; label: string; type: string; placeholder: string }[] = [];
+
+  abrirEditorBloco(i: number) {
+    const bloco = this.layoutAtual[i];
+    const dict  = this.blocos.find(d => d.tipobloco === bloco.tipo);
+    try { this.editandoSchema = JSON.parse(dict?.schemaConfig ?? '{}'); } catch { this.editandoSchema = {}; }
+    this.editandoCampos = Object.entries(this.editandoSchema).map(([key, def]: [string, any]) => ({
+      key,
+      label:       def?.label       ?? key,
+      type:        def?.type        ?? 'string',
+      placeholder: def?.placeholder ?? def?.default ?? ''
+    }));
+    this.editandoConfig = JSON.parse(JSON.stringify(bloco.config ?? {}));
+    this.editandoNome   = bloco._nome ?? bloco.tipo;
+    this.editandoIndex  = i;
+  }
+
+  parseJsonSafe(valor: string, fallback: any): any {
+    try { return JSON.parse(valor); } catch { return fallback; }
+  }
+
+  getItemKeys(campoKey: string): string[] {
+    const items = this.editandoConfig[campoKey];
+    if (items?.length > 0) return Object.keys(items[0]);
+    const def = this.editandoSchema[campoKey]?.default;
+    if (def?.length > 0) return Object.keys(def[0]);
+    return [];
+  }
+
+  adicionarItem(campoKey: string) {
+    const keys = this.getItemKeys(campoKey);
+    const novoItem: any = {};
+    keys.forEach((k: string) => novoItem[k] = '');
+    this.editandoConfig[campoKey] = [...(this.editandoConfig[campoKey] ?? []), novoItem];
+  }
+
+  removerItem(campoKey: string, index: number) {
+    this.editandoConfig[campoKey] = this.editandoConfig[campoKey].filter((_: any, i: number) => i !== index);
+  }
+
+  fecharEditorBloco() {
+    this.editandoIndex = null;
+    this.editandoConfig = {};
+    this.editandoSchema = {};
+    this.editandoCampos = [];
+  }
+
+  confirmarEdicaoBloco() {
+    if (this.editandoIndex === null) return;
+    this.layoutAtual[this.editandoIndex].config = { ...this.editandoConfig };
+    this.fecharEditorBloco();
+  }
+
+  camposSchema(): { key: string; label: string; type: string; placeholder: string }[] {
+    return Object.entries(this.editandoSchema).map(([key, def]: [string, any]) => ({
+      key,
+      label:       def?.label       ?? key,
+      type:        def?.type        ?? 'string',
+      placeholder: def?.placeholder ?? def?.default ?? ''
+    }));
+  }
+
+  tipoInput(type: string): string {
+    if (type === 'color')   return 'color';
+    if (type === 'number')  return 'number';
+    if (type === 'boolean') return 'checkbox';
+    if (type === 'url')     return 'url';
+    return 'text';
+  }
+
+  private _configVisualCache = new Map<BlocoLayout, { key: string; label: string; valor: string }[]>();
+
+  private setLayoutAtual(blocos: BlocoLayout[]) {
+    this._configVisualCache.clear();
+    this.layoutAtual = blocos;
+  }
+
+  configVisual(bloco: BlocoLayout): { key: string; label: string; valor: string }[] {
+    if (this._configVisualCache.has(bloco)) return this._configVisualCache.get(bloco)!;
     const dict = this.blocos.find(d => d.tipobloco === bloco.tipo);
     let schema: any = {};
     try { schema = JSON.parse(dict?.schemaConfig ?? '{}'); } catch {}
-    return Object.entries(bloco.config ?? {})
+    const result = Object.entries(bloco.config ?? {})
       .filter(([, v]) => v !== '' && v !== null && v !== undefined)
       .map(([k, v]) => ({
+        key: k,
         label: schema[k]?.label ?? k,
         valor: Array.isArray(v) ? `${(v as any[]).length} item(s)` : String(v).substring(0, 100)
       }));
+    this._configVisualCache.set(bloco, result);
+    return result;
+  }
+
+  private invalidarConfigVisual(index: number) {
+    this._configVisualCache.delete(this.layoutAtual[index]);
   }
 }

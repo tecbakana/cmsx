@@ -5,9 +5,9 @@ namespace CMSXData.Models;
 
 public partial class Relusuarioaplicacao
 {
-    public Guid? Relacaoid { get; set; }
+    public string? Relacaoid { get; set; }
 
-    public Guid? Aplicacaoid { get; set; }
+    public string? Aplicacaoid { get; set; }
 
-    public Guid? Usuarioid { get; set; }
+    public string? Usuarioid { get; set; }
 }

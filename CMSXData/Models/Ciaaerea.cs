@@ -13,11 +13,11 @@ public partial class Ciaaerea
 
     public string? DescricaoLonga { get; set; }
 
-    public short? Ativo { get; set; }
+    public byte? Ativo { get; set; }
 
-    public short? Tiponac { get; set; }
+    public byte? Tiponac { get; set; }
 
-    public short? Tipoint { get; set; }
+    public byte? Tipoint { get; set; }
 
     public string? WebticketStr { get; set; }
 }

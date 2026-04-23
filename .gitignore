@@ -1,0 +1,26 @@
+## .NET build artifacts
+bin/
+obj/
+*.user
+*.suo
+
+## Visual Studio
+.vs/
+
+## Angular
+node_modules/
+dist/
+.angular/
+
+## App secrets / config sensível
+appsettings.Development.json
+appsettings.Production.json
+
+## Ferramentas de IA (Claude, Cursor)
+.claude/
+.cursorrules
+
+## Logs e temporários
+*.log
+Thumbs.db
+.DS_Store

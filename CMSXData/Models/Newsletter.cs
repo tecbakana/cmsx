@@ -13,7 +13,7 @@ public partial class Newsletter
 
     public DateTime? Data { get; set; }
 
-    public short? Frente { get; set; }
+    public byte? Frente { get; set; }
 
     public string? Texto { get; set; }
 
@@ -21,5 +21,5 @@ public partial class Newsletter
 
     public string? Cateriaid { get; set; }
 
-    public short? Ativo { get; set; }
+    public byte? Ativo { get; set; }
 }
