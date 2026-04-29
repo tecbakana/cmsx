@@ -8,7 +8,7 @@ const PROXY_CONFIG = [
     context: ["/api/publico"],
     proxyTimeout: 60000,
     timeout: 60000,
-    target: "https://localhost:13229",
+    target: target,
     secure: false,
     headers: { Connection: 'Keep-Alive' }
   },

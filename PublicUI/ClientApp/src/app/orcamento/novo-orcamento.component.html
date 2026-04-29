@@ -62,7 +62,7 @@
       <div class="card mb-3">
         <div class="card-body">
 
-          <div class="mb-2">
+          <div class="mb-3">
             <label class="form-label form-label-sm fw-semibold">Produto</label>
             <select class="form-select form-select-sm"
                     [(ngModel)]="produtoSelecionadoId"
@@ -70,30 +70,56 @@
               <option value="">Selecione um produto...</option>
               <option *ngFor="let p of produtos" [value]="p.produtoid">{{ p.nome }}</option>
             </select>
-            <div *ngIf="produtos.length === 0" class="text-muted small mt-1">Nenhum produto cadastrado para este tenant.</div>
+            <div *ngIf="produtos.length === 0" class="text-muted small mt-1">
+              Nenhum produto cadastrado para este tenant.
+            </div>
           </div>
 
           <ng-container *ngIf="produtoSelecionado">
 
-            <!-- Atributos -->
-            <div class="row g-2 mb-2" *ngIf="produtoSelecionado.atributos.length > 0">
-              <div class="col-md-4" *ngFor="let atrib of produtoSelecionado.atributos">
-                <label class="form-label form-label-sm">{{ atrib.nome }}</label>
-                <select class="form-select form-select-sm"
-                        [(ngModel)]="opcoesSelecionadas[atrib.atributoid]">
-                  <option value="">Selecione...</option>
-                  <option *ngFor="let opcao of atrib.opcoes" [value]="opcao.opcaoid">{{ opcao.nome }}</option>
-                </select>
+            <!-- Grupos de opções por checkboxes -->
+            <div *ngIf="grupos.length > 0" class="mb-3">
+              <div *ngFor="let grupo of grupos; let gi = index; trackBy: trackByIndex" class="mb-3">
+                <div class="fw-semibold small mb-1">{{ grupo.label }}</div>
+                <div class="d-flex flex-wrap gap-3">
+                  <div *ngFor="let opcao of grupo.opcoes; let oi = index; trackBy: trackByIndex"
+                       class="form-check">
+                    <input class="form-check-input" type="checkbox"
+                           [id]="'opc_' + gi + '_' + oi"
+                           [(ngModel)]="opcao.selecionada"
+                           (ngModelChange)="erroSelecao = ''">
+                    <label class="form-check-label small" [for]="'opc_' + gi + '_' + oi">
+                      {{ opcao.nome }}<span *ngIf="opcao.valorAdicional > 0" class="text-muted ms-1">(+{{ opcao.valorAdicional | currency:'BRL':'symbol':'1.2-2' }})</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div *ngIf="erroSelecao" class="text-danger small mt-1">{{ erroSelecao }}</div>
+            </div>
+
+            <!-- Checkboxes de atributos com valor próprio -->
+            <div *ngIf="checkboxAtribs.length > 0" class="mb-3">
+              <div class="fw-semibold small mb-1">Atributos</div>
+              <div class="d-flex flex-wrap gap-3">
+                <div *ngFor="let cb of checkboxAtribs; let ci = index; trackBy: trackByIndex"
+                     class="form-check">
+                  <input class="form-check-input" type="checkbox"
+                         [id]="'cb_' + ci"
+                         [(ngModel)]="cb.selecionado">
+                  <label class="form-check-label small" [for]="'cb_' + ci">
+                    {{ cb.label }} <span class="text-muted">(+{{ cb.valorAdicional | currency:'BRL':'symbol':'1.2-2' }})</span>
+                  </label>
+                </div>
               </div>
             </div>
 
-            <!-- Unidade e valor unitário -->
+            <!-- Resumo de valor -->
             <div class="d-flex gap-3 mb-3 small text-muted">
-              <span *ngIf="produtoSelecionado.unidadeVenda">
-                Unidade: <strong>{{ produtoSelecionado.unidadeVenda }}</strong>
+              <span *ngIf="produtoSelecionado!.unidadeVenda">
+                Unidade: <strong>{{ produtoSelecionado!.unidadeVenda }}</strong>
               </span>
               <span>
-                Valor unitário: <strong>{{ produtoSelecionado.valor | currency:'BRL':'symbol':'1.2-2' }}</strong>
+                Valor base: <strong>{{ produtoSelecionado!.valor | currency:'BRL':'symbol':'1.2-2' }}</strong>
               </span>
             </div>
 
@@ -106,10 +132,12 @@
         </div>
       </div>
 
-      <!-- Lista de itens adicionados -->
-      <div *ngIf="itens.length === 0" class="text-muted small mb-3">Nenhum item adicionado.</div>
+      <!-- Lista de itens -->
+      <div *ngIf="itensCompostos.length === 0 && itens.length === 0" class="text-muted small mb-3">
+        Nenhum item adicionado.
+      </div>
 
-      <div class="table-responsive mb-3" *ngIf="itens.length > 0">
+      <div class="table-responsive mb-3" *ngIf="itensCompostos.length > 0 || itens.length > 0">
         <table class="table table-sm align-middle">
           <thead class="table-light">
             <tr>
@@ -121,6 +149,33 @@
             </tr>
           </thead>
           <tbody>
+
+            <tr *ngFor="let item of itensCompostos; let i = index">
+              <td>
+                <div class="small fw-semibold">{{ item.produtoNome }}</div>
+                <div class="text-muted" style="font-size:0.75rem">
+                  <ng-container *ngFor="let s of item.selecoes; let last = last">
+                    {{ s.atributoNome }}: {{ s.opcaoNome }}<span *ngIf="!last"> | </span>
+                  </ng-container>
+                </div>
+              </td>
+              <td>
+                <input type="number" class="form-control form-control-sm"
+                       [(ngModel)]="item.quantidade"
+                       (ngModelChange)="onQuantidadeCompostoChange(item)"
+                       min="0.01" step="0.01">
+              </td>
+              <td class="text-muted small">
+                {{ item.valorUnitario | currency:'BRL':'symbol':'1.2-2' }}
+              </td>
+              <td class="fw-semibold small">
+                {{ item.valorUnitario * item.quantidade | currency:'BRL':'symbol':'1.2-2' }}
+              </td>
+              <td>
+                <button type="button" class="btn btn-sm btn-outline-danger" (click)="removeItemComposto(i)">&#x2715;</button>
+              </td>
+            </tr>
+
             <tr *ngFor="let item of itens; let i = index">
               <td class="small">{{ item.descricao }}</td>
               <td>
@@ -129,16 +184,14 @@
                        (ngModelChange)="atualizarTotal()"
                        min="0.01" step="0.01">
               </td>
-              <td class="text-muted small">
-                {{ item.valor | currency:'BRL':'symbol':'1.2-2' }}
-              </td>
-              <td class="fw-semibold small">
-                {{ calcularValorLinha(item) | currency:'BRL':'symbol':'1.2-2' }}
-              </td>
+              <td class="text-muted small">{{ item.valor | currency:'BRL':'symbol':'1.2-2' }}</td>
+              <td class="fw-semibold small">{{ calcularValorLinha(item) | currency:'BRL':'symbol':'1.2-2' }}</td>
               <td>
-                <button type="button" class="btn btn-sm btn-outline-danger" (click)="removeItem(i)">✕</button>
+                <button type="button" class="btn btn-sm btn-outline-danger"
+                        (click)="itens.splice(i, 1); atualizarTotal()">&#x2715;</button>
               </td>
             </tr>
+
           </tbody>
           <tfoot>
             <tr class="table-light">

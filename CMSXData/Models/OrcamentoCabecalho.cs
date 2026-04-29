@@ -18,4 +18,6 @@ public partial class OrcamentoCabecalho
     public DateTime? Datainclusao { get; set; }
 
     public virtual ICollection<OrcamentoDetalhe> OrcamentoDetalhes { get; set; } = new List<OrcamentoDetalhe>();
+
+    public virtual ICollection<OrcamentoDetalheComposto> OrcamentoDetalheCompostos { get; set; } = new List<OrcamentoDetalheComposto>();
 }

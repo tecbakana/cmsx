@@ -11,10 +11,14 @@ namespace CMSAPI.Controllers;
 public class OrcamentosController : Controller
 {
     private readonly IOrcamentoRepositorio _orcamentoRepo;
+    private readonly IOrcamentoCompostoRepositorio _compostoRepo;
 
-    public OrcamentosController(IOrcamentoRepositorio orcamentoRepo)
+    public OrcamentosController(
+        IOrcamentoRepositorio orcamentoRepo,
+        IOrcamentoCompostoRepositorio compostoRepo)
     {
         _orcamentoRepo = orcamentoRepo;
+        _compostoRepo = compostoRepo;
     }
 
     private (bool acessoTotal, string? aplicacaoid) UserContext() =>
@@ -53,6 +57,19 @@ public class OrcamentosController : Controller
         if (orcamento == null) return NotFound();
         if (!acessoTotal && orcamento.Aplicacaoid != claimAppId) return Forbid();
 
+        var itensCompostos = _compostoRepo.ListarAtuais(orcamento.Orcamentoid)
+            .Select(d => new
+            {
+                d.OrcamentoDetalheCompostoId,
+                d.Produtoid,
+                d.Quantidade,
+                d.ValorBase,
+                d.ValorTotal,
+                ConfiguracaoJson = d.ConfiguracaoJson,
+                d.Versao
+            })
+            .ToList();
+
         return Ok(new
         {
             orcamento.Orcamentoid,
@@ -73,7 +90,8 @@ public class OrcamentosController : Controller
                 d.Quantidade,
                 d.Valor,
                 d.Ativo
-            }).ToList()
+            }).ToList(),
+            ItensCompostos = itensCompostos
         });
     }
 
@@ -97,6 +115,7 @@ public class OrcamentosController : Controller
         if (orcamento == null) return NotFound();
         if (!acessoTotal && orcamento.Aplicacaoid != claimAppId) return Forbid();
 
+        _compostoRepo.RemoverPorOrcamento(orcamento.Orcamentoid);
         _orcamentoRepo.Remove(orcamento);
         return Ok();
     }

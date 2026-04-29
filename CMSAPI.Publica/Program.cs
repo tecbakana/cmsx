@@ -19,8 +19,8 @@ builder.Services.AddSwaggerGen(c =>
     c.AddServer(new Microsoft.OpenApi.Models.OpenApiServer { Url = "http://localhost:13230" });
 });
 
-var connSqlServer = builder.Configuration.GetConnectionString("SqlServer");
-builder.Services.AddDbContext<CmsxDbContext>(o => o.UseSqlServer(connSqlServer));
+var connPostgres = builder.Configuration.GetConnectionString("PostgreSQL");
+builder.Services.AddDbContext<CmsxDbContext>(o => o.UseNpgsql(connPostgres));
 
 builder.Services.AddCMSXDAL();
 builder.Services.AddCMSXRepo();
@@ -81,6 +81,8 @@ builder.Services.AddRateLimiter(rl =>
     rl.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
 });
 
+builder.Services.AddHealthChecks();
+
 builder.Services.AddControllers()
     .AddJsonOptions(o => o.JsonSerializerOptions.PropertyNameCaseInsensitive = true);
 
@@ -99,6 +101,7 @@ app.UseSwaggerUI(c =>
     c.RoutePrefix = "swagger";
 });
 
+app.MapHealthChecks("/health");
 app.MapControllers();
 
 app.Run();
