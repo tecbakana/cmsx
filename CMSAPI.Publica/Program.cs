@@ -16,7 +16,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "CMSX API Pública", Version = "v1" });
-    c.AddServer(new Microsoft.OpenApi.Models.OpenApiServer { Url = "http://localhost:13230" });
+    var swaggerUrl = builder.Configuration["SwaggerServer:Url"] ?? "http://localhost:13230";
+    c.AddServer(new Microsoft.OpenApi.Models.OpenApiServer { Url = swaggerUrl });
 });
 
 var connPostgres = builder.Configuration.GetConnectionString("PostgreSQL");

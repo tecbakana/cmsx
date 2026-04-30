@@ -77,7 +77,6 @@ body {
   font-size: 14px;
   color: var(--text);
   background: var(--bg);
-  overflow: hidden;
 }
 
 /* ── APP SHELL ── */
