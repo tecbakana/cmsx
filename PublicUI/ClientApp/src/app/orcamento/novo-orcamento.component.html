@@ -77,27 +77,22 @@
 
           <ng-container *ngIf="produtoSelecionado">
 
-            <!-- Grupos de opções por checkboxes -->
-            <div *ngIf="grupos.length > 0" class="mb-3">
-              <div *ngFor="let grupo of grupos; let gi = index; trackBy: trackByIndex" class="mb-3">
-                <div class="fw-semibold small mb-1">{{ grupo.label }}</div>
-                <div class="d-flex flex-wrap gap-3">
-                  <div *ngFor="let opcao of grupo.opcoes; let oi = index; trackBy: trackByIndex"
-                       class="form-check">
-                    <input class="form-check-input" type="checkbox"
-                           [id]="'opc_' + gi + '_' + oi"
-                           [(ngModel)]="opcao.selecionada"
-                           (ngModelChange)="erroSelecao = ''">
-                    <label class="form-check-label small" [for]="'opc_' + gi + '_' + oi">
-                      {{ opcao.nome }}<span *ngIf="opcao.valorAdicional > 0" class="text-muted ms-1">(+{{ opcao.valorAdicional | currency:'BRL':'symbol':'1.2-2' }})</span>
-                    </label>
-                  </div>
-                </div>
+            <!-- Selects em cascata -->
+            <div *ngFor="let cadeia of cadeias; let ci = index; trackBy: trackByIndex" class="mb-3">
+              <div *ngFor="let level of cadeia.levels; let li = index; trackBy: trackByIndex" class="mb-2">
+                <label class="form-label form-label-sm fw-semibold">{{ level.label }}</label>
+                <select class="form-select form-select-sm"
+                        [(ngModel)]="level.selecionado"
+                        (ngModelChange)="onLevelChange(ci, li)">
+                  <option value="">Selecione...</option>
+                  <option *ngFor="let item of level.itens" [value]="item.id">
+                    {{ item.nome }}<ng-container *ngIf="level.isLeaf && item.valorAdicional > 0"> (+{{ item.valorAdicional | currency:'BRL':'symbol':'1.2-2' }})</ng-container>
+                  </option>
+                </select>
               </div>
-              <div *ngIf="erroSelecao" class="text-danger small mt-1">{{ erroSelecao }}</div>
             </div>
 
-            <!-- Checkboxes de atributos com valor próprio -->
+            <!-- Checkboxes de atributos standalone -->
             <div *ngIf="checkboxAtribs.length > 0" class="mb-3">
               <div class="fw-semibold small mb-1">Atributos</div>
               <div class="d-flex flex-wrap gap-3">
@@ -122,6 +117,8 @@
                 Valor base: <strong>{{ produtoSelecionado!.valor | currency:'BRL':'symbol':'1.2-2' }}</strong>
               </span>
             </div>
+
+            <div *ngIf="erroSelecao" class="text-danger small mb-2">{{ erroSelecao }}</div>
 
             <button type="button" class="btn btn-sm btn-outline-primary" (click)="adicionarItem()">
               + Adicionar item

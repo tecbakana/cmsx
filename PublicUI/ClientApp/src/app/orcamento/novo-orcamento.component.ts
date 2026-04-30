@@ -32,19 +32,28 @@ interface ProdutoPublico {
   atributos: AtributoPublico[];
 }
 
-interface OpcaoSelecionavel {
-  atributoid: string;
-  sectionLabel: string;
-  opcaoid: string;
+// ── Cascade selects ──────────────────────────────────────────────
+
+interface CascadeItem {
+  id: string;               // opcaoid se folha, atributoid se filho
   nome: string;
   valorAdicional: number;
-  selecionada: boolean;
+  filhoNode?: AtributoPublico;
 }
 
-interface GrupoOpcao {
+interface CascadeLevel {
+  atributoid: string;
   label: string;
-  opcoes: OpcaoSelecionavel[];
+  isLeaf: boolean;
+  itens: CascadeItem[];
+  selecionado: string;
 }
+
+interface CadeiaCascata {
+  levels: CascadeLevel[];
+}
+
+// ── Seleção final ────────────────────────────────────────────────
 
 interface SelecaoComposta {
   atributoid: string;
@@ -103,7 +112,7 @@ export class NovoOrcamentoComponent implements OnInit {
 
   produtos: ProdutoPublico[] = [];
   produtoSelecionadoId = '';
-  grupos: GrupoOpcao[] = [];
+  cadeias: CadeiaCascata[] = [];
   checkboxAtribs: CheckboxAtributo[] = [];
 
   constructor(private http: HttpClient, private route: ActivatedRoute) {}
@@ -122,35 +131,84 @@ export class NovoOrcamentoComponent implements OnInit {
     return this.produtos.find(p => p.produtoid === this.produtoSelecionadoId) ?? null;
   }
 
+  private buildLevel(node: AtributoPublico): CascadeLevel | null {
+    if (node.filhos.length > 0) {
+      return {
+        atributoid: node.atributoid,
+        label: node.nome,
+        isLeaf: false,
+        itens: node.filhos.map(f => ({
+          id: f.atributoid,
+          nome: f.nome,
+          valorAdicional: f.valorAdicional ?? 0,
+          filhoNode: f
+        })),
+        selecionado: ''
+      };
+    } else if (node.opcoes.length > 0) {
+      return {
+        atributoid: node.atributoid,
+        label: node.nome,
+        isLeaf: true,
+        itens: node.opcoes.map(o => ({
+          id: o.opcaoid,
+          nome: o.nome,
+          valorAdicional: o.valorAdicional ?? 0
+        })),
+        selecionado: ''
+      };
+    }
+    return null;
+  }
+
   onProdutoChange() {
     this.erroSelecao = '';
+    this.cadeias = [];
+    this.checkboxAtribs = [];
     const produto = this.produtoSelecionado;
-    if (!produto) { this.grupos = []; return; }
+    if (!produto) return;
 
-    const flat = new Map<string, OpcaoSelecionavel[]>();
-    const checkboxes: CheckboxAtributo[] = [];
-    const traverse = (node: AtributoPublico, path: string) => {
-      const label = path ? `${path} > ${node.nome}` : node.nome;
-      if (node.opcoes.length === 0 && node.filhos.length === 0 && (node.valorAdicional ?? 0) > 0) {
-        checkboxes.push({ atributoid: node.atributoid, label, valorAdicional: node.valorAdicional, selecionado: false });
-      } else if (node.opcoes.length > 0) {
-        const lista = flat.get(label) ?? [];
-        node.opcoes.forEach(o => lista.push({
-          atributoid: node.atributoid,
-          sectionLabel: label,
-          opcaoid: o.opcaoid,
-          nome: o.nome,
-          valorAdicional: o.valorAdicional ?? 0,
-          selecionada: false
-        }));
-        flat.set(label, lista);
+    for (const atrib of produto.atributos) {
+      const level = this.buildLevel(atrib);
+      if (level) {
+        this.cadeias.push({ levels: [level] });
+      } else if ((atrib.valorAdicional ?? 0) > 0) {
+        this.checkboxAtribs.push({
+          atributoid: atrib.atributoid,
+          label: atrib.nome,
+          valorAdicional: atrib.valorAdicional,
+          selecionado: false
+        });
       }
-      node.filhos.forEach(f => traverse(f, label));
-    };
+    }
+  }
 
-    produto.atributos.forEach(a => traverse(a, ''));
-    this.grupos = [...flat.entries()].map(([label, opcoes]) => ({ label, opcoes }));
-    this.checkboxAtribs = checkboxes;
+  onLevelChange(cadeiaIdx: number, levelIdx: number) {
+    const cadeia = this.cadeias[cadeiaIdx];
+    const level = cadeia.levels[levelIdx];
+
+    // Remove níveis subsequentes
+    cadeia.levels = cadeia.levels.slice(0, levelIdx + 1);
+
+    if (!level.selecionado || level.isLeaf) return;
+
+    const item = level.itens.find(i => i.id === level.selecionado);
+    if (!item?.filhoNode) return;
+
+    const nextLevel = this.buildLevel(item.filhoNode);
+    if (nextLevel) {
+      cadeia.levels.push(nextLevel);
+    } else if ((item.filhoNode.valorAdicional ?? 0) > 0) {
+      const exists = this.checkboxAtribs.some(c => c.atributoid === item.filhoNode!.atributoid);
+      if (!exists) {
+        this.checkboxAtribs.push({
+          atributoid: item.filhoNode.atributoid,
+          label: item.filhoNode.nome,
+          valorAdicional: item.filhoNode.valorAdicional,
+          selecionado: false
+        });
+      }
+    }
   }
 
   trackByIndex(index: number) { return index; }
@@ -159,24 +217,25 @@ export class NovoOrcamentoComponent implements OnInit {
     const produto = this.produtoSelecionado;
     if (!produto) return;
 
-    const selecionadas = this.grupos.reduce(
-      (acc: OpcaoSelecionavel[], g: GrupoOpcao) => acc.concat(g.opcoes.filter((o: OpcaoSelecionavel) => o.selecionada)),
-      []
-    );
-    if (selecionadas.length === 0 && this.grupos.length > 0) {
-      this.erroSelecao = 'Selecione ao menos uma opção.';
-      return;
+    const selecoes: SelecaoComposta[] = [];
+    for (const cadeia of this.cadeias) {
+      const lastLevel = cadeia.levels[cadeia.levels.length - 1];
+      if (!lastLevel.isLeaf || !lastLevel.selecionado) {
+        this.erroSelecao = 'Complete todas as seleções antes de adicionar.';
+        return;
+      }
+      const item = lastLevel.itens.find(i => i.id === lastLevel.selecionado);
+      if (!item) continue;
+      selecoes.push({
+        atributoid: lastLevel.atributoid,
+        atributoNome: lastLevel.label,
+        opcaoid: lastLevel.selecionado,
+        opcaoNome: item.nome,
+        valorAdicional: item.valorAdicional
+      });
     }
 
     this.erroSelecao = '';
-
-    const selecoes: SelecaoComposta[] = selecionadas.map((o: OpcaoSelecionavel) => ({
-      atributoid: o.atributoid,
-      atributoNome: o.sectionLabel,
-      opcaoid: o.opcaoid,
-      opcaoNome: o.nome,
-      valorAdicional: o.valorAdicional
-    }));
 
     const checkboxes: CheckboxSelecionado[] = this.checkboxAtribs
       .filter(c => c.selecionado)
@@ -199,7 +258,7 @@ export class NovoOrcamentoComponent implements OnInit {
     });
 
     this.produtoSelecionadoId = '';
-    this.grupos = [];
+    this.cadeias = [];
     this.checkboxAtribs = [];
     this.atualizarTotal();
   }
@@ -260,7 +319,7 @@ export class NovoOrcamentoComponent implements OnInit {
     this.erro = '';
     this.erroSelecao = '';
     this.produtoSelecionadoId = '';
-    this.grupos = [];
+    this.cadeias = [];
     this.checkboxAtribs = [];
   }
 }

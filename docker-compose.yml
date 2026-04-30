@@ -1,0 +1,88 @@
+services:
+
+  # ── Banco de dados ──────────────────────────────────────────────
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: cmsxdb
+      POSTGRES_USER: multiplai_us
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-localpass123}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U multiplai_us -d cmsxdb"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  # ── APIs ────────────────────────────────────────────────────────
+  cmsapi:
+    build:
+      context: .
+      dockerfile: Dockerfile.cmsapi
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__PostgreSQL: "Host=postgres;Port=5432;Database=cmsxdb;Username=multiplai_us;Password=${POSTGRES_PASSWORD:-localpass123}"
+      Jwt__Key: ${JWT_KEY}
+      Jwt__Issuer: multiplai-local
+      Jwt__Audience: multiplai-local
+      SalematicJwt__Key: ${SALEMATIC_JWT_KEY}
+      SalematicJwt__Issuer: salematic
+      SalematicJwt__Audience: salematic
+      Cors__AllowedOrigins__0: "http://localhost:4400"
+      SwaggerServer__Url: "http://localhost:4400"
+      Salematic__BaseUrl: ${SALEMATIC_BASE_URL:-http://localhost:5000}
+
+  cmsapi-publica:
+    build:
+      context: .
+      dockerfile: Dockerfile.cmsapi-publica
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__PostgreSQL: "Host=postgres;Port=5432;Database=cmsxdb;Username=multiplai_us;Password=${POSTGRES_PASSWORD:-localpass123}"
+      SalematicJwt__Key: ${SALEMATIC_JWT_KEY}
+      SalematicJwt__Issuer: salematic
+      SalematicJwt__Audience: salematic
+      Cors__AllowedOrigins__0: "http://localhost:4401"
+      SwaggerServer__Url: "http://localhost:4401"
+      Salematic__BaseUrl: ${SALEMATIC_BASE_URL:-http://localhost:5000}
+
+  # ── UIs ─────────────────────────────────────────────────────────
+  cmsui:
+    build:
+      context: .
+      dockerfile: Dockerfile.cmsui
+    depends_on:
+      - cmsapi
+
+  publicui:
+    build:
+      context: .
+      dockerfile: Dockerfile.publicui
+    depends_on:
+      - cmsapi-publica
+
+  # ── Reverse proxy (replica o ingress) ───────────────────────────
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "4400:4400"   # admin  → http://localhost:4400
+      - "4401:4401"   # public → http://localhost:4401
+    volumes:
+      - ./nginx/local.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - cmsapi
+      - cmsapi-publica
+      - cmsui
+      - publicui
+
+volumes:
+  pg_data:
