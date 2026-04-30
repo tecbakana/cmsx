@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { AdminContextService } from '../admin-context.service';
+import { environment } from '../../environments/environment';
 
 @Component({
   templateUrl: './orcamento.component.html'
@@ -38,7 +39,7 @@ export class OrcamentoComponent implements OnInit {
       ? (this.adminCtx.tenantId ?? '')
       : (this.usuario?.aplicacaoid ?? '');
     if (appId) {
-      this.http.get<any[]>(`/publicTokens?aplicacaoid=${appId}`)
+      this.http.get<any[]>(`/publictokens?aplicacaoid=${appId}`)
         .subscribe(tokens => {
           const ativo = tokens.find(t => t.ativo);
           this.refToken = ativo?.token ?? '';
@@ -82,7 +83,7 @@ export class OrcamentoComponent implements OnInit {
 
   linkPublico(): string {
     if (this.refToken)
-      return `${window.location.origin}/orcamento/novo?ref=${this.refToken}`;
+      return `${environment.publicUrl}/orcamento/novo?ref=${this.refToken}`;
     return '';
   }
 
