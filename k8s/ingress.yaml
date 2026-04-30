@@ -58,77 +58,77 @@ spec:
       http:
         paths:
           # API endpoints (PascalCase — [Route("[controller]")])
-          - path: /Auth
+          - path: /auth
             pathType: Prefix
             backend:
               service:
                 name: cmsapi
                 port:
                   number: 8080
-          - path: /Usuarios
+          - path: /usuarios
             pathType: Prefix
             backend:
               service:
                 name: cmsapi
                 port:
                   number: 8080
-          - path: /Aplicacaos
+          - path: /aplicacaos
             pathType: Prefix
             backend:
               service:
                 name: cmsapi
                 port:
                   number: 8080
-          - path: /Dashboard
+          - path: /dashboard
             pathType: Prefix
             backend:
               service:
                 name: cmsapi
                 port:
                   number: 8080
-          - path: /Modulos
+          - path: /modulos
             pathType: Prefix
             backend:
               service:
                 name: cmsapi
                 port:
                   number: 8080
-          - path: /Conteudos
+          - path: /conteudos
             pathType: Prefix
             backend:
               service:
                 name: cmsapi
                 port:
                   number: 8080
-          - path: /Areas
+          - path: /areas
             pathType: Prefix
             backend:
               service:
                 name: cmsapi
                 port:
                   number: 8080
-          - path: /Categorias
+          - path: /categorias
             pathType: Prefix
             backend:
               service:
                 name: cmsapi
                 port:
                   number: 8080
-          - path: /Produtos
+          - path: /produtos
             pathType: Prefix
             backend:
               service:
                 name: cmsapi
                 port:
                   number: 8080
-          - path: /Formularios
+          - path: /formularios
             pathType: Prefix
             backend:
               service:
                 name: cmsapi
                 port:
                   number: 8080
-          - path: /Grupos
+          - path: /grupos
             pathType: Prefix
             backend:
               service:
@@ -149,63 +149,63 @@ spec:
                 name: cmsapi
                 port:
                   number: 8080
-          - path: /PageBuilder
+          - path: /pagebuilder
             pathType: Prefix
             backend:
               service:
                 name: cmsapi
                 port:
                   number: 8080
-          - path: /Wiki
+          - path: /wiki
             pathType: Prefix
             backend:
               service:
                 name: cmsapi
                 port:
                   number: 8080
-          - path: /Faq
+          - path: /faq
             pathType: Prefix
             backend:
               service:
                 name: cmsapi
                 port:
                   number: 8080
-          - path: /Site
+          - path: /site
             pathType: Prefix
             backend:
               service:
                 name: cmsapi
                 port:
                   number: 8080
-          - path: /LayoutTemplates
+          - path: /layouttemplates
             pathType: Prefix
             backend:
               service:
                 name: cmsapi
                 port:
                   number: 8080
-          - path: /Pedidos
+          - path: /pedidos
             pathType: Prefix
             backend:
               service:
                 name: cmsapi
                 port:
                   number: 8080
-          - path: /Orcamentos
+          - path: /orcamentos
             pathType: Prefix
             backend:
               service:
                 name: cmsapi
                 port:
                   number: 8080
-          - path: /PublicTokens
+          - path: /publictokens
             pathType: Prefix
             backend:
               service:
                 name: cmsapi
                 port:
                   number: 8080
-          - path: /Media
+          - path: /media
             pathType: Prefix
             backend:
               service:

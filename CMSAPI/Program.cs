@@ -130,6 +130,14 @@ using (var scope = app.Services.CreateScope())
 }
 
 app.UseStaticFiles();
+
+// Normaliza paths para lowercase antes do routing (Angular usa lowercase, ASP.NET Core gera PascalCase)
+app.Use(async (context, next) =>
+{
+    context.Request.Path = context.Request.Path.Value?.ToLowerInvariant();
+    await next();
+});
+
 app.UseRouting();
 app.UseCors("Angular");
 app.UseRateLimiter();
