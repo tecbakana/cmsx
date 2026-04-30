@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CMSXData.Migrations
 {
     [DbContext(typeof(CmsxDbContext))]
-    [Migration("20260430125846_InitialCreate")]
+    [Migration("20260430131141_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -1022,7 +1022,7 @@ namespace CMSXData.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("ModeloCompostoId")
-                        .HasDefaultValueSql("NEWID()");
+                        .HasDefaultValueSql("gen_random_uuid()");
 
                     b.Property<string>("Aplicacaoid")
                         .IsRequired()
@@ -1081,7 +1081,7 @@ namespace CMSXData.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("ModeloSelecaoId")
-                        .HasDefaultValueSql("NEWID()");
+                        .HasDefaultValueSql("gen_random_uuid()");
 
                     b.Property<Guid>("Atributoid")
                         .HasColumnType("uuid")
@@ -1276,7 +1276,7 @@ namespace CMSXData.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("orcamentoid")
-                        .HasDefaultValueSql("NEWID()");
+                        .HasDefaultValueSql("gen_random_uuid()");
 
                     b.Property<string>("Aplicacaoid")
                         .IsRequired()
@@ -1341,7 +1341,7 @@ namespace CMSXData.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("orcamentodetalheid")
-                        .HasDefaultValueSql("NEWID()");
+                        .HasDefaultValueSql("gen_random_uuid()");
 
                     b.Property<bool>("Ativo")
                         .HasColumnType("boolean")
@@ -1381,7 +1381,7 @@ namespace CMSXData.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("OrcamentoDetalheCompostoId")
-                        .HasDefaultValueSql("NEWID()");
+                        .HasDefaultValueSql("gen_random_uuid()");
 
                     b.Property<bool>("Atual")
                         .ValueGeneratedOnAdd()
@@ -1447,7 +1447,7 @@ namespace CMSXData.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("pedidoid")
-                        .HasDefaultValueSql("NEWID()");
+                        .HasDefaultValueSql("gen_random_uuid()");
 
                     b.Property<string>("Aplicacaoid")
                         .HasMaxLength(36)
@@ -1587,7 +1587,7 @@ namespace CMSXData.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("publictokenid")
-                        .HasDefaultValueSql("NEWID()");
+                        .HasDefaultValueSql("gen_random_uuid()");
 
                     b.Property<string>("Aplicacaoid")
                         .IsRequired()
@@ -1821,7 +1821,7 @@ namespace CMSXData.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("SelecaoId")
-                        .HasDefaultValueSql("NEWID()");
+                        .HasDefaultValueSql("gen_random_uuid()");
 
                     b.Property<Guid>("Atributoid")
                         .HasColumnType("uuid")
@@ -1889,7 +1889,7 @@ namespace CMSXData.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("statuspedidoid")
-                        .HasDefaultValueSql("NEWID()");
+                        .HasDefaultValueSql("gen_random_uuid()");
 
                     b.Property<DateTime>("Datahora")
                         .ValueGeneratedOnAdd()

@@ -434,7 +434,7 @@ namespace CMSXData.Migrations
                 name: "modelocomposto",
                 columns: table => new
                 {
-                    ModeloCompostoId = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "NEWID()"),
+                    ModeloCompostoId = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()"),
                     Aplicacaoid = table.Column<string>(type: "character varying(64)", maxLength: 64, nullable: false),
                     Produtoid = table.Column<string>(type: "character varying(64)", maxLength: 64, nullable: false),
                     Nome = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false),
@@ -511,7 +511,7 @@ namespace CMSXData.Migrations
                 name: "orcamentocabecalho",
                 columns: table => new
                 {
-                    orcamentoid = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "NEWID()"),
+                    orcamentoid = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()"),
                     aplicacaoid = table.Column<string>(type: "character varying(64)", maxLength: 64, nullable: false),
                     nome = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
                     email = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: true),
@@ -532,7 +532,7 @@ namespace CMSXData.Migrations
                 name: "pedido",
                 columns: table => new
                 {
-                    pedidoid = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "NEWID()"),
+                    pedidoid = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()"),
                     aplicacaoid = table.Column<string>(type: "character varying(36)", maxLength: 36, nullable: true),
                     numeropedido = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
                     clientenome = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: true),
@@ -579,7 +579,7 @@ namespace CMSXData.Migrations
                 name: "publictoken",
                 columns: table => new
                 {
-                    publictokenid = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "NEWID()"),
+                    publictokenid = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()"),
                     token = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     aplicacaoid = table.Column<string>(type: "character varying(64)", maxLength: 64, nullable: false),
                     ativo = table.Column<bool>(type: "boolean", nullable: false),
@@ -810,7 +810,7 @@ namespace CMSXData.Migrations
                 name: "modeloselecao",
                 columns: table => new
                 {
-                    ModeloSelecaoId = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "NEWID()"),
+                    ModeloSelecaoId = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()"),
                     ModeloCompostoId = table.Column<Guid>(type: "uuid", nullable: false),
                     Atributoid = table.Column<Guid>(type: "uuid", nullable: false),
                     Opcaoid = table.Column<string>(type: "character varying(64)", maxLength: 64, nullable: false)
@@ -830,7 +830,7 @@ namespace CMSXData.Migrations
                 name: "orcamentodetalhe",
                 columns: table => new
                 {
-                    orcamentodetalheid = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "NEWID()"),
+                    orcamentodetalheid = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()"),
                     orcamentoid = table.Column<Guid>(type: "uuid", nullable: false),
                     descricao = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false),
                     quantidade = table.Column<decimal>(type: "numeric(10,2)", precision: 10, scale: 2, nullable: false),
@@ -852,7 +852,7 @@ namespace CMSXData.Migrations
                 name: "statuspedido",
                 columns: table => new
                 {
-                    statuspedidoid = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "NEWID()"),
+                    statuspedidoid = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()"),
                     pedidoid = table.Column<Guid>(type: "uuid", nullable: false),
                     status = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
                     descricao = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
@@ -873,7 +873,7 @@ namespace CMSXData.Migrations
                 name: "orcamentodetalhecomposto",
                 columns: table => new
                 {
-                    OrcamentoDetalheCompostoId = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "NEWID()"),
+                    OrcamentoDetalheCompostoId = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()"),
                     orcamentoid = table.Column<Guid>(type: "uuid", nullable: false),
                     Produtoid = table.Column<string>(type: "character varying(64)", maxLength: 64, nullable: false),
                     Quantidade = table.Column<decimal>(type: "numeric(10,2)", precision: 10, scale: 2, nullable: false),
@@ -905,7 +905,7 @@ namespace CMSXData.Migrations
                 name: "selecao",
                 columns: table => new
                 {
-                    SelecaoId = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "NEWID()"),
+                    SelecaoId = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()"),
                     OrcamentoDetalheCompostoId = table.Column<Guid>(type: "uuid", nullable: false),
                     Atributoid = table.Column<Guid>(type: "uuid", nullable: false),
                     Opcaoid = table.Column<string>(type: "character varying(64)", maxLength: 64, nullable: false),

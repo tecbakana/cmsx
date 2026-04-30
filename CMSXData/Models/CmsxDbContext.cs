@@ -607,7 +607,7 @@ public partial class CmsxDbContext : DbContext
         {
             entity.HasKey(e => e.Pedidoid).HasName("pedidoPK");
             entity.ToTable("pedido");
-            entity.Property(e => e.Pedidoid).HasDefaultValueSql("NEWID()").HasColumnName("pedidoid");
+            entity.Property(e => e.Pedidoid).HasDefaultValueSql("gen_random_uuid()").HasColumnName("pedidoid");
             entity.Property(e => e.Aplicacaoid).HasMaxLength(36).HasColumnName("aplicacaoid");
             entity.Property(e => e.Numeropedido).HasMaxLength(100).HasColumnName("numeropedido");
             entity.Property(e => e.Clientenome).HasMaxLength(200).HasColumnName("clientenome");
@@ -622,7 +622,7 @@ public partial class CmsxDbContext : DbContext
         {
             entity.HasKey(e => e.Statuspedidoid).HasName("statuspedidoPK");
             entity.ToTable("statuspedido");
-            entity.Property(e => e.Statuspedidoid).HasDefaultValueSql("NEWID()").HasColumnName("statuspedidoid");
+            entity.Property(e => e.Statuspedidoid).HasDefaultValueSql("gen_random_uuid()").HasColumnName("statuspedidoid");
             entity.Property(e => e.Pedidoid).HasColumnName("pedidoid");
             entity.Property(e => e.Status).HasMaxLength(50).HasColumnName("status");
             entity.Property(e => e.Descricao).HasMaxLength(500).HasColumnName("descricao");
@@ -637,7 +637,7 @@ public partial class CmsxDbContext : DbContext
         {
             entity.HasKey(e => e.Orcamentoid).HasName("PK_orcamentocabecalho");
             entity.ToTable("orcamentocabecalho");
-            entity.Property(e => e.Orcamentoid).HasDefaultValueSql("NEWID()").HasColumnName("orcamentoid");
+            entity.Property(e => e.Orcamentoid).HasDefaultValueSql("gen_random_uuid()").HasColumnName("orcamentoid");
             entity.Property(e => e.Aplicacaoid).HasMaxLength(64).HasColumnName("aplicacaoid");
             entity.Property(e => e.Nome).HasMaxLength(200).HasColumnName("nome");
             entity.Property(e => e.Email).HasMaxLength(200).HasColumnName("email");
@@ -654,7 +654,7 @@ public partial class CmsxDbContext : DbContext
         {
             entity.HasKey(e => e.Orcamentodetalheid).HasName("PK_orcamentodetalhe");
             entity.ToTable("orcamentodetalhe");
-            entity.Property(e => e.Orcamentodetalheid).HasDefaultValueSql("NEWID()").HasColumnName("orcamentodetalheid");
+            entity.Property(e => e.Orcamentodetalheid).HasDefaultValueSql("gen_random_uuid()").HasColumnName("orcamentodetalheid");
             entity.Property(e => e.Orcamentoid).HasColumnName("orcamentoid");
             entity.Property(e => e.Descricao).HasMaxLength(500).HasColumnName("descricao");
             entity.Property(e => e.Quantidade).HasPrecision(10, 2).HasColumnName("quantidade");
@@ -672,7 +672,7 @@ public partial class CmsxDbContext : DbContext
             entity.ToTable("publictoken");
             entity.HasIndex(e => e.Token).IsUnique().HasDatabaseName("UQ_publictoken_token");
             entity.HasIndex(e => e.Aplicacaoid).HasDatabaseName("IX_publictoken_aplicacaoid");
-            entity.Property(e => e.PublicTokenId).HasDefaultValueSql("NEWID()").HasColumnName("publictokenid");
+            entity.Property(e => e.PublicTokenId).HasDefaultValueSql("gen_random_uuid()").HasColumnName("publictokenid");
             entity.Property(e => e.Token).HasMaxLength(100).HasColumnName("token");
             entity.Property(e => e.Aplicacaoid).HasMaxLength(64).HasColumnName("aplicacaoid");
             entity.Property(e => e.Ativo).HasColumnName("ativo");
@@ -684,7 +684,7 @@ public partial class CmsxDbContext : DbContext
         {
             entity.HasKey(e => e.OrcamentoDetalheCompostoId).HasName("PK_orcamentodetalhecomposto");
             entity.ToTable("orcamentodetalhecomposto");
-            entity.Property(e => e.OrcamentoDetalheCompostoId).HasDefaultValueSql("NEWID()").HasColumnName("OrcamentoDetalheCompostoId");
+            entity.Property(e => e.OrcamentoDetalheCompostoId).HasDefaultValueSql("gen_random_uuid()").HasColumnName("OrcamentoDetalheCompostoId");
             entity.Property(e => e.Orcamentoid).HasColumnName("orcamentoid");
             entity.Property(e => e.Produtoid).HasMaxLength(64).HasColumnName("Produtoid");
             entity.Property(e => e.Quantidade).HasPrecision(10, 2).HasColumnName("Quantidade");
@@ -710,7 +710,7 @@ public partial class CmsxDbContext : DbContext
         {
             entity.HasKey(e => e.SelecaoId).HasName("PK_selecao");
             entity.ToTable("selecao");
-            entity.Property(e => e.SelecaoId).HasDefaultValueSql("NEWID()").HasColumnName("SelecaoId");
+            entity.Property(e => e.SelecaoId).HasDefaultValueSql("gen_random_uuid()").HasColumnName("SelecaoId");
             entity.Property(e => e.OrcamentoDetalheCompostoId).HasColumnName("OrcamentoDetalheCompostoId");
             entity.Property(e => e.Atributoid).HasColumnName("Atributoid");
             entity.Property(e => e.Opcaoid).HasMaxLength(64).HasColumnName("Opcaoid");
@@ -736,7 +736,7 @@ public partial class CmsxDbContext : DbContext
             entity.HasIndex(e => new { e.ConfiguracaoHash, e.Aplicacaoid, e.Produtoid })
                 .IsUnique()
                 .HasDatabaseName("IX_modelocomposto_hash");
-            entity.Property(e => e.ModeloCompostoId).HasDefaultValueSql("NEWID()").HasColumnName("ModeloCompostoId");
+            entity.Property(e => e.ModeloCompostoId).HasDefaultValueSql("gen_random_uuid()").HasColumnName("ModeloCompostoId");
             entity.Property(e => e.Aplicacaoid).HasMaxLength(64).HasColumnName("Aplicacaoid");
             entity.Property(e => e.Produtoid).HasMaxLength(64).HasColumnName("Produtoid");
             entity.Property(e => e.Nome).HasMaxLength(500).HasColumnName("Nome");
@@ -750,7 +750,7 @@ public partial class CmsxDbContext : DbContext
         {
             entity.HasKey(e => e.ModeloSelecaoId).HasName("PK_modeloselecao");
             entity.ToTable("modeloselecao");
-            entity.Property(e => e.ModeloSelecaoId).HasDefaultValueSql("NEWID()").HasColumnName("ModeloSelecaoId");
+            entity.Property(e => e.ModeloSelecaoId).HasDefaultValueSql("gen_random_uuid()").HasColumnName("ModeloSelecaoId");
             entity.Property(e => e.ModeloCompostoId).HasColumnName("ModeloCompostoId");
             entity.Property(e => e.Atributoid).HasColumnName("Atributoid");
             entity.Property(e => e.Opcaoid).HasMaxLength(64).HasColumnName("Opcaoid");
