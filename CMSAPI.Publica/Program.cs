@@ -20,8 +20,14 @@ builder.Services.AddSwaggerGen(c =>
     c.AddServer(new Microsoft.OpenApi.Models.OpenApiServer { Url = swaggerUrl });
 });
 
-var connPostgres = builder.Configuration.GetConnectionString("PostgreSQL");
-builder.Services.AddDbContext<CmsxDbContext>(o => o.UseNpgsql(connPostgres));
+var dbProvider = builder.Configuration["DatabaseProvider"] ?? "PostgreSQL";
+builder.Services.AddDbContext<CmsxDbContext>(o =>
+{
+    if (dbProvider == "SqlServer")
+        o.UseSqlServer(builder.Configuration.GetConnectionString("SqlServer"));
+    else
+        o.UseNpgsql(builder.Configuration.GetConnectionString("PostgreSQL"));
+});
 
 builder.Services.AddCMSXDAL();
 builder.Services.AddCMSXRepo();

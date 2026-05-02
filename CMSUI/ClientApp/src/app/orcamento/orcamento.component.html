@@ -3,8 +3,12 @@
   <!-- Cabeçalho -->
   <div class="d-flex align-items-center gap-3 mb-3">
     <h4 class="mb-0">Orçamentos</h4>
-    <button class="btn btn-sm btn-outline-secondary ms-auto" title="Copiar link público" (click)="copiarLink()">
-      Copiar link do vendedor
+    <button class="btn btn-sm ms-auto"
+            [class.btn-success]="linkCopiado"
+            [class.btn-outline-secondary]="!linkCopiado"
+            title="Copiar link público" (click)="copiarLink()"
+            [disabled]="!linkPublico()">
+      {{ linkCopiado ? 'Copiado!' : 'Copiar link do vendedor' }}
     </button>
     <button class="btn btn-sm btn-outline-secondary" (click)="carregar()">&#8635; Atualizar</button>
   </div>

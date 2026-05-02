@@ -10,6 +10,7 @@ export class OrcamentoComponent implements OnInit {
   lista: any[] = [];
   selecionado: any = null;
   carregandoDetalhe = false;
+  linkCopiado = false;
   private usuario: any;
   private refToken = '';
 
@@ -39,7 +40,7 @@ export class OrcamentoComponent implements OnInit {
       ? (this.adminCtx.tenantId ?? '')
       : (this.usuario?.aplicacaoid ?? '');
     if (appId) {
-      this.http.get<any[]>(`/publictokens?aplicacaoid=${appId}`)
+      this.http.get<any[]>(`/publicTokens?aplicacaoid=${appId}`)
         .subscribe(tokens => {
           const ativo = tokens.find(t => t.ativo);
           this.refToken = ativo?.token ?? '';
@@ -88,7 +89,12 @@ export class OrcamentoComponent implements OnInit {
   }
 
   copiarLink() {
-    navigator.clipboard.writeText(this.linkPublico());
+    const link = this.linkPublico();
+    if (!link) return;
+    navigator.clipboard.writeText(link).then(() => {
+      this.linkCopiado = true;
+      setTimeout(() => this.linkCopiado = false, 2000);
+    });
   }
 
   formatarValor(v: number | null): string {

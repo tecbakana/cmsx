@@ -104,7 +104,7 @@ export class AplicacaoComponent implements OnInit {
 
   revogarToken(id: string) {
     if (confirm('Revogar este token? Links públicos que usam este token deixarão de funcionar.')) {
-      this.http.delete(this.baseUrl + `PublicTokens/${id}`)
+      this.http.delete(this.baseUrl + `publicTokens/${id}`)
         .subscribe(() => this.carregarTokens(this.selecionado.aplicacaoid));
     }
   }
