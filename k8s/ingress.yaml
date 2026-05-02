@@ -233,6 +233,13 @@ spec:
                 name: cmsapi
                 port:
                   number: 8080
+          - path: /marketplace
+            pathType: Prefix
+            backend:
+              service:
+                name: cmsapi
+                port:
+                  number: 8080
           # SPA fallback — deve ser o último
           - path: /
             pathType: Prefix

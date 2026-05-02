@@ -119,7 +119,7 @@ namespace CMSAPI.Controllers
                 Resposta     = dto.Resposta ?? "",
                 Ordem        = dto.Ordem,
                 Ativo        = true,
-                Datainclusao = DateTime.Now
+                Datainclusao = DateTime.UtcNow
             };
             _context.Faqs.Add(item);
             _context.SaveChanges();
@@ -189,7 +189,7 @@ namespace CMSAPI.Controllers
                 Resposta     = dto.Resposta ?? resposta.Texto ?? "",
                 Ordem        = dto.Ordem,
                 Ativo        = true,
-                Datainclusao = DateTime.Now
+                Datainclusao = DateTime.UtcNow
             };
             _context.Faqs.Add(item);
             _context.SaveChanges();

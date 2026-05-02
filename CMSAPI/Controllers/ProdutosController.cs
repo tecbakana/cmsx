@@ -81,7 +81,7 @@ namespace CMSAPI.Controllers
                 Cateriaid      = dto.Cateriaid,
                 Aplicacaoid    = acessoTotal ? dto.Aplicacaoid : claimAppId,
                 UnidadeVenda   = dto.UnidadeVenda,
-                Datainicio     = DateTime.Now
+                Datainicio     = DateTime.UtcNow
             };
             _context.Produtos.Add(item);
             _context.SaveChanges();

@@ -81,6 +81,7 @@ import { NovoOrcamentoComponent } from './orcamento/novo-orcamento.component';
       { path: 'pedidos', component: PedidoComponent },
       { path: 'orcamentos', component: OrcamentoComponent },
       { path: 'orcamento/novo', component: NovoOrcamentoComponent },
+      { path: 'marketplace', loadChildren: () => import('./marketplace/marketplace.module').then(m => m.MarketplaceModule) },
       { path: 'loja', loadChildren: () => import('./loja/loja.module').then(m => m.LojaModule) },
       { path: 's/:slug/loja', loadChildren: () => import('./loja/loja.module').then(m => m.LojaModule) },
       { path: 'page-builder', component: PageBuilderComponent },

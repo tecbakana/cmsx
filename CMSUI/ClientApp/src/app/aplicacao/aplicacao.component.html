@@ -35,6 +35,11 @@
             <i class="bi bi-key me-1"></i>Tokens Públicos
           </a>
         </li>
+        <li class="nav-item" *ngIf="selecionado?.aplicacaoid">
+          <a class="nav-link" [class.active]="abaAtiva==='marketplace'" (click)="abrirAbaMarketplace()" href="javascript:void(0)">
+            <i class="bi bi-shop me-1"></i>Marketplace
+          </a>
+        </li>
       </ul>
 
       <div class="p-3">
@@ -205,6 +210,102 @@
             </tbody>
           </table>
           <p class="text-muted small" *ngIf="tokens.length === 0">Nenhum token gerado para esta aplicação.</p>
+        </div>
+
+        <!-- ABA MARKETPLACE -->
+        <div *ngIf="abaAtiva==='marketplace'">
+          <p class="text-muted small mb-3">
+            Selecione um marketplace para configurar as credenciais de integração.
+            Marketplaces configurados ficam disponíveis no módulo <strong>Integrações Marketplace</strong>.
+          </p>
+
+          <div class="row g-3 mb-4">
+            <div class="col-6 col-md-3" *ngFor="let mp of marketplaces">
+              <div class="card h-100 text-center cursor-pointer"
+                   [class.border-primary]="marketplaceSelecionado===mp.id"
+                   [class.border-success]="isConfigurado(mp.id) && marketplaceSelecionado!==mp.id"
+                   style="cursor:pointer"
+                   (click)="selecionarMarketplace(mp.id)">
+                <div class="card-body py-3">
+                  <i class="bi {{mp.icone}} fs-2 mb-2 d-block"
+                     [class.text-primary]="marketplaceSelecionado===mp.id"
+                     [class.text-success]="isConfigurado(mp.id) && marketplaceSelecionado!==mp.id"
+                     [class.text-muted]="!isConfigurado(mp.id) && marketplaceSelecionado!==mp.id"></i>
+                  <div class="fw-semibold small">{{mp.nome}}</div>
+                  <span class="badge bg-success mt-1" *ngIf="isConfigurado(mp.id)">Configurado</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Alerta OAuth ML -->
+          <div *ngIf="mlConectado" class="alert alert-success py-2"><i class="bi bi-check-circle me-1"></i>Mercado Livre conectado com sucesso.</div>
+          <div *ngIf="mlErro" class="alert alert-danger py-2"><i class="bi bi-x-circle me-1"></i>Falha ao conectar Mercado Livre. Tente novamente.</div>
+
+          <div *ngIf="marketplaceSelecionado" class="card border-primary">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <strong>Credenciais — {{nomeMarketplace(marketplaceSelecionado)}}</strong>
+              <button class="btn-close" (click)="marketplaceSelecionado=null"></button>
+            </div>
+
+            <!-- Mercado Livre: fluxo OAuth -->
+            <div *ngIf="marketplaceSelecionado === 'mercadolivre'" class="card-body row g-3">
+              <div class="col-12 d-flex align-items-center gap-3">
+                <button class="btn btn-warning btn-sm fw-semibold" (click)="conectarMercadoLivre()" [disabled]="conectandoMl">
+                  <span *ngIf="conectandoMl" class="spinner-border spinner-border-sm me-1"></span>
+                  <i *ngIf="!conectandoMl" class="bi bi-box-arrow-in-right me-1"></i>
+                  {{credenciais.jaConfigurado ? 'Reconectar com Mercado Livre' : 'Conectar com Mercado Livre'}}
+                </button>
+                <span *ngIf="credenciais.jaConfigurado" class="badge bg-success">Conectado</span>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Seller ID</label>
+                <input class="form-control" [(ngModel)]="credenciais.sellerId" placeholder="ID do vendedor">
+              </div>
+              <div class="col-12 text-muted small">
+                Ao clicar em Conectar você será redirecionado para o Mercado Livre para autorizar o acesso.
+              </div>
+            </div>
+            <div *ngIf="marketplaceSelecionado === 'mercadolivre'" class="card-footer d-flex gap-2 align-items-center">
+              <button class="btn btn-primary btn-sm" (click)="salvarConfiguracao()" [disabled]="salvandoConfig || !credenciais.jaConfigurado">
+                <span *ngIf="salvandoConfig" class="spinner-border spinner-border-sm me-1"></span>
+                Salvar Seller ID
+              </button>
+              <button *ngIf="credenciais.jaConfigurado" class="btn btn-outline-danger btn-sm" (click)="desconectarMarketplace('mercadolivre')">
+                Desconectar
+              </button>
+              <span class="text-success small" *ngIf="configSalva"><i class="bi bi-check-circle me-1"></i>Salvo com sucesso</span>
+            </div>
+
+            <!-- Outros marketplaces: campos manuais -->
+            <div *ngIf="marketplaceSelecionado !== 'mercadolivre'" class="card-body row g-3">
+              <div class="col-12">
+                <label class="form-label">
+                  Access Token
+                  <span class="text-danger" *ngIf="!credenciais.jaConfigurado">*</span>
+                  <span class="text-muted small ms-1" *ngIf="credenciais.jaConfigurado">(deixe em branco para manter o atual)</span>
+                </label>
+                <input class="form-control" [(ngModel)]="credenciais.accessToken"
+                  [placeholder]="credenciais.jaConfigurado ? '••••••••••••' : 'Token de acesso da API'">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Refresh Token</label>
+                <input class="form-control" [(ngModel)]="credenciais.refreshToken"
+                  [placeholder]="credenciais.jaConfigurado ? '••••••••••••' : 'Opcional'">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Seller ID</label>
+                <input class="form-control" [(ngModel)]="credenciais.sellerId" placeholder="ID do vendedor">
+              </div>
+            </div>
+            <div *ngIf="marketplaceSelecionado !== 'mercadolivre'" class="card-footer d-flex gap-2 align-items-center">
+              <button class="btn btn-primary btn-sm" (click)="salvarConfiguracao()" [disabled]="salvandoConfig">
+                <span *ngIf="salvandoConfig" class="spinner-border spinner-border-sm me-1"></span>
+                Salvar
+              </button>
+              <span class="text-success small" *ngIf="configSalva"><i class="bi bi-check-circle me-1"></i>Salvo com sucesso</span>
+            </div>
+          </div>
         </div>
 
         <!-- ABA INTEGRAÇÕES -->

@@ -85,7 +85,7 @@ namespace CMSAPI.Controllers
                 Apelido      = dto.Apelido,
                 Senha        = dto.Senha,
                 Ativo        = 1,
-                Datainclusao = DateTime.Now
+                Datainclusao = DateTime.UtcNow
             };
             _context.Usuarios.Add(usuario);
 

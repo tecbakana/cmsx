@@ -27,8 +27,14 @@ builder.Services.AddCors(options =>
               .AllowAnyMethod());
 });
 
-var connPostgres = builder.Configuration.GetConnectionString("PostgreSQL");
-builder.Services.AddDbContext<CmsxDbContext>(o => o.UseNpgsql(connPostgres));
+var dbProvider = builder.Configuration["DatabaseProvider"] ?? "PostgreSQL";
+builder.Services.AddDbContext<CmsxDbContext>(o =>
+{
+    if (dbProvider == "SqlServer")
+        o.UseSqlServer(builder.Configuration.GetConnectionString("SqlServer"));
+    else
+        o.UseNpgsql(builder.Configuration.GetConnectionString("PostgreSQL"));
+});
 
 builder.Services.AddSwaggerGen(c =>
 {
@@ -105,6 +111,12 @@ builder.Services.AddHttpClient<SalematicHttpService>(client =>
     client.BaseAddress = new Uri(builder.Configuration["Salematic:BaseUrl"]!);
 });
 
+builder.Services.AddMemoryCache();
+builder.Services.AddHttpClient<MarketHubHttpService>(client =>
+{
+    client.BaseAddress = new Uri(builder.Configuration["MarketHub:BaseUrl"]!);
+});
+
 builder.Services.AddRateLimiter(options =>
 {
     options.AddFixedWindowLimiter("api_publica", o =>
@@ -126,7 +138,11 @@ var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
 {
-    scope.ServiceProvider.GetRequiredService<CmsxDbContext>().Database.Migrate();
+    var db = scope.ServiceProvider.GetRequiredService<CmsxDbContext>();
+    if (dbProvider == "SqlServer")
+        db.Database.EnsureCreated();
+    else
+        db.Database.Migrate();
 }
 
 app.UseStaticFiles();

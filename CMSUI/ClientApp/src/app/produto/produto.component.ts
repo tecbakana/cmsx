@@ -13,7 +13,7 @@ export class ProdutoComponent implements OnInit {
 
   // Atributos
   atributos: any[] = [];
-  novoAtrib = { nome: '', descricao: '', valorAdicional: null as number | null };
+  novoGrupo = { nome: '' };
   novaOpcao: { [atributoid: string]: { nome: string; qtd: number; estoque: number; valorAdicional: number | null } } = {};
   novoSubAtrib: { [atributoid: string]: { nome: string; descricao: string } } = {};
   expandedNodes = new Set<string>();
@@ -69,7 +69,7 @@ export class ProdutoComponent implements OnInit {
     this.selecionado = {
       nome: '', descricao: '', descricacurta: '', detalhetecnico: '', pagsegurokey: '',
       valor: null, sku: '', tipo: null, destaque: 0,
-      aplicacaoid: this.usuario.aplicacaoid
+      aplicacaoid: this.usuario.acessoTotal ? this.adminCtx.tenantId : this.usuario.aplicacaoid
     };
     this.atributos = []; this.imagens = [];
     this.aba = 'geral'; this.modoEdicao = true;
@@ -249,10 +249,10 @@ export class ProdutoComponent implements OnInit {
     });
   }
 
-  adicionarAtributo() {
-    if (!this.novoAtrib.nome.trim()) return;
-    this.http.post(this.baseUrl + 'produtos/' + this.selecionado.produtoid + '/atributos', this.novoAtrib)
-      .subscribe(() => { this.novoAtrib = { nome: '', descricao: '', valorAdicional: null }; this.carregarAtributos(); });
+  adicionarGrupo() {
+    if (!this.novoGrupo.nome.trim()) return;
+    this.http.post(this.baseUrl + 'produtos/' + this.selecionado.produtoid + '/atributos', { nome: this.novoGrupo.nome, descricao: '' })
+      .subscribe(() => { this.novoGrupo = { nome: '' }; this.carregarAtributos(); });
   }
 
   removerAtributo(atributoid: string) {
