@@ -25,14 +25,14 @@ namespace CMSAPI.Controllers
         [HttpGet("preview/{aplicacaoid}")]
         public IActionResult GetPreview(string aplicacaoid)
         {
-            var app = _context.Aplicacaos.FirstOrDefault(a => a.Aplicacaoid.ToString() == aplicacaoid);
+            var app = _context.Aplicacaos.FirstOrDefault(a => a.Aplicacaoid == aplicacaoid);
             return app == null ? NotFound() : BuildSiteData(app);
         }
 
         private IActionResult BuildSiteData(Aplicacao app)
         {
             var areas = _context.Areas
-                .Where(a => a.Aplicacaoid == app.Aplicacaoid.ToString())
+                .Where(a => a.Aplicacaoid == app.Aplicacaoid)
                 .OrderBy(a => a.Posicao).ThenBy(a => a.Nome)
                 .ToList();
 

@@ -311,7 +311,7 @@ Regras:
                 .ToList();
 
             // Perfil do tenant para personalizar o conteúdo gerado
-            var tenantApp = _context.Aplicacaos.FirstOrDefault(a => a.Aplicacaoid.ToString() == claimAppId);
+            var tenantApp = _context.Aplicacaos.FirstOrDefault(a => a.Aplicacaoid == claimAppId);
             var tenantPerfil = new
             {
                 nome_empresa  = tenantApp?.Nome ?? "aguardando informação",
