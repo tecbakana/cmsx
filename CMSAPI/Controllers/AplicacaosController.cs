@@ -24,7 +24,7 @@ namespace CMSAPI.Controllers
                 return _context.Aplicacaos.OrderBy(a => a.Nome).ToArray();
 
             return _context.Aplicacaos
-                .Where(a => a.Aplicacaoid.ToString() == claimAppId)
+                .Where(a => a.Aplicacaoid == claimAppId)
                 .ToArray();
         }
 
@@ -32,9 +32,9 @@ namespace CMSAPI.Controllers
         public IActionResult Get(string id)
         {
             var (acessoTotal, claimAppId) = UserContext();
-            var item = _context.Aplicacaos.Find(Guid.TryParse(id, out var ig1) ? ig1 : (Guid?)null);
+            var item = _context.Aplicacaos.Find(id);
             if (item == null) return NotFound();
-            if (!acessoTotal && item.Aplicacaoid.ToString() != claimAppId) return Forbid();
+            if (!acessoTotal && item.Aplicacaoid != claimAppId) return Forbid();
             return Ok(item);
         }
 
@@ -123,7 +123,7 @@ namespace CMSAPI.Controllers
             var (acessoTotal, claimAppId) = UserContext();
             var item = _context.Aplicacaos.Find(id);
             if (item == null) return NotFound();
-            if (!acessoTotal && item.Aplicacaoid.ToString() != claimAppId) return Forbid();
+            if (!acessoTotal && item.Aplicacaoid != claimAppId) return Forbid();
 
             item.Nome           = dto.Nome;
             item.Url            = dto.Url;
@@ -171,7 +171,7 @@ namespace CMSAPI.Controllers
             var (acessoTotal, _) = UserContext();
             if (!acessoTotal) return Forbid();
 
-            var item = _context.Aplicacaos.Find(Guid.TryParse(id, out var ig4) ? ig4 : (Guid?)null);
+            var item = _context.Aplicacaos.Find(id);
             if (item == null) return NotFound();
             _context.Aplicacaos.Remove(item);
             _context.SaveChanges();
