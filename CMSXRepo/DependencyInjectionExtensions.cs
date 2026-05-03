@@ -28,6 +28,7 @@ public static class DependencyInjectionExtensions
         services.AddScoped<IOrcamentoCompostoRepositorio, OrcamentoCompostoRepositorio>();
         services.AddScoped<IModeloCompostoRepositorio, ModeloCompostoRepositorio>();
         services.AddScoped<ILojaRepositorio, LojaRepositorio>();
+        services.AddScoped<IProdutoMaoDeObraRepositorio, ProdutoMaoDeObraRepositorio>();
 
         return services;
     }

@@ -1,0 +1,201 @@
+<div class="container-fluid py-3">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="mb-0">Integrações Marketplace</h4>
+    <button class="btn btn-outline-secondary btn-sm" (click)="carregar()" [disabled]="carregando">
+      <span *ngIf="carregando" class="spinner-border spinner-border-sm me-1"></span>
+      Atualizar
+    </button>
+  </div>
+
+  <!-- FILTROS -->
+  <div class="row g-2 mb-3">
+    <div class="col-md-3">
+      <input class="form-control form-control-sm" [(ngModel)]="filtroBusca" placeholder="Buscar por nº pedido...">
+    </div>
+    <div class="col-md-3">
+      <select class="form-select form-select-sm" [(ngModel)]="filtroMarketplace">
+        <option value="">Todos os marketplaces</option>
+        <option *ngFor="let mp of marketplacesDisponiveis" [value]="mp">{{ mp }}</option>
+      </select>
+    </div>
+    <div class="col-md-3">
+      <select class="form-select form-select-sm" [(ngModel)]="filtroStatusNf">
+        <option value="">Todos os status NF</option>
+        <option value="nao_emitida">Não emitida</option>
+        <option value="emitindo">Emitindo</option>
+        <option value="emitida">Emitida</option>
+        <option value="erro">Erro</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- LAYOUT DESKTOP: lista + detalhe lado a lado -->
+  <div class="row g-3">
+    <div [class]="pedidoSelecionado ? 'col-md-7' : 'col-12'">
+      <div class="table-responsive">
+        <table class="table table-hover table-sm align-middle">
+          <thead class="table-dark">
+            <tr>
+              <th>Nº Pedido</th>
+              <th>Marketplace</th>
+              <th>Data</th>
+              <th>Status</th>
+              <th>NF</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let p of pedidosFiltrados"
+                (click)="selecionarPedido(p)"
+                style="cursor:pointer"
+                [class.table-primary]="pedidoSelecionado?.id === p.id">
+              <td><code>{{ p.numeroPedido }}</code></td>
+              <td>{{ p.marketplace }}</td>
+              <td>{{ p.dataPedido | date:'dd/MM/yyyy' }}</td>
+              <td><span class="badge bg-secondary">{{ p.status }}</span></td>
+              <td>
+                <span class="badge" [ngClass]="statusNfClasses[p.statusNF] || 'bg-secondary'">
+                  {{ statusNfLabels[p.statusNF] || p.statusNF }}
+                </span>
+              </td>
+            </tr>
+            <tr *ngIf="pedidosFiltrados.length === 0 && !carregando">
+              <td colspan="5" class="text-center text-muted py-4">Nenhum pedido encontrado.</td>
+            </tr>
+            <tr *ngIf="carregando">
+              <td colspan="5" class="text-center py-4">
+                <span class="spinner-border spinner-border-sm me-2"></span>Carregando...
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- DETALHE DESKTOP -->
+    <div class="col-md-5 d-none d-md-block" *ngIf="pedidoSelecionado || carregandoDetalhe">
+      <div class="card h-100">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <strong>Detalhes do Pedido</strong>
+          <button class="btn-close" (click)="fecharDetalhe()"></button>
+        </div>
+        <div class="card-body" *ngIf="carregandoDetalhe">
+          <div class="text-center py-4">
+            <span class="spinner-border"></span>
+          </div>
+        </div>
+        <div class="card-body" *ngIf="pedidoSelecionado && !carregandoDetalhe">
+          <ng-container *ngTemplateOutlet="detalheConteudo"></ng-container>
+        </div>
+        <div class="card-footer" *ngIf="pedidoSelecionado && !carregandoDetalhe">
+          <ng-container *ngTemplateOutlet="acoesBotoes"></ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DETALHE MOBILE: offcanvas -->
+  <div class="offcanvas offcanvas-end d-md-none"
+       [class.show]="pedidoSelecionado && !carregandoDetalhe"
+       tabindex="-1"
+       [style.visibility]="pedidoSelecionado ? 'visible' : 'hidden'">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title">Detalhes do Pedido</h5>
+      <button class="btn-close" (click)="fecharDetalhe()"></button>
+    </div>
+    <div class="offcanvas-body" *ngIf="pedidoSelecionado">
+      <ng-container *ngTemplateOutlet="detalheConteudo"></ng-container>
+      <div class="mt-3">
+        <ng-container *ngTemplateOutlet="acoesBotoes"></ng-container>
+      </div>
+    </div>
+  </div>
+  <div class="offcanvas-backdrop fade d-md-none"
+       [class.show]="pedidoSelecionado"
+       *ngIf="pedidoSelecionado"
+       (click)="fecharDetalhe()"></div>
+</div>
+
+<!-- TEMPLATE: conteúdo do detalhe -->
+<ng-template #detalheConteudo>
+  <dl class="row mb-0 small">
+    <dt class="col-5">Nº Pedido</dt>
+    <dd class="col-7"><code>{{ pedidoSelecionado.numeroPedido }}</code></dd>
+    <dt class="col-5">Marketplace</dt>
+    <dd class="col-7">{{ pedidoSelecionado.marketplace }}</dd>
+    <dt class="col-5">Data</dt>
+    <dd class="col-7">{{ pedidoSelecionado.dataPedido | date:'dd/MM/yyyy HH:mm' }}</dd>
+    <dt class="col-5">Status</dt>
+    <dd class="col-7"><span class="badge bg-secondary">{{ pedidoSelecionado.status }}</span></dd>
+    <dt class="col-5">Status NF</dt>
+    <dd class="col-7">
+      <span class="badge" [ngClass]="statusNfClasses[pedidoSelecionado.statusNF] || 'bg-secondary'">
+        {{ statusNfLabels[pedidoSelecionado.statusNF] || pedidoSelecionado.statusNF }}
+      </span>
+    </dd>
+    <ng-container *ngIf="pedidoSelecionado.chaveNF">
+      <dt class="col-5">Chave NF</dt>
+      <dd class="col-7"><code class="small" style="word-break:break-all">{{ pedidoSelecionado.chaveNF }}</code></dd>
+    </ng-container>
+  </dl>
+
+  <div class="mt-3" *ngIf="pedidoSelecionado.itens?.length">
+    <strong class="small">Itens</strong>
+    <table class="table table-sm mt-1">
+      <thead class="table-light">
+        <tr><th>Produto</th><th>Qtd</th><th>Valor</th></tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of pedidoSelecionado.itens">
+          <td class="small">{{ item.descricao || item.nome }}</td>
+          <td>{{ item.quantidade }}</td>
+          <td>{{ item.precoUnitario | currency:'BRL' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</ng-template>
+
+<!-- TEMPLATE: botões de ação -->
+<ng-template #acoesBotoes>
+  <button class="btn btn-primary btn-sm"
+          *ngIf="pedidoSelecionado?.statusNF === 'nao_emitida' || pedidoSelecionado?.statusNF === 'erro'"
+          (click)="abrirModalEmissao()">
+    <i class="bi bi-file-earmark-text me-1"></i>Emitir NF
+  </button>
+</ng-template>
+
+<!-- MODAL: emissão NF -->
+<div class="modal fade" [class.show]="modalAberto" [style.display]="modalAberto ? 'block' : 'none'" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Emissão de Nota Fiscal</h5>
+        <button class="btn-close" (click)="fecharModal()" [disabled]="emitindoNf"></button>
+      </div>
+      <div class="modal-body text-center py-4">
+        <ng-container *ngIf="emitindoNf">
+          <div class="spinner-border text-primary mb-3"></div>
+          <p class="text-muted mb-0">Comunicando com a Spedy...</p>
+        </ng-container>
+        <ng-container *ngIf="!emitindoNf && resultadoEmissao">
+          <div *ngIf="resultadoEmissao.sucesso">
+            <i class="bi bi-check-circle-fill text-success fs-1 mb-2 d-block"></i>
+            <p class="fw-semibold">Nota emitida com sucesso!</p>
+            <p class="small text-muted" *ngIf="resultadoEmissao.chaveNF">
+              Chave: <code>{{ resultadoEmissao.chaveNF }}</code>
+            </p>
+          </div>
+          <div *ngIf="!resultadoEmissao.sucesso">
+            <i class="bi bi-x-circle-fill text-danger fs-1 mb-2 d-block"></i>
+            <p class="fw-semibold">Falha na emissão</p>
+            <p class="small text-muted">{{ resultadoEmissao.erro || resultadoEmissao.message }}</p>
+          </div>
+        </ng-container>
+      </div>
+      <div class="modal-footer" *ngIf="!emitindoNf">
+        <button class="btn btn-secondary btn-sm" (click)="fecharModal()">Fechar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-backdrop fade" [class.show]="modalAberto" *ngIf="modalAberto"></div>

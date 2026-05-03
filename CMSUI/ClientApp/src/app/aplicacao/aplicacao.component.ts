@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({ templateUrl: './aplicacao.component.html' })
 export class AplicacaoComponent implements OnInit {
@@ -16,20 +16,42 @@ export class AplicacaoComponent implements OnInit {
     { valor: '_LayoutLoja.cshtml',  label: 'Loja' }
   ];
 
-  minhApp = false; // modo tenant: exibe só a própria app
+  minhApp = false;
   tokens: any[] = [];
   novoTokenVencimento = '';
+
+  readonly marketplaces = [
+    { id: 'mercadolivre', nome: 'Mercado Livre', icone: 'bi-bag-check' },
+    { id: 'shopee',       nome: 'Shopee',         icone: 'bi-cart3' },
+    { id: 'magalu',       nome: 'Magazine Luiza', icone: 'bi-building-fill-check' },
+    { id: 'b2w',          nome: 'B2W / Americanas', icone: 'bi-shop-window' },
+  ];
+
+  configuracoes: any[] = [];
+  marketplaceSelecionado: string | null = null;
+  credenciais: any = {};
+  salvandoConfig = false;
+  configSalva = false;
+  mlConectado = false;
+  mlErro = false;
+  conectandoMl = false;
 
   constructor(
     private http: HttpClient,
     @Inject('BASE_URL') private baseUrl: string,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {}
 
   ngOnInit() {
     this.modoEdicao = false;
     this.selecionado = null;
     this.minhApp = this.route.snapshot.routeConfig?.path === 'minha-aplicacao';
+    this.mlConectado = this.route.snapshot.queryParams['ml_connected'] === '1';
+    this.mlErro = this.route.snapshot.queryParams['ml_error'] === '1';
+    if (this.mlConectado || this.mlErro) {
+      this.router.navigate([], { queryParams: {}, replaceUrl: true });
+    }
     this.carregar();
   }
 
@@ -63,6 +85,8 @@ export class AplicacaoComponent implements OnInit {
     this.selecionado = { ...item, issecure: item.issecure === 1 || item.issecure === true };
     this.abaAtiva = 'geral';
     this.modoEdicao = true;
+    this.configuracoes = [];
+    this.marketplaceSelecionado = null;
     if (item.aplicacaoid) this.carregarTokens(item.aplicacaoid);
   }
 
@@ -80,7 +104,7 @@ export class AplicacaoComponent implements OnInit {
 
   revogarToken(id: string) {
     if (confirm('Revogar este token? Links públicos que usam este token deixarão de funcionar.')) {
-      this.http.delete(this.baseUrl + `PublicTokens/${id}`)
+      this.http.delete(this.baseUrl + `publicTokens/${id}`)
         .subscribe(() => this.carregarTokens(this.selecionado.aplicacaoid));
     }
   }
@@ -117,5 +141,77 @@ export class AplicacaoComponent implements OnInit {
     }
   }
 
-  cancelar() { this.modoEdicao = false; this.selecionado = null; }
+  cancelar() {
+    this.modoEdicao = false;
+    this.selecionado = null;
+    this.configuracoes = [];
+    this.marketplaceSelecionado = null;
+  }
+
+  abrirAbaMarketplace() {
+    this.abaAtiva = 'marketplace';
+    if (!this.configuracoes.length) this.carregarConfiguracoes();
+    if (this.mlConectado) {
+      this.carregarConfiguracoes();
+      this.mlConectado = false;
+    }
+  }
+
+  conectarMercadoLivre() {
+    const aplicacaoid = this.selecionado?.aplicacaoid;
+    if (!aplicacaoid) return;
+    window.location.href = this.baseUrl + `marketplace/ml/connect?aplicacaoid=${aplicacaoid}`;
+  }
+
+  desconectarMarketplace(marketplace: string) {
+    if (!confirm(`Desconectar ${this.nomeMarketplace(marketplace)}? As credenciais serão removidas.`)) return;
+    this.http.delete(this.baseUrl + `marketplace/configuracoes/${marketplace}`).subscribe({
+      next: () => {
+        this.marketplaceSelecionado = null;
+        this.carregarConfiguracoes();
+      }
+    });
+  }
+
+  carregarConfiguracoes() {
+    this.http.get<any[]>(this.baseUrl + 'marketplace/configuracoes')
+      .subscribe(r => this.configuracoes = r);
+  }
+
+  isConfigurado(marketplaceId: string): boolean {
+    return this.configuracoes.some(c => c.marketplace === marketplaceId);
+  }
+
+  nomeMarketplace(id: string): string {
+    return this.marketplaces.find(m => m.id === id)?.nome ?? id;
+  }
+
+  selecionarMarketplace(id: string) {
+    this.marketplaceSelecionado = id;
+    this.configSalva = false;
+    const existente = this.configuracoes.find(c => c.marketplace === id);
+    this.credenciais = {
+      accessToken: '',
+      refreshToken: '',
+      sellerId: existente?.sellerId ?? '',
+      jaConfigurado: !!existente,
+    };
+  }
+
+  salvarConfiguracao() {
+    if (!this.credenciais.jaConfigurado && !this.credenciais.accessToken) return;
+    this.salvandoConfig = true;
+    this.configSalva = false;
+    const payload: any = { marketplace: this.marketplaceSelecionado, sellerId: this.credenciais.sellerId };
+    if (this.credenciais.accessToken) payload.accessToken = this.credenciais.accessToken;
+    if (this.credenciais.refreshToken) payload.refreshToken = this.credenciais.refreshToken;
+    this.http.post(this.baseUrl + 'marketplace/configuracoes', payload).subscribe({
+      next: () => {
+        this.salvandoConfig = false;
+        this.configSalva = true;
+        this.carregarConfiguracoes();
+      },
+      error: () => { this.salvandoConfig = false; }
+    });
+  }
 }

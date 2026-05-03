@@ -16,12 +16,14 @@ namespace CMSAPI.Controllers
         private readonly CmsxDbContext _context;
         private readonly IAgentIAFactory _agentFactory;
         private readonly IWebHostEnvironment _env;
+        private readonly IProdutoMaoDeObraRepositorio _moRepo;
 
-        public ProdutosController(CmsxDbContext context, IAgentIAFactory agentFactory, IWebHostEnvironment env)
+        public ProdutosController(CmsxDbContext context, IAgentIAFactory agentFactory, IWebHostEnvironment env, IProdutoMaoDeObraRepositorio moRepo)
         {
             _context = context;
             _agentFactory = agentFactory;
             _env = env;
+            _moRepo = moRepo;
         }
 
         private (bool acessoTotal, string? aplicacaoid) UserContext() =>
@@ -81,7 +83,7 @@ namespace CMSAPI.Controllers
                 Cateriaid      = dto.Cateriaid,
                 Aplicacaoid    = acessoTotal ? dto.Aplicacaoid : claimAppId,
                 UnidadeVenda   = dto.UnidadeVenda,
-                Datainicio     = DateTime.Now
+                Datainicio     = DateTime.UtcNow
             };
             _context.Produtos.Add(item);
             _context.SaveChanges();
@@ -512,6 +514,89 @@ Responda em português do Brasil.";
             if (inicio >= 0 && fim > inicio)
                 return texto[inicio..(fim + 1)];
             return texto.Trim();
+        }
+
+        // ── Mão de Obra ──────────────────────────────────────────────────────
+
+        public class MaoDeObraDto
+        {
+            public string Tipo { get; set; } = "";          // "capacidade_dia" | "milheiro"
+            public string Descricao { get; set; } = "";
+            public int? CapacidadeDia { get; set; }
+            public decimal? ValorDia { get; set; }
+            public decimal? ValorMilheiro { get; set; }
+        }
+
+        [HttpGet("{id}/maodeobra")]
+        public IActionResult GetMaoDeObra(string id)
+        {
+            var (acessoTotal, claimAppId) = UserContext();
+            var produto = _context.Produtos.FirstOrDefault(p => p.Produtoid == id);
+            if (produto == null) return NotFound();
+            if (!acessoTotal && produto.Aplicacaoid != claimAppId) return Forbid();
+
+            return Ok(_moRepo.ListarPorProduto(id));
+        }
+
+        [HttpPost("{id}/maodeobra")]
+        public IActionResult PostMaoDeObra(string id, [FromBody] MaoDeObraDto dto)
+        {
+            var (acessoTotal, claimAppId) = UserContext();
+            var produto = _context.Produtos.FirstOrDefault(p => p.Produtoid == id);
+            if (produto == null) return NotFound();
+            if (!acessoTotal && produto.Aplicacaoid != claimAppId) return Forbid();
+
+            if (dto.Tipo != "capacidade_dia" && dto.Tipo != "milheiro")
+                return BadRequest("Tipo deve ser 'capacidade_dia' ou 'milheiro'.");
+
+            var mo = new ProdutoMaoDeObra
+            {
+                Id            = Guid.NewGuid(),
+                Produtoid     = id,
+                Tipo          = dto.Tipo,
+                Descricao     = dto.Descricao,
+                CapacidadeDia = dto.CapacidadeDia,
+                ValorDia      = dto.ValorDia,
+                ValorMilheiro = dto.ValorMilheiro
+            };
+            return Ok(_moRepo.Criar(mo));
+        }
+
+        [HttpPut("{id}/maodeobra/{moid}")]
+        public IActionResult PutMaoDeObra(string id, Guid moid, [FromBody] MaoDeObraDto dto)
+        {
+            var (acessoTotal, claimAppId) = UserContext();
+            var produto = _context.Produtos.FirstOrDefault(p => p.Produtoid == id);
+            if (produto == null) return NotFound();
+            if (!acessoTotal && produto.Aplicacaoid != claimAppId) return Forbid();
+
+            var mo = _moRepo.BuscarPorId(moid);
+            if (mo == null || mo.Produtoid != id) return NotFound();
+
+            if (dto.Tipo != "capacidade_dia" && dto.Tipo != "milheiro")
+                return BadRequest("Tipo deve ser 'capacidade_dia' ou 'milheiro'.");
+
+            mo.Tipo          = dto.Tipo;
+            mo.Descricao     = dto.Descricao;
+            mo.CapacidadeDia = dto.CapacidadeDia;
+            mo.ValorDia      = dto.ValorDia;
+            mo.ValorMilheiro = dto.ValorMilheiro;
+            return Ok(_moRepo.Atualizar(mo));
+        }
+
+        [HttpDelete("{id}/maodeobra/{moid}")]
+        public IActionResult DeleteMaoDeObra(string id, Guid moid)
+        {
+            var (acessoTotal, claimAppId) = UserContext();
+            var produto = _context.Produtos.FirstOrDefault(p => p.Produtoid == id);
+            if (produto == null) return NotFound();
+            if (!acessoTotal && produto.Aplicacaoid != claimAppId) return Forbid();
+
+            var mo = _moRepo.BuscarPorId(moid);
+            if (mo == null || mo.Produtoid != id) return NotFound();
+
+            _moRepo.Remover(mo);
+            return Ok();
         }
 
         [HttpDelete("{id}/imagens/{imagemid}")]

@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  publicUrl: 'http://localhost:4200'
+  publicUrl: 'http://localhost:44456'
 };
 
 /*

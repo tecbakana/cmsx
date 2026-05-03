@@ -36,6 +36,9 @@ const PROXY_CONFIG = [
       "/orcamentos",
       "/api/loja",
       "/publicTokens",
+      "/marketplace/configuracoes",
+      "/marketplace/pedidos",
+      "/marketplace/ml/connect",
       "/swagger"
     ],
     proxyTimeout: 60000,

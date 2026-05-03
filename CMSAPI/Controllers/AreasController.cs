@@ -58,7 +58,7 @@ namespace CMSAPI.Controllers
                 Posicao     = dto.Posicao,
                 Tipoarea    = dto.Tipoarea,
                 Aplicacaoid = acessoTotal ? dto.Aplicacaoid : claimAppId,
-                Datainicial = DateTime.Now
+                Datainicial = DateTime.UtcNow
             };
             _context.Areas.Add(item);
             _context.SaveChanges();

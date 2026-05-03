@@ -68,6 +68,7 @@ public partial class CmsxDbContext : DbContext
     public virtual DbSet<ModeloComposto> ModeloCompostos { get; set; }
     public virtual DbSet<ModeloSelecao> ModeloSelecaos { get; set; }
     public virtual DbSet<PublicToken> PublicTokens { get; set; }
+    public virtual DbSet<ProdutoMaoDeObra> ProdutoMaoDeObras { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -758,6 +759,24 @@ public partial class CmsxDbContext : DbContext
                 .WithMany(m => m.Selecoes)
                 .HasForeignKey(e => e.ModeloCompostoId)
                 .HasConstraintName("FK_ModeloSelecao_Modelo");
+        });
+
+        modelBuilder.Entity<ProdutoMaoDeObra>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK_produto_mao_de_obra");
+            entity.ToTable("produto_mao_de_obra");
+            entity.Property(e => e.Id).ValueGeneratedOnAdd().HasColumnName("id");
+            entity.Property(e => e.Produtoid).HasMaxLength(64).HasColumnName("produtoid");
+            entity.Property(e => e.Tipo).HasMaxLength(30).HasColumnName("tipo");
+            entity.Property(e => e.Descricao).HasMaxLength(200).HasColumnName("descricao");
+            entity.Property(e => e.CapacidadeDia).HasColumnName("capacidade_dia");
+            entity.Property(e => e.ValorDia).HasPrecision(12, 2).HasColumnName("valor_dia");
+            entity.Property(e => e.ValorMilheiro).HasPrecision(12, 2).HasColumnName("valor_milheiro");
+            entity.HasOne(e => e.Produto)
+                .WithMany()
+                .HasForeignKey(e => e.Produtoid)
+                .HasPrincipalKey(p => p.Produtoid)
+                .HasConstraintName("FK_ProdutoMaoDeObra_Produto");
         });
 
         OnModelCreatingPartial(modelBuilder);

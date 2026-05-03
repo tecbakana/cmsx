@@ -90,7 +90,7 @@ namespace CMSAPI.Controllers
                 Areaid       = dto.Areaid,
                 Cateriaid    = dto.Cateriaid,
                 Datafinal    = dto.Datafinal,
-                Datainclusao = DateTime.Now
+                Datainclusao = DateTime.UtcNow
             };
             _context.Conteudos.Add(item);
             _context.SaveChanges();

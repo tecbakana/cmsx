@@ -41,6 +41,12 @@
       <span class="nav-icon">⚙</span> Minha Aplicação
     </a>
 
+    <!-- Integrações Marketplace -->
+    <a class="nav-item" *ngIf="usuario?.aplicacaoid"
+      [routerLink]="['/marketplace']" routerLinkActive="active">
+      <span class="nav-icon">◈</span> Integrações Marketplace
+    </a>
+
     <!-- Admin (colapsável) -->
     <div class="nav-separator" *ngIf="usuario?.acessoTotal"></div>
     <div *ngIf="usuario?.acessoTotal">

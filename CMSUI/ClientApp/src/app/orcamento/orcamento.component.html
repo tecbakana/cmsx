@@ -3,8 +3,12 @@
   <!-- Cabeçalho -->
   <div class="d-flex align-items-center gap-3 mb-3">
     <h4 class="mb-0">Orçamentos</h4>
-    <button class="btn btn-sm btn-outline-secondary ms-auto" title="Copiar link público" (click)="copiarLink()">
-      Copiar link do vendedor
+    <button class="btn btn-sm ms-auto"
+            [class.btn-success]="linkCopiado"
+            [class.btn-outline-secondary]="!linkCopiado"
+            title="Copiar link público" (click)="copiarLink()"
+            [disabled]="!linkPublico()">
+      {{ linkCopiado ? 'Copiado!' : 'Copiar link do vendedor' }}
     </button>
     <button class="btn btn-sm btn-outline-secondary" (click)="carregar()">&#8635; Atualizar</button>
   </div>
@@ -97,10 +101,53 @@
             </dd>
           </dl>
 
-          <!-- Itens -->
+          <!-- Itens compostos -->
+          <ng-container *ngIf="selecionado.itensCompostos?.length > 0">
+            <hr>
+            <strong>Itens</strong>
+            <table class="table table-sm mt-2 mb-0">
+              <thead>
+                <tr>
+                  <th>Produto / Opções</th>
+                  <th class="text-center">Qtd</th>
+                  <th class="text-end">Vlr Unit.</th>
+                  <th>Mão de Obra</th>
+                  <th class="text-end">Total</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of selecionado.itensCompostos">
+                  <ng-container *ngIf="parseCfg(item.configuracaoJson) as cfg">
+                    <td>
+                      <div class="fw-semibold small">{{ cfg.produto }}</div>
+                      <div class="text-muted" style="font-size:0.75rem">
+                        <ng-container *ngFor="let s of cfg.selecoes; let last = last">
+                          {{ s.atributo }}: {{ s.opcao }}<span *ngIf="!last"> | </span>
+                        </ng-container>
+                      </div>
+                    </td>
+                    <td class="text-center small">{{ item.quantidade }}</td>
+                    <td class="text-end small">{{ formatarValor(cfg.valorUnitario) }}</td>
+                    <td class="small">
+                      <ng-container *ngIf="cfg.maosDeObra?.length > 0; else semMo">
+                        <div *ngFor="let mo of cfg.maosDeObra" style="white-space:nowrap">
+                          <span class="text-muted">{{ mo.unidades }}x {{ mo.descricao }}</span>
+                          <span class="ms-2 text-info fw-semibold">{{ formatarValor(mo.custo) }}</span>
+                        </div>
+                      </ng-container>
+                      <ng-template #semMo><span class="text-muted">—</span></ng-template>
+                    </td>
+                    <td class="text-end small fw-semibold">{{ formatarValor(item.valorTotal) }}</td>
+                  </ng-container>
+                </tr>
+              </tbody>
+            </table>
+          </ng-container>
+
+          <!-- Itens simples -->
           <hr *ngIf="selecionado.itens?.length > 0">
           <div *ngIf="selecionado.itens?.length > 0">
-            <strong>Itens</strong>
+            <strong>Itens avulsos</strong>
             <table class="table table-sm mt-2 mb-0">
               <thead>
                 <tr>

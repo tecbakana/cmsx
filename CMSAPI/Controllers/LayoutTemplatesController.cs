@@ -65,7 +65,7 @@ namespace CMSAPI.Controllers
                 Tipo         = dto.Tipo,
                 Layout       = dto.Layout,
                 Padrao       = dto.Padrao,
-                Datainclusao = DateTime.Now
+                Datainclusao = DateTime.UtcNow
             };
             _context.LayoutTemplates.Add(item);
             _context.SaveChanges();

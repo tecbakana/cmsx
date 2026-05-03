@@ -75,7 +75,7 @@ namespace CMSAPI.Controllers
                 Areaid       = dto.Areaid,
                 Categoriaid  = dto.Categoriaid,
                 Ativo        = true,
-                Datainclusao = DateTime.Now
+                Datainclusao = DateTime.UtcNow
             };
             _context.Formularios.Add(item);
             _context.SaveChanges();

@@ -24,18 +24,28 @@ interface CheckboxAtributo {
   selecionado: boolean;
 }
 
+interface MaoDeObraPublica {
+  id: string;
+  tipo: 'capacidade_dia' | 'milheiro';
+  descricao: string;
+  capacidadeDia: number | null;
+  valorDia: number | null;
+  valorMilheiro: number | null;
+}
+
 interface ProdutoPublico {
   produtoid: string;
   nome: string;
   valor: number | null;
   unidadeVenda: string | null;
   atributos: AtributoPublico[];
+  maosDeObra: MaoDeObraPublica[];
 }
 
 // ── Cascade selects ──────────────────────────────────────────────
 
 interface CascadeItem {
-  id: string;               // opcaoid se folha, atributoid se filho
+  id: string;
   nome: string;
   valorAdicional: number;
   filhoNode?: AtributoPublico;
@@ -51,6 +61,7 @@ interface CascadeLevel {
 
 interface CadeiaCascata {
   levels: CascadeLevel[];
+  grupoLabel?: string;
 }
 
 // ── Seleção final ────────────────────────────────────────────────
@@ -76,8 +87,10 @@ interface ItemComposto {
   valorBase: number;
   selecoes: SelecaoComposta[];
   checkboxes: CheckboxSelecionado[];
-  valorUnitario: number;
-  valorTotal: number;
+  maosDeObra: MaoDeObraPublica[];
+  valorUnitario: number;   // valorBase + adicionais (por unidade, sem MO)
+  totalMo: number;         // custo MO para a quantidade atual
+  valorTotal: number;      // valorUnitario * qtd + totalMo
 }
 
 interface ItemOrcamento {
@@ -169,16 +182,27 @@ export class NovoOrcamentoComponent implements OnInit {
     if (!produto) return;
 
     for (const atrib of produto.atributos) {
-      const level = this.buildLevel(atrib);
-      if (level) {
-        this.cadeias.push({ levels: [level] });
-      } else if ((atrib.valorAdicional ?? 0) > 0) {
-        this.checkboxAtribs.push({
-          atributoid: atrib.atributoid,
-          label: atrib.nome,
-          valorAdicional: atrib.valorAdicional,
-          selecionado: false
-        });
+      if (atrib.filhos.length > 0 && atrib.opcoes.length === 0) {
+        let primeiroDoGrupo = true;
+        for (const filho of atrib.filhos) {
+          const level = this.buildLevel(filho);
+          if (level) {
+            this.cadeias.push({ levels: [level], grupoLabel: primeiroDoGrupo ? atrib.nome : undefined });
+            primeiroDoGrupo = false;
+          }
+        }
+      } else {
+        const level = this.buildLevel(atrib);
+        if (level) {
+          this.cadeias.push({ levels: [level] });
+        } else if ((atrib.valorAdicional ?? 0) > 0) {
+          this.checkboxAtribs.push({
+            atributoid: atrib.atributoid,
+            label: atrib.nome,
+            valorAdicional: atrib.valorAdicional,
+            selecionado: false
+          });
+        }
       }
     }
   }
@@ -187,7 +211,6 @@ export class NovoOrcamentoComponent implements OnInit {
     const cadeia = this.cadeias[cadeiaIdx];
     const level = cadeia.levels[levelIdx];
 
-    // Remove níveis subsequentes
     cadeia.levels = cadeia.levels.slice(0, levelIdx + 1);
 
     if (!level.selecionado || level.isLeaf) return;
@@ -212,6 +235,16 @@ export class NovoOrcamentoComponent implements OnInit {
   }
 
   trackByIndex(index: number) { return index; }
+
+  private calcMoTotal(mos: MaoDeObraPublica[], qtd: number): number {
+    return mos.reduce((s, mo) => {
+      if (mo.tipo === 'capacidade_dia' && mo.capacidadeDia && mo.valorDia)
+        return s + Math.ceil(qtd / mo.capacidadeDia) * mo.valorDia;
+      if (mo.tipo === 'milheiro' && mo.valorMilheiro)
+        return s + Math.ceil(qtd / 1000) * mo.valorMilheiro;
+      return s;
+    }, 0);
+  }
 
   adicionarItem() {
     const produto = this.produtoSelecionado;
@@ -245,16 +278,21 @@ export class NovoOrcamentoComponent implements OnInit {
     const somaCheckboxes = checkboxes.reduce((s, c) => s + c.valorAdicional, 0);
     const valorBase = produto.valor ?? 0;
     const valorUnitario = valorBase + somaAdicionais + somaCheckboxes;
+    const qtdInicial = 1;
+    const totalMo = this.calcMoTotal(produto.maosDeObra, qtdInicial);
+    const valorTotal = valorUnitario * qtdInicial + totalMo;
 
     this.itensCompostos.push({
       produtoid: produto.produtoid,
       produtoNome: produto.nome,
-      quantidade: 1,
+      quantidade: qtdInicial,
       valorBase,
       selecoes,
       checkboxes,
+      maosDeObra: produto.maosDeObra,
       valorUnitario,
-      valorTotal: valorUnitario
+      totalMo,
+      valorTotal
     });
 
     this.produtoSelecionadoId = '';
@@ -269,7 +307,8 @@ export class NovoOrcamentoComponent implements OnInit {
   }
 
   onQuantidadeCompostoChange(item: ItemComposto) {
-    item.valorTotal = item.valorUnitario * item.quantidade;
+    item.totalMo = this.calcMoTotal(item.maosDeObra, item.quantidade);
+    item.valorTotal = item.valorUnitario * item.quantidade + item.totalMo;
     this.atualizarTotal();
   }
 
@@ -278,7 +317,7 @@ export class NovoOrcamentoComponent implements OnInit {
   }
 
   atualizarTotal() {
-    const totalCompostos = this.itensCompostos.reduce((s, i) => s + i.valorUnitario * i.quantidade, 0);
+    const totalCompostos = this.itensCompostos.reduce((s, i) => s + i.valorTotal, 0);
     const totalSimples = this.itens.reduce((s, i) => s + this.calcularValorLinha(i), 0);
     const total = totalCompostos + totalSimples;
     this.form.valorestimado = total > 0 ? total : null;

@@ -52,7 +52,7 @@ namespace CMSAPI.Controllers
                 Apelido      = req.Apelido,
                 Senha        = req.Senha,
                 Ativo        = 0,
-                Datainclusao = DateTime.Now
+                Datainclusao = DateTime.UtcNow
             };
 
             var aplicacao = new Aplicacao
@@ -61,7 +61,7 @@ namespace CMSAPI.Controllers
                 Nome            = req.AppNome,
                 Url             = req.AppUrl,
                 Idusuarioinicio = userId,
-                Datainicio      = DateTime.Now,
+                Datainicio      = DateTime.UtcNow,
                 Isactive        = false,
                 Layoutchoose    = "_Layout.cshtml"
             };

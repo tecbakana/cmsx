@@ -91,7 +91,7 @@ namespace CMSAPI.Controllers
                 Pagepinterest   = dto.Pagepinterest,
                 Pageflicker     = dto.Pageflicker,
                 Idusuarioinicio = dto.Idusuarioinicio,
-                Datainicio      = DateTime.Now,
+                Datainicio      = DateTime.UtcNow,
                 Isactive        = true,
                 Telefone        = dto.Telefone,
                 Endereco        = dto.Endereco,
@@ -121,7 +121,7 @@ namespace CMSAPI.Controllers
         public IActionResult Put(string id, [FromBody] NovaAplicacaoDto dto)
         {
             var (acessoTotal, claimAppId) = UserContext();
-            var item = _context.Aplicacaos.Find(Guid.TryParse(id, out var ig2) ? ig2 : (Guid?)null);
+            var item = _context.Aplicacaos.Find(id);
             if (item == null) return NotFound();
             if (!acessoTotal && item.Aplicacaoid.ToString() != claimAppId) return Forbid();
 
@@ -159,7 +159,7 @@ namespace CMSAPI.Controllers
             var item = _context.Aplicacaos.Find(id);
             if (item == null) return NotFound();
             item.Isactive  = ativo;
-            item.Datafinal = ativo ? null : DateTime.Now;
+            item.Datafinal = ativo ? null : DateTime.UtcNow;
             _context.SaveChanges();
             return Ok(item);
         }
