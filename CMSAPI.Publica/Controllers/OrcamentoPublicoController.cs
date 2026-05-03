@@ -66,6 +66,10 @@ public class OrcamentoPublicoController : ControllerBase
             .Select(o => new { o.Opcaoid, o.Nome, o.Atributoid, o.ValorAdicional })
             .ToList();
 
+        var todosMos = _context.ProdutoMaoDeObras
+            .Where(m => produtoIds.Contains(m.Produtoid))
+            .ToList();
+
         object BuildArvore(Atributo a)
         {
             var filhos = todosAtributos
@@ -100,7 +104,18 @@ public class OrcamentoPublicoController : ControllerBase
                 .Where(a => a.Produtoid == p.Produtoid)
                 .OrderBy(a => a.Ordem)
                 .Select(a => BuildArvore(a))
-                .ToList()
+                .ToList(),
+            maosDeObra   = todosMos
+                .Where(m => m.Produtoid == p.Produtoid)
+                .Select(m => new
+                {
+                    id            = m.Id,
+                    tipo          = m.Tipo,
+                    descricao     = m.Descricao,
+                    capacidadeDia = m.CapacidadeDia,
+                    valorDia      = m.ValorDia,
+                    valorMilheiro = m.ValorMilheiro
+                }).ToList()
         }).ToList();
 
         return Ok(result);
@@ -236,7 +251,21 @@ public class OrcamentoPublicoController : ControllerBase
             var somaCheckboxes = checkboxAtributosMap.Values.Sum(a => a.ValorAdicional ?? 0m);
 
             var valorUnitario = valorBase + somaAdicionais + somaCheckboxes;
-            var valorTotal = valorUnitario * itemComposto.Quantidade;
+            var valorProdutos = valorUnitario * itemComposto.Quantidade;
+
+            var mos = _context.ProdutoMaoDeObras
+                .Where(m => m.Produtoid == itemComposto.Produtoid)
+                .ToList();
+            var mosCusto = mos.Select(m => new
+            {
+                descricao = m.Descricao,
+                tipo      = m.Tipo,
+                unidades  = CalcularUnidadesMo(m, itemComposto.Quantidade),
+                custo     = CalcularCustoMo(m, itemComposto.Quantidade)
+            }).ToList();
+            var totalMo = mosCusto.Sum(m => m.custo);
+
+            var valorTotal = valorProdutos + totalMo;
 
             // Carregar ancestrais para montar o caminho no JSON de snapshot
             var todosAncestralIds = new HashSet<Guid>(atributoIds);
@@ -292,6 +321,8 @@ public class OrcamentoPublicoController : ControllerBase
                 selecoes     = selecoesCfg,
                 checkboxes   = checkboxesCfg,
                 valorUnitario,
+                maosDeObra   = mosCusto,
+                totalMo,
                 valorTotal
             });
 
@@ -354,6 +385,30 @@ public class OrcamentoPublicoController : ControllerBase
         }
 
         return Ok(new { orcamento.Orcamentoid });
+    }
+
+    private static int CalcularUnidadesMo(ProdutoMaoDeObra mo, decimal quantidade)
+    {
+        if (mo.Tipo == "capacidade_dia" && mo.CapacidadeDia.HasValue)
+            return (int)Math.Ceiling((double)quantidade / mo.CapacidadeDia.Value);
+        if (mo.Tipo == "milheiro")
+            return (int)Math.Ceiling((double)quantidade / 1000);
+        return 1;
+    }
+
+    private static decimal CalcularCustoMo(ProdutoMaoDeObra mo, decimal quantidade)
+    {
+        if (mo.Tipo == "capacidade_dia" && mo.CapacidadeDia.HasValue && mo.ValorDia.HasValue)
+        {
+            var dias = (int)Math.Ceiling((double)quantidade / mo.CapacidadeDia.Value);
+            return dias * mo.ValorDia.Value;
+        }
+        if (mo.Tipo == "milheiro" && mo.ValorMilheiro.HasValue)
+        {
+            var milheiros = (int)Math.Ceiling((double)quantidade / 1000);
+            return milheiros * mo.ValorMilheiro.Value;
+        }
+        return 0m;
     }
 
     private static string ComputarHashOpcoes(IEnumerable<string> opcaoIds)

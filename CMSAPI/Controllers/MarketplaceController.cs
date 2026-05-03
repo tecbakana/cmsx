@@ -129,8 +129,9 @@ public class MarketplaceController(
             var result = JsonSerializer.Deserialize<JsonElement>(body, _json);
             var accessToken = result.GetProperty("access_token").GetString()!;
             var refreshToken = result.GetProperty("refresh_token").GetString()!;
+            var sellerId = result.TryGetProperty("user_id", out var uid) ? uid.GetInt64().ToString() : "";
 
-            var payload = JsonSerializer.Serialize(new { marketplace = "mercadolivre", accessToken, refreshToken });
+            var payload = JsonSerializer.Serialize(new { marketplace = "mercadolivre", accessToken, refreshToken, sellerId });
             await marketHub.PostConfiguracao(state, payload);
 
             return Redirect($"{postAuthUrl}?ml_connected=1");

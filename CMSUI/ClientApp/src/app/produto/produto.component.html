@@ -26,6 +26,10 @@
         <a class="nav-link" [class.active]="aba==='galeria'" href="#"
           (click)="aba='galeria'; $event.preventDefault()">Galeria</a>
       </li>
+      <li class="nav-item" *ngIf="selecionado?.produtoid">
+        <a class="nav-link" [class.active]="aba==='maodeobra'" href="#"
+          (click)="aba='maodeobra'; $event.preventDefault()">Mão de Obra</a>
+      </li>
     </ul>
 
     <!-- ── Aba Geral ─────────────────────────────────────────────── -->
@@ -413,6 +417,101 @@
 
       </div>
     </div>
+
+    <!-- ── Aba Mão de Obra ──────────────────────────────────────────── -->
+    <div *ngIf="aba==='maodeobra'" class="card">
+      <div class="card-body">
+
+        <!-- Formulário de adição -->
+        <div class="card mb-3 border-secondary border-opacity-25 bg-light">
+          <div class="card-body py-2">
+            <div class="row g-2 align-items-end">
+              <div class="col-md-2">
+                <label class="form-label form-label-sm">Tipo</label>
+                <select class="form-select form-select-sm" [(ngModel)]="novaMo.tipo">
+                  <option value="capacidade_dia">Capacidade/Dia</option>
+                  <option value="milheiro">Milheiro</option>
+                </select>
+              </div>
+              <div class="col-md-3">
+                <label class="form-label form-label-sm">Descrição</label>
+                <input class="form-control form-control-sm" [(ngModel)]="novaMo.descricao" placeholder="Ex: Corte e Vinco, Impressão">
+              </div>
+              <ng-container *ngIf="novaMo.tipo === 'capacidade_dia'">
+                <div class="col-md-2">
+                  <label class="form-label form-label-sm">Capacidade/Dia</label>
+                  <input type="number" class="form-control form-control-sm" [(ngModel)]="novaMo.capacidadeDia" placeholder="Ex: 5000">
+                </div>
+                <div class="col-md-2">
+                  <label class="form-label form-label-sm">Valor/Dia (R$)</label>
+                  <input type="number" step="0.01" class="form-control form-control-sm" [(ngModel)]="novaMo.valorDia">
+                </div>
+              </ng-container>
+              <ng-container *ngIf="novaMo.tipo === 'milheiro'">
+                <div class="col-md-2">
+                  <label class="form-label form-label-sm">Valor/Milheiro (R$)</label>
+                  <input type="number" step="0.01" class="form-control form-control-sm" [(ngModel)]="novaMo.valorMilheiro">
+                </div>
+              </ng-container>
+              <div class="col-auto">
+                <button class="btn btn-primary btn-sm" (click)="adicionarMo()">+ Adicionar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="maosDeObra.length === 0" class="text-muted small">Nenhuma mão de obra cadastrada.</div>
+
+        <!-- Lista -->
+        <table class="table table-sm align-middle" *ngIf="maosDeObra.length > 0">
+          <thead class="table-light">
+            <tr>
+              <th>Tipo</th>
+              <th>Descrição</th>
+              <th>Capacidade/Dia</th>
+              <th>Valor/Dia</th>
+              <th>Valor/Milheiro</th>
+              <th style="width:100px"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let mo of maosDeObra">
+              <ng-container *ngIf="editandoMo?.id !== mo.id">
+                <td><span class="badge" [class.bg-primary]="mo.tipo==='capacidade_dia'" [class.bg-info]="mo.tipo==='milheiro'">
+                  {{ mo.tipo === 'capacidade_dia' ? 'Cap./Dia' : 'Milheiro' }}
+                </span></td>
+                <td class="small">{{ mo.descricao }}</td>
+                <td class="small text-muted">{{ mo.capacidadeDia ?? '—' }}</td>
+                <td class="small text-muted">{{ mo.valorDia != null ? (mo.valorDia | currency:'BRL':'symbol':'1.2-2') : '—' }}</td>
+                <td class="small text-muted">{{ mo.valorMilheiro != null ? (mo.valorMilheiro | currency:'BRL':'symbol':'1.2-2') : '—' }}</td>
+                <td>
+                  <button class="btn btn-outline-secondary btn-sm me-1" (click)="iniciarEdicaoMo(mo)">Editar</button>
+                  <button class="btn btn-outline-danger btn-sm" (click)="removerMo(mo.id)">✕</button>
+                </td>
+              </ng-container>
+              <ng-container *ngIf="editandoMo?.id === mo.id">
+                <td>
+                  <select class="form-select form-select-sm" [(ngModel)]="editandoMo.tipo">
+                    <option value="capacidade_dia">Capacidade/Dia</option>
+                    <option value="milheiro">Milheiro</option>
+                  </select>
+                </td>
+                <td><input class="form-control form-control-sm" [(ngModel)]="editandoMo.descricao"></td>
+                <td><input type="number" class="form-control form-control-sm" [(ngModel)]="editandoMo.capacidadeDia" [disabled]="editandoMo.tipo !== 'capacidade_dia'"></td>
+                <td><input type="number" step="0.01" class="form-control form-control-sm" [(ngModel)]="editandoMo.valorDia" [disabled]="editandoMo.tipo !== 'capacidade_dia'"></td>
+                <td><input type="number" step="0.01" class="form-control form-control-sm" [(ngModel)]="editandoMo.valorMilheiro" [disabled]="editandoMo.tipo !== 'milheiro'"></td>
+                <td>
+                  <button class="btn btn-success btn-sm me-1" (click)="salvarMo()">OK</button>
+                  <button class="btn btn-secondary btn-sm" (click)="editandoMo = null">✕</button>
+                </td>
+              </ng-container>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+
   </div>
 
   <!-- ══ LISTA ════════════════════════════════════════════════════════ -->

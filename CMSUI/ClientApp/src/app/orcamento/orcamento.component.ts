@@ -106,4 +106,8 @@ export class OrcamentoComponent implements OnInit {
     if (!d) return '—';
     return new Date(d).toLocaleDateString('pt-BR');
   }
+
+  parseCfg(json: string): any {
+    try { return JSON.parse(json); } catch { return {}; }
+  }
 }

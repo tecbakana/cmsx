@@ -17,6 +17,8 @@ public class OrcamentoRepositorio : BaseRepositorio, IOrcamentoRepositorio
     public OrcamentoCabecalho? BuscaPorId(Guid id) =>
         _db.OrcamentoCabecalhos
             .Include(o => o.OrcamentoDetalhes)
+            .Include(o => o.OrcamentoDetalheCompostos)
+            .AsSplitQuery()
             .FirstOrDefault(o => o.Orcamentoid == id);
 
     public void Criar(OrcamentoCabecalho cabecalho, IEnumerable<OrcamentoDetalhe> itens)

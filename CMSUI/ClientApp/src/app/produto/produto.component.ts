@@ -8,7 +8,7 @@ export class ProdutoComponent implements OnInit {
   categorias: any[] = [];
   selecionado: any = null;
   modoEdicao = false;
-  aba: 'geral' | 'atributos' | 'galeria' = 'geral';
+  aba: 'geral' | 'atributos' | 'galeria' | 'maodeobra' = 'geral';
   private usuario: any;
 
   // Atributos
@@ -24,6 +24,11 @@ export class ProdutoComponent implements OnInit {
   // Galeria
   imagens: any[] = [];
   novaImagem = { url: '', descricao: '' };
+
+  // Mão de Obra
+  maosDeObra: any[] = [];
+  novaMo = { tipo: 'capacidade_dia', descricao: '', capacidadeDia: null as number | null, valorDia: null as number | null, valorMilheiro: null as number | null };
+  editandoMo: any = null;
 
   // IA
   iaImageUrl = '';
@@ -80,6 +85,7 @@ export class ProdutoComponent implements OnInit {
     this.aba = 'geral'; this.modoEdicao = true;
     this.carregarAtributos();
     this.carregarImagens();
+    this.carregarMaosDeObra();
   }
 
   salvarGeral() {
@@ -100,7 +106,7 @@ export class ProdutoComponent implements OnInit {
       this.http.delete(this.baseUrl + 'produtos/' + id).subscribe(() => this.carregar());
   }
 
-  cancelar() { this.modoEdicao = false; this.selecionado = null; this.atributos = []; this.imagens = []; }
+  cancelar() { this.modoEdicao = false; this.selecionado = null; this.atributos = []; this.imagens = []; this.maosDeObra = []; }
 
   // ── IA ─────────────────────────────────────────────────────────────
 
@@ -311,5 +317,38 @@ export class ProdutoComponent implements OnInit {
   removerImagem(imagemid: string) {
     this.http.delete(this.baseUrl + 'produtos/' + this.selecionado.produtoid + '/imagens/' + imagemid)
       .subscribe(() => this.carregarImagens());
+  }
+
+  // ── Mão de Obra ────────────────────────────────────────────────────
+
+  carregarMaosDeObra() {
+    if (!this.selecionado?.produtoid) return;
+    this.http.get<any[]>(this.baseUrl + 'produtos/' + this.selecionado.produtoid + '/maodeobra')
+      .subscribe(r => this.maosDeObra = r);
+  }
+
+  adicionarMo() {
+    if (!this.novaMo.descricao.trim()) return;
+    this.http.post(this.baseUrl + 'produtos/' + this.selecionado.produtoid + '/maodeobra', this.novaMo)
+      .subscribe(() => {
+        this.novaMo = { tipo: 'capacidade_dia', descricao: '', capacidadeDia: null, valorDia: null, valorMilheiro: null };
+        this.carregarMaosDeObra();
+      });
+  }
+
+  iniciarEdicaoMo(mo: any) {
+    this.editandoMo = { ...mo };
+  }
+
+  salvarMo() {
+    if (!this.editandoMo) return;
+    this.http.put(this.baseUrl + 'produtos/' + this.selecionado.produtoid + '/maodeobra/' + this.editandoMo.id, this.editandoMo)
+      .subscribe(() => { this.editandoMo = null; this.carregarMaosDeObra(); });
+  }
+
+  removerMo(id: string) {
+    if (confirm('Remover esta mão de obra?'))
+      this.http.delete(this.baseUrl + 'produtos/' + this.selecionado.produtoid + '/maodeobra/' + id)
+        .subscribe(() => this.carregarMaosDeObra());
   }
 }

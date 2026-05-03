@@ -1572,6 +1572,54 @@ namespace CMSXData.Migrations
                     b.ToTable("produto", (string)null);
                 });
 
+            modelBuilder.Entity("CMSXData.Models.ProdutoMaoDeObra", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<int?>("CapacidadeDia")
+                        .HasColumnType("integer")
+                        .HasColumnName("capacidade_dia");
+
+                    b.Property<string>("Descricao")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
+                        .HasColumnName("descricao");
+
+                    b.Property<string>("Produtoid")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("character varying(64)")
+                        .HasColumnName("produtoid");
+
+                    b.Property<string>("Tipo")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)")
+                        .HasColumnName("tipo");
+
+                    b.Property<decimal?>("ValorDia")
+                        .HasPrecision(12, 2)
+                        .HasColumnType("numeric(12,2)")
+                        .HasColumnName("valor_dia");
+
+                    b.Property<decimal?>("ValorMilheiro")
+                        .HasPrecision(12, 2)
+                        .HasColumnType("numeric(12,2)")
+                        .HasColumnName("valor_milheiro");
+
+                    b.HasKey("Id")
+                        .HasName("PK_produto_mao_de_obra");
+
+                    b.HasIndex("Produtoid")
+                        .HasDatabaseName("IX_produto_mao_de_obra_produtoid");
+
+                    b.ToTable("produto_mao_de_obra", (string)null);
+                });
+
             modelBuilder.Entity("CMSXData.Models.PublicToken", b =>
                 {
                     b.Property<Guid>("PublicTokenId")
@@ -2182,6 +2230,19 @@ namespace CMSXData.Migrations
             modelBuilder.Entity("CMSXData.Models.Pedido", b =>
                 {
                     b.Navigation("Statuspedidos");
+                });
+
+            modelBuilder.Entity("CMSXData.Models.ProdutoMaoDeObra", b =>
+                {
+                    b.HasOne("CMSXData.Models.Produto", "Produto")
+                        .WithMany()
+                        .HasForeignKey("Produtoid")
+                        .HasPrincipalKey("Produtoid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_ProdutoMaoDeObra_Produto");
+
+                    b.Navigation("Produto");
                 });
 #pragma warning restore 612, 618
         }
