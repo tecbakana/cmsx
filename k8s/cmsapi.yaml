@@ -38,6 +38,8 @@ spec:
                 secretKeyRef:
                   name: multiplai-secrets
                   key: SALEMATIC_JWT_KEY
+            - name: DatabaseProvider
+              value: "PostgreSQL"
             - name: Cors__AllowedOrigins__0
               value: "https://admin.multiplai.com.br"
             - name: SwaggerServer__Url
