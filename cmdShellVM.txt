@@ -1,0 +1,65 @@
+  
+  #para recuperar criar/validar o bastion e recuperar o session id
+  oci bastion session create-managed-ssh \
+  --bastion-id ocid1.bastion.oc1.sa-saopaulo-1.amaaaaaamfmeuuyajxbeuixkgqhgu33le56oxyvqu7qwqnteud7k72c4pscq \
+  --target-resource-id ocid1.instance.oc1.sa-saopaulo-1.antxeljrmfmeuuyc6gljcedcbto2fusqiabyksbngzst6yzgwv5uvmkcvosa \
+  --target-os-username ubuntu \
+  --ssh-public-key-file ~/.ssh/oracle_markethub.pub \
+  --display-name markethub-session-X \
+  --session-ttl 10800
+ 
+#output do comando acima 
+  {
+  "data": {
+    "bastion-id": "ocid1.bastion.oc1.sa-saopaulo-1.amaaaaaamfmeuuyajxbeuixkgqhgu33le56oxyvqu7qwqnteud7k72c4pscq",
+    "bastion-name": "markethub-bastion",
+    "bastion-public-host-key-info": null,
+    "bastion-user-name": null,
+    "display-name": "markethub-session-X",
+    "id": "ocid1.bastionsession.oc1.sa-saopaulo-1.amaaaaaamfmeuuyaplr2n3mfk3uk3yswqwss5exaboibnwxgnizbprvkmwtq",
+    "key-details": {
+      "public-key-content": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCcpY3Cz7G7j/OwHmDDNvg6tosYcWpvozBBG5n2ASqYY3aXjQmGDcznHOGbVZ0AReyG0DsVe8f6tcnWhZoFDkJzVpK3NiPtuquTDg+hlIfMaGyUGT8TZr1+sHqfLuhekfva7zRh+5CxczefNmR6j5B207msGZb/nG2rdHSwMwRzZLY1AcKnKaKz83BLaATEmDHf+P14HWoM5HRw/EMjOgxdPThFR94qv6DbLJffjrz8xDh9jPUNqYFy9a3CibX5uFo+ZrDM+VRAwHNLKATRocdoacsnWx0RFkbdjeFOZrOp9LGs8bVtBayA9/LNQbJ4AiQo3NDqU01J4R8jFEtq3Rhl\n"
+    },
+    "key-type": "PUB",
+    "lifecycle-details": null,
+    "lifecycle-state": "CREATING",
+    "session-ttl-in-seconds": 10800,
+    "ssh-metadata": null,
+    "target-resource-details": {
+      "session-type": "MANAGED_SSH",
+      "target-resource-display-name": "instance-20260426-1527",
+      "target-resource-id": "ocid1.instance.oc1.sa-saopaulo-1.antxeljrmfmeuuyc6gljcedcbto2fusqiabyksbngzst6yzgwv5uvmkcvosa",
+      "target-resource-operating-system-user-name": "ubuntu",
+      "target-resource-port": 22,
+      "target-resource-private-ip-address": "10.0.0.217"
+    },
+    "time-created": "2026-05-03T16:00:19.442000+00:00",
+    "time-updated": "2026-05-03T16:00:19.442000+00:00"
+  },
+  "opc-work-request-id": "ocid1.bastionworkrequest.oc1.sa-saopaulo-1.amaaaaaamfmeuuyafxyhimy5vkiwekiemamj7xjltwwumo45womudtky5m2a"
+}
+
+#comando para acessar a VM no Oracle Cloud Shell no navegador
+
+ssh -i ~/.ssh/oracle_markethub \
+  -o ProxyCommand="ssh -i ~/.ssh/oracle_markethub -W %h:%p -p 22 [sessionid]@host.bastion.sa-saopaulo-1.oci.oraclecloud.com" \
+  -p 22 ubuntu@10.0.0.217
+  
+#substitui no comando para acessar a VM
+#exemplo do trecho:
+# "display-name": "markethub-session-X",
+#    "id": "ocid1.bastionsession.oc1.sa-saopaulo-1.amaaaaaamfmeuuyaplr2n3mfk3uk3yswqwss5exaboibnwxgnizbprvkmwtq",
+#    "key-details": {
+#pegar o valor do campo id e subistitui o [sessionid]
+
+ssh -i ~/.ssh/oracle_markethub \
+  -o ProxyCommand="ssh -i ~/.ssh/oracle_markethub -W %h:%p -p 22 ocid1.bastionsession.oc1.sa-saopaulo-1.amaaaaaamfmeuuyaplr2n3mfk3uk3yswqwss5exaboibnwxgnizbprvkmwtq@host.bastion.sa-saopaulo-1.oci.oraclecloud.com" \
+  -p 22 ubuntu@10.0.0.217
+  
+#cat ~/MarketHub/[file/config]
+#exemplo:cat ~/MarketHub/.env
+#le o arquivo e printa na tela,
+
+oci ce cluster list --compartment-id $(oci iam compartment list --all --query "data[?\"lifecycle-state\"=='ACTIVE'] | [0].id" --raw-output) --region sa-saopaulo-1 --query "data[*].id" --raw-output
+
+oci ce cluster create-kubeconfig --cluster-id ocid1.cluster.oc1.sa-saopaulo-1.aaaaaaaayjgrb57oqatyz4bairfwk22sdby7ns3eqrzo3tz4ic3c7ygozm6q --region sa-saopaulo-1

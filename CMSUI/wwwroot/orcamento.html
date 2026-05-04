@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Novo Orçamento</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body { background: #f8f9fa; }
+    .card-form { max-width: 680px; margin: 0 auto; }
+    .attr-group-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: #6c757d;
+      margin-top: .75rem;
+      margin-bottom: .25rem;
+    }
+    #item-card { display: none; }
+    #lista-vazia { display: block; }
+    #tabela-wrap { display: none; }
+  </style>
+</head>
+<body class="py-4">
+
+<div class="container card-form">
+
+  <!-- Sucesso -->
+  <div id="tela-sucesso" class="text-center py-5" style="display:none!important">
+    <div style="font-size:3rem">&#10003;</div>
+    <h4 class="mt-3">Orçamento salvo com sucesso!</h4>
+    <p class="text-muted">Você pode tirar um print desta tela ou criar um novo orçamento.</p>
+    <button class="btn btn-outline-primary mt-2" onclick="novoOrcamento()">Novo orçamento</button>
+  </div>
+
+  <!-- Link inválido -->
+  <div id="tela-invalida" class="alert alert-danger" style="display:none">
+    Link inválido. Solicite um novo link ao administrador.
+  </div>
+
+  <!-- Formulário -->
+  <div id="tela-form">
+    <h4 class="mb-4">Novo Orçamento</h4>
+
+    <div id="alerta-erro" class="alert alert-danger" style="display:none"></div>
+
+    <div class="card mb-3">
+      <div class="card-body">
+        <h6 class="text-muted mb-3">Dados do cliente</h6>
+
+        <div class="mb-3">
+          <label class="form-label">Nome <span class="text-danger">*</span></label>
+          <input id="f-nome" type="text" class="form-control" placeholder="Nome completo do cliente">
+        </div>
+
+        <div class="row g-3">
+          <div class="col-sm-6">
+            <label class="form-label">E-mail</label>
+            <input id="f-email" type="email" class="form-control" placeholder="email@exemplo.com">
+          </div>
+          <div class="col-sm-6">
+            <label class="form-label">Telefone</label>
+            <input id="f-telefone" type="text" class="form-control" placeholder="(00) 00000-0000">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card mb-3">
+      <div class="card-body">
+        <h6 class="text-muted mb-3">Orçamento</h6>
+
+        <div class="mb-3">
+          <label class="form-label">Descrição do serviço</label>
+          <textarea id="f-descricao" class="form-control" rows="3" placeholder="Descreva o serviço ou produto orçado..."></textarea>
+        </div>
+
+        <div class="mb-1">
+          <label class="form-label">Prazo</label>
+          <input id="f-prazo" type="text" class="form-control" placeholder="Ex: 5 dias úteis, 30/05/2025">
+        </div>
+      </div>
+    </div>
+
+    <div class="card mb-3">
+      <div class="card-body">
+        <h6 class="text-muted mb-3">Itens do orçamento</h6>
+
+        <!-- Seletor de produto -->
+        <div id="item-card">
+          <div class="mb-3">
+            <label class="form-label fw-semibold">Produto</label>
+            <select id="sel-produto" class="form-select" onchange="onProdutoChange()">
+              <option value="">Selecione um produto...</option>
+            </select>
+          </div>
+
+          <!-- Árvore de atributos -->
+          <div id="arvore-wrap" style="display:none">
+            <div id="arvore-attrs"></div>
+            <div id="erro-selecao" class="text-danger small mt-1" style="display:none"></div>
+          </div>
+
+          <!-- Resumo -->
+          <div id="resumo-valor" class="d-flex flex-wrap gap-3 mb-3 small text-muted" style="display:none!important"></div>
+
+          <button class="btn btn-sm btn-outline-primary mt-2" onclick="adicionarItem()">+ Adicionar item</button>
+        </div>
+
+        <div id="sem-produtos" class="text-muted small" style="display:none">
+          Nenhum produto cadastrado para este tenant.
+        </div>
+
+        <hr class="my-3">
+
+        <!-- Tabela de itens -->
+        <p id="lista-vazia" class="text-muted small mb-0">Nenhum item adicionado.</p>
+
+        <div id="tabela-wrap" class="table-responsive">
+          <table class="table table-sm align-middle mb-0">
+            <thead class="table-light">
+              <tr>
+                <th>Produto / Opções</th>
+                <th style="width:80px">Qtd</th>
+                <th style="width:100px" class="d-none d-sm-table-cell">Vlr Unit.</th>
+                <th style="width:100px">Total</th>
+                <th style="width:36px"></th>
+              </tr>
+            </thead>
+            <tbody id="tabela-body"></tbody>
+            <tfoot>
+              <tr class="table-light">
+                <td colspan="2" class="text-end fw-semibold d-none d-sm-table-cell">Valor estimado:</td>
+                <td class="text-end fw-semibold d-sm-none">Total:</td>
+                <td colspan="2" class="fw-semibold" id="total-display">R$ 0,00</td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="card mb-4">
+      <div class="card-body">
+        <h6 class="text-muted mb-3">Vendedor</h6>
+        <div class="mb-1">
+          <label class="form-label">Nome do vendedor</label>
+          <input id="f-vendedor" type="text" class="form-control" placeholder="Seu nome">
+        </div>
+      </div>
+    </div>
+
+    <div class="d-grid mb-5">
+      <button id="btn-salvar" type="button" class="btn btn-primary btn-lg" onclick="salvar()">
+        Salvar orçamento
+      </button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const params = new URLSearchParams(location.search);
+  const TOKEN = params.get('ref') || '';
+
+  let produtos = [];
+  let itens = [];   // { produtoid, produtoNome, quantidade, valorUnitario, selecoes: [{atributoid,atributoNome,opcaoid,opcaoNome,valorAdicional}] }
+
+  // ── init ─────────────────────────────────────────────────────────────────────
+
+  if (!TOKEN) {
+    document.getElementById('tela-invalida').style.display = '';
+    document.getElementById('tela-form').style.display = 'none';
+  } else {
+    carregarProdutos();
+  }
+
+  async function carregarProdutos() {
+    try {
+      const res = await fetch(`/api/publico/orcamento/produtos?ref=${encodeURIComponent(TOKEN)}`);
+      if (!res.ok) throw new Error();
+      produtos = await res.json();
+
+      const sel = document.getElementById('sel-produto');
+      if (produtos.length === 0) {
+        document.getElementById('sem-produtos').style.display = '';
+      } else {
+        produtos.forEach(p => {
+          const opt = document.createElement('option');
+          opt.value = p.produtoid;
+          opt.textContent = p.nome;
+          sel.appendChild(opt);
+        });
+        document.getElementById('item-card').style.display = '';
+      }
+    } catch {
+      mostrarErro('Erro ao carregar produtos. Recarregue a página.');
+    }
+  }
+
+  // ── produto ───────────────────────────────────────────────────────────────────
+
+  function onProdutoChange() {
+    const id = document.getElementById('sel-produto').value;
+    const produto = produtos.find(p => p.produtoid === id) || null;
+
+    document.getElementById('arvore-wrap').style.display = 'none';
+    document.getElementById('resumo-valor').style.cssText = 'display:none!important';
+    document.getElementById('erro-selecao').style.display = 'none';
+    document.getElementById('arvore-attrs').innerHTML = '';
+
+    if (!produto) return;
+
+    // Árvore de atributos
+    const folhas = coletarFolhas(produto.atributos);
+    if (folhas.length > 0) {
+      renderArvore(produto.atributos, document.getElementById('arvore-attrs'), 0);
+      document.getElementById('arvore-wrap').style.display = '';
+    }
+
+    // Resumo
+    const resumo = document.getElementById('resumo-valor');
+    resumo.innerHTML = '';
+    if (produto.unidadeVenda) {
+      resumo.innerHTML += `<span>Unidade: <strong>${esc(produto.unidadeVenda)}</strong></span>`;
+    }
+    const valorBase = produto.valor != null ? fmtBRL(produto.valor) : '—';
+    resumo.innerHTML += `<span>Valor base: <strong>${valorBase}</strong></span>`;
+    resumo.style.cssText = '';
+  }
+
+  function renderArvore(atributos, container, depth) {
+    let row = null;
+
+    atributos.forEach(a => {
+      if (a.filhos && a.filhos.length > 0) {
+        row = null;
+
+        if (depth === 0) {
+          // Grupo raiz: card container
+          const card = document.createElement('div');
+          card.className = 'border border-primary border-opacity-25 rounded p-2 mb-3 bg-white';
+
+          const header = document.createElement('div');
+          header.className = 'attr-group-label text-primary mb-2';
+          header.style.marginTop = '0';
+          header.textContent = a.nome;
+          card.appendChild(header);
+
+          renderArvore(a.filhos, card, depth + 1);
+          container.appendChild(card);
+        } else {
+          // Nó intermediário: label simples
+          const lbl = document.createElement('div');
+          lbl.className = 'attr-group-label';
+          lbl.textContent = a.nome;
+          container.appendChild(lbl);
+          renderArvore(a.filhos, container, depth + 1);
+        }
+      } else {
+        // Folha: select — agrupa em row horizontal
+        if (!row) {
+          row = document.createElement('div');
+          row.className = 'row g-2 mb-1';
+          container.appendChild(row);
+        }
+
+        const col = document.createElement('div');
+        col.className = 'col-6 col-md-4';
+
+        const label = document.createElement('label');
+        label.className = 'form-label form-label-sm mb-1';
+        label.textContent = a.nome;
+
+        const sel = document.createElement('select');
+        sel.className = 'form-select form-select-sm';
+        sel.dataset.atributoid = a.atributoid;
+        sel.dataset.atributoNome = a.nome;
+        sel.innerHTML = '<option value="">Selecione...</option>';
+
+        (a.opcoes || []).forEach(o => {
+          const opt = document.createElement('option');
+          opt.value = o.opcaoid;
+          opt.dataset.nome = o.nome;
+          opt.dataset.valorAdicional = o.valorAdicional || 0;
+          opt.textContent = o.nome + (o.valorAdicional > 0 ? ` (+${fmtBRL(o.valorAdicional)})` : '');
+          sel.appendChild(opt);
+        });
+
+        sel.addEventListener('change', () => {
+          document.getElementById('erro-selecao').style.display = 'none';
+        });
+
+        col.appendChild(label);
+        col.appendChild(sel);
+        row.appendChild(col);
+      }
+    });
+  }
+
+  // ── adicionar item ────────────────────────────────────────────────────────────
+
+  function adicionarItem() {
+    const id = document.getElementById('sel-produto').value;
+    const produto = produtos.find(p => p.produtoid === id);
+    if (!produto) return;
+
+    const folhas = coletarFolhas(produto.atributos);
+    const selects = document.querySelectorAll('#arvore-attrs select');
+    const selecoes = [];
+
+    for (const sel of selects) {
+      if (!sel.value) {
+        mostrarErroSelecao(`Selecione: ${sel.dataset.atributoNome}`);
+        return;
+      }
+      const opt = sel.options[sel.selectedIndex];
+      selecoes.push({
+        atributoid: sel.dataset.atributoid,
+        atributoNome: sel.dataset.atributoNome,
+        opcaoid: sel.value,
+        opcaoNome: opt.dataset.nome,
+        valorAdicional: parseFloat(opt.dataset.valorAdicional) || 0
+      });
+    }
+
+    const somaAdicionais = selecoes.reduce((s, x) => s + x.valorAdicional, 0);
+    const valorUnitario = (produto.valor || 0) + somaAdicionais;
+
+    itens.push({
+      produtoid: produto.produtoid,
+      produtoNome: produto.nome,
+      quantidade: 1,
+      valorUnitario,
+      selecoes
+    });
+
+    // Reset seletor
+    document.getElementById('sel-produto').value = '';
+    onProdutoChange();
+
+    renderTabela();
+  }
+
+  // ── tabela ────────────────────────────────────────────────────────────────────
+
+  function renderTabela() {
+    const tbody = document.getElementById('tabela-body');
+    tbody.innerHTML = '';
+
+    itens.forEach((item, i) => {
+      const tr = document.createElement('tr');
+
+      // Descrição
+      const descOpcoes = item.selecoes.map(s => `${s.atributoNome}: ${s.opcaoNome}`).join(' | ');
+      tr.innerHTML = `
+        <td>
+          <div class="small fw-semibold">${esc(item.produtoNome)}</div>
+          ${descOpcoes ? `<div class="text-muted" style="font-size:.75rem">${esc(descOpcoes)}</div>` : ''}
+        </td>
+        <td>
+          <input type="number" class="form-control form-control-sm" value="${item.quantidade}"
+                 min="0.01" step="0.01" onchange="onQtdChange(${i}, this.value)">
+        </td>
+        <td class="text-muted small d-none d-sm-table-cell">${fmtBRL(item.valorUnitario)}</td>
+        <td class="fw-semibold small" id="total-linha-${i}">${fmtBRL(item.valorUnitario * item.quantidade)}</td>
+        <td><button type="button" class="btn btn-sm btn-outline-danger" onclick="removerItem(${i})">&#x2715;</button></td>
+      `;
+      tbody.appendChild(tr);
+    });
+
+    const temItens = itens.length > 0;
+    document.getElementById('lista-vazia').style.display = temItens ? 'none' : '';
+    document.getElementById('tabela-wrap').style.display = temItens ? '' : 'none';
+    atualizarTotal();
+  }
+
+  function onQtdChange(i, val) {
+    itens[i].quantidade = parseFloat(val) || 1;
+    document.getElementById(`total-linha-${i}`).textContent = fmtBRL(itens[i].valorUnitario * itens[i].quantidade);
+    atualizarTotal();
+  }
+
+  function removerItem(i) {
+    itens.splice(i, 1);
+    renderTabela();
+  }
+
+  function atualizarTotal() {
+    const total = itens.reduce((s, i) => s + i.valorUnitario * i.quantidade, 0);
+    document.getElementById('total-display').textContent = fmtBRL(total);
+  }
+
+  // ── salvar ────────────────────────────────────────────────────────────────────
+
+  async function salvar() {
+    ocultarErro();
+
+    const nome = document.getElementById('f-nome').value.trim();
+    if (!nome) { mostrarErro('Nome do cliente é obrigatório.'); return; }
+    if (itens.length === 0) { mostrarErro('Adicione pelo menos um item ao orçamento.'); return; }
+
+    const total = itens.reduce((s, i) => s + i.valorUnitario * i.quantidade, 0);
+
+    const payload = {
+      token: TOKEN,
+      nome,
+      email: document.getElementById('f-email').value.trim(),
+      telefone: document.getElementById('f-telefone').value.trim(),
+      descricaoservico: document.getElementById('f-descricao').value.trim(),
+      prazo: document.getElementById('f-prazo').value.trim(),
+      nomevendedor: document.getElementById('f-vendedor').value.trim(),
+      valorestimado: total || null,
+      itens: [],
+      itensCompostos: itens.map(i => ({
+        produtoid: i.produtoid,
+        quantidade: i.quantidade,
+        selecoes: i.selecoes.map(s => ({ atributoid: s.atributoid, opcaoid: s.opcaoid }))
+      }))
+    };
+
+    const btn = document.getElementById('btn-salvar');
+    btn.disabled = true;
+    btn.textContent = 'Salvando...';
+
+    try {
+      const res = await fetch('/api/publico/orcamento', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      if (!res.ok) throw new Error();
+      document.getElementById('tela-form').style.display = 'none';
+      document.getElementById('tela-sucesso').style.cssText = '';
+    } catch {
+      mostrarErro('Erro ao salvar orçamento. Tente novamente.');
+      btn.disabled = false;
+      btn.textContent = 'Salvar orçamento';
+    }
+  }
+
+  function novoOrcamento() {
+    itens = [];
+    document.getElementById('tela-sucesso').style.cssText = 'display:none!important';
+    document.getElementById('tela-form').style.display = '';
+    document.getElementById('f-nome').value = '';
+    document.getElementById('f-email').value = '';
+    document.getElementById('f-telefone').value = '';
+    document.getElementById('f-descricao').value = '';
+    document.getElementById('f-prazo').value = '';
+    document.getElementById('f-vendedor').value = '';
+    document.getElementById('sel-produto').value = '';
+    document.getElementById('btn-salvar').disabled = false;
+    document.getElementById('btn-salvar').textContent = 'Salvar orçamento';
+    onProdutoChange();
+    renderTabela();
+    ocultarErro();
+  }
+
+  // ── helpers ───────────────────────────────────────────────────────────────────
+
+  function coletarFolhas(atributos) {
+    const folhas = [];
+    const visitar = a => {
+      if (!a.filhos || a.filhos.length === 0) folhas.push(a);
+      else a.filhos.forEach(visitar);
+    };
+    atributos.forEach(visitar);
+    return folhas;
+  }
+
+  function fmtBRL(v) {
+    return (v || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+  }
+
+  function esc(s) {
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  function mostrarErro(msg) {
+    const el = document.getElementById('alerta-erro');
+    el.textContent = msg;
+    el.style.display = '';
+    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  function ocultarErro() {
+    document.getElementById('alerta-erro').style.display = 'none';
+  }
+
+  function mostrarErroSelecao(msg) {
+    const el = document.getElementById('erro-selecao');
+    el.textContent = msg;
+    el.style.display = '';
+  }
+</script>
+
+</body>
+</html>
