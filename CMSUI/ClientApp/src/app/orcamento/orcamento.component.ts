@@ -40,7 +40,7 @@ export class OrcamentoComponent implements OnInit {
       ? (this.adminCtx.tenantId ?? '')
       : (this.usuario?.aplicacaoid ?? '');
     if (appId) {
-      this.http.get<any[]>(`/publicTokens?aplicacaoid=${appId}`)
+      this.http.get<any[]>(`/publictokens?aplicacaoid=${appId}`)
         .subscribe(tokens => {
           const ativo = tokens.find(t => t.ativo);
           this.refToken = ativo?.token ?? '';
