@@ -35,7 +35,7 @@ const PROXY_CONFIG = [
       "/pedidos",
       "/orcamentos",
       "/api/loja",
-      "/publicTokens",
+      "/publictokens",
       "/marketplace/configuracoes",
       "/marketplace/pedidos",
       "/marketplace/ml/connect",
