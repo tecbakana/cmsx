@@ -91,20 +91,20 @@ export class AplicacaoComponent implements OnInit {
   }
 
   carregarTokens(aplicacaoid: string) {
-    this.http.get<any[]>(this.baseUrl + `publicTokens?aplicacaoid=${aplicacaoid}`)
+    this.http.get<any[]>(this.baseUrl + `publictokens?aplicacaoid=${aplicacaoid}`)
       .subscribe(r => this.tokens = r);
   }
 
   gerarToken() {
     const payload: any = { aplicacaoid: this.selecionado.aplicacaoid };
     if (this.novoTokenVencimento) payload.datavencimento = this.novoTokenVencimento;
-    this.http.post(this.baseUrl + 'publicTokens', payload)
+    this.http.post(this.baseUrl + 'publictokens', payload)
       .subscribe(() => { this.novoTokenVencimento = ''; this.carregarTokens(this.selecionado.aplicacaoid); });
   }
 
   revogarToken(id: string) {
     if (confirm('Revogar este token? Links públicos que usam este token deixarão de funcionar.')) {
-      this.http.delete(this.baseUrl + `publicTokens/${id}`)
+      this.http.delete(this.baseUrl + `publictokens/${id}`)
         .subscribe(() => this.carregarTokens(this.selecionado.aplicacaoid));
     }
   }
