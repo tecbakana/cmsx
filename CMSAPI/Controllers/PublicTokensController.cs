@@ -7,7 +7,7 @@ using System.Security.Cryptography;
 namespace CMSAPI.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("publictokens")]
 [Authorize]
 public class PublicTokensController : Controller
 {

@@ -12,14 +12,45 @@ env:
   OKE_REGION: sa-saopaulo-1
 
 jobs:
-  build-and-deploy:
+  # ── Detecta quais serviços foram alterados ──────────────────────────────
+  changes:
     runs-on: ubuntu-latest
-
+    outputs:
+      cmsapi: ${{ steps.filter.outputs.cmsapi }}
+      cmsapi-publica: ${{ steps.filter.outputs.cmsapi-publica }}
+      cmsui: ${{ steps.filter.outputs.cmsui }}
+      publicui: ${{ steps.filter.outputs.publicui }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            cmsapi:
+              - 'CMSAPI/**'
+              - 'CMSXData/**'
+              - 'CMSXRepo/**'
+              - 'ICMSX/**'
+            cmsapi-publica:
+              - 'CMSAPI.Publica/**'
+              - 'CMSXData/**'
+              - 'CMSXRepo/**'
+              - 'ICMSX/**'
+            cmsui:
+              - 'CMSUI/**'
+            publicui:
+              - 'PublicUI/**'
 
-      # ── OCI CLI ────────────────────────────────────────────────────────
+  # ── Setup compartilhado (OCI + Kubeconfig) ──────────────────────────────
+  setup:
+    runs-on: ubuntu-latest
+    needs: changes
+    if: |
+      needs.changes.outputs.cmsapi == 'true' ||
+      needs.changes.outputs['cmsapi-publica'] == 'true' ||
+      needs.changes.outputs.cmsui == 'true' ||
+      needs.changes.outputs.publicui == 'true'
+    steps:
       - name: Setup OCI CLI
         run: |
           pip install oci-cli --quiet
@@ -33,7 +64,6 @@ jobs:
           echo "${{ secrets.OCI_PRIVATE_KEY }}" > ~/.oci/oci_api_key.pem
           chmod 600 ~/.oci/oci_api_key.pem ~/.oci/config
 
-      # ── Kubeconfig ─────────────────────────────────────────────────────
       - name: Get kubeconfig
         run: |
           mkdir -p ~/.kube
@@ -43,7 +73,6 @@ jobs:
             --region $OKE_REGION \
             --token-version 2.0.0
 
-      # ── OCIR Login ─────────────────────────────────────────────────────
       - name: Login to OCIR
         run: |
           echo "${{ secrets.OCI_AUTH_TOKEN }}" | \
@@ -51,7 +80,19 @@ jobs:
             -u "${{ secrets.OCI_USERNAME }}" \
             --password-stdin
 
-      # ── Build & Push ───────────────────────────────────────────────────
+  # ── Build por serviço ───────────────────────────────────────────────────
+  build-cmsapi:
+    runs-on: ubuntu-latest
+    needs: [changes, setup]
+    if: needs.changes.outputs.cmsapi == 'true'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Login to OCIR
+        run: |
+          echo "${{ secrets.OCI_AUTH_TOKEN }}" | \
+          docker login $OCIR_REGION \
+            -u "${{ secrets.OCI_USERNAME }}" \
+            --password-stdin
       - name: Build & push cmsapi
         run: |
           docker build -f Dockerfile.cmsapi \
@@ -60,6 +101,18 @@ jobs:
           docker push $OCIR_REGION/$OCIR_NAMESPACE/$OCIR_REPO/cmsapi:${{ github.sha }}
           docker push $OCIR_REGION/$OCIR_NAMESPACE/$OCIR_REPO/cmsapi:latest
 
+  build-cmsapi-publica:
+    runs-on: ubuntu-latest
+    needs: [changes, setup]
+    if: needs.changes.outputs['cmsapi-publica'] == 'true'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Login to OCIR
+        run: |
+          echo "${{ secrets.OCI_AUTH_TOKEN }}" | \
+          docker login $OCIR_REGION \
+            -u "${{ secrets.OCI_USERNAME }}" \
+            --password-stdin
       - name: Build & push cmsapi-publica
         run: |
           docker build -f Dockerfile.cmsapi-publica \
@@ -68,6 +121,18 @@ jobs:
           docker push $OCIR_REGION/$OCIR_NAMESPACE/$OCIR_REPO/cmsapi-publica:${{ github.sha }}
           docker push $OCIR_REGION/$OCIR_NAMESPACE/$OCIR_REPO/cmsapi-publica:latest
 
+  build-cmsui:
+    runs-on: ubuntu-latest
+    needs: [changes, setup]
+    if: needs.changes.outputs.cmsui == 'true'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Login to OCIR
+        run: |
+          echo "${{ secrets.OCI_AUTH_TOKEN }}" | \
+          docker login $OCIR_REGION \
+            -u "${{ secrets.OCI_USERNAME }}" \
+            --password-stdin
       - name: Build & push cmsui
         run: |
           docker build -f Dockerfile.cmsui \
@@ -76,6 +141,18 @@ jobs:
           docker push $OCIR_REGION/$OCIR_NAMESPACE/$OCIR_REPO/cmsui:${{ github.sha }}
           docker push $OCIR_REGION/$OCIR_NAMESPACE/$OCIR_REPO/cmsui:latest
 
+  build-publicui:
+    runs-on: ubuntu-latest
+    needs: [changes, setup]
+    if: needs.changes.outputs.publicui == 'true'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Login to OCIR
+        run: |
+          echo "${{ secrets.OCI_AUTH_TOKEN }}" | \
+          docker login $OCIR_REGION \
+            -u "${{ secrets.OCI_USERNAME }}" \
+            --password-stdin
       - name: Build & push publicui
         run: |
           docker build -f Dockerfile.publicui \
@@ -84,19 +161,64 @@ jobs:
           docker push $OCIR_REGION/$OCIR_NAMESPACE/$OCIR_REPO/publicui:${{ github.sha }}
           docker push $OCIR_REGION/$OCIR_NAMESPACE/$OCIR_REPO/publicui:latest
 
-      # ── Deploy ─────────────────────────────────────────────────────────
-      - name: Deploy to OKE
+  # ── Deploy seletivo ─────────────────────────────────────────────────────
+  deploy:
+    runs-on: ubuntu-latest
+    needs: [changes, build-cmsapi, build-cmsapi-publica, build-cmsui, build-publicui]
+    if: always() && (
+      needs.build-cmsapi.result == 'success' ||
+      needs.build-cmsapi-publica.result == 'success' ||
+      needs.build-cmsui.result == 'success' ||
+      needs.build-publicui.result == 'success'
+      )
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup OCI CLI
+        run: |
+          pip install oci-cli --quiet
+          mkdir -p ~/.oci
+          echo "[DEFAULT]" > ~/.oci/config
+          echo "user=${{ secrets.OCI_USER_OCID }}" >> ~/.oci/config
+          echo "fingerprint=${{ secrets.OCI_FINGERPRINT }}" >> ~/.oci/config
+          echo "tenancy=${{ secrets.OCI_TENANCY_OCID }}" >> ~/.oci/config
+          echo "region=$OKE_REGION" >> ~/.oci/config
+          echo "key_file=~/.oci/oci_api_key.pem" >> ~/.oci/config
+          echo "${{ secrets.OCI_PRIVATE_KEY }}" > ~/.oci/oci_api_key.pem
+          chmod 600 ~/.oci/oci_api_key.pem ~/.oci/config
+
+      - name: Get kubeconfig
+        run: |
+          mkdir -p ~/.kube
+          oci ce cluster create-kubeconfig \
+            --cluster-id $OKE_CLUSTER_ID \
+            --file ~/.kube/config \
+            --region $OKE_REGION \
+            --token-version 2.0.0
+
+      - name: Apply k8s manifests
         run: |
           kubectl apply -f k8s/namespace.yaml
           kubectl apply -f k8s/cert-manager-issuer.yaml
-          kubectl apply -f k8s/cmsapi.yaml
-          kubectl apply -f k8s/cmsapi-publica.yaml
-          kubectl apply -f k8s/cmsui.yaml
-          kubectl apply -f k8s/publicui.yaml
           kubectl apply -f k8s/ingress.yaml
-          kubectl rollout restart deployment/cmsapi -n multiplai
-          kubectl rollout restart deployment/cmsapi-publica -n multiplai
-          kubectl rollout restart deployment/cmsui -n multiplai
-          kubectl rollout restart deployment/publicui -n multiplai
-          kubectl rollout status deployment/cmsapi -n multiplai --timeout=120s
-          kubectl rollout status deployment/cmsapi-publica -n multiplai --timeout=120s
+
+      - name: Restart deployments alterados
+        run: |
+          if [ "${{ needs.changes.outputs.cmsapi }}" == "true" ]; then
+            kubectl apply -f k8s/cmsapi.yaml
+            kubectl rollout restart deployment/cmsapi -n multiplai
+            kubectl rollout status deployment/cmsapi -n multiplai --timeout=120s
+          fi
+          if [ "${{ needs.changes.outputs['cmsapi-publica'] }}" == "true" ]; then
+            kubectl apply -f k8s/cmsapi-publica.yaml
+            kubectl rollout restart deployment/cmsapi-publica -n multiplai
+            kubectl rollout status deployment/cmsapi-publica -n multiplai --timeout=120s
+          fi
+          if [ "${{ needs.changes.outputs.cmsui }}" == "true" ]; then
+            kubectl apply -f k8s/cmsui.yaml
+            kubectl rollout restart deployment/cmsui -n multiplai
+          fi
+          if [ "${{ needs.changes.outputs.publicui }}" == "true" ]; then
+            kubectl apply -f k8s/publicui.yaml
+            kubectl rollout restart deployment/publicui -n multiplai
+          fi
