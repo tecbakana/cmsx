@@ -20,7 +20,6 @@ jobs:
       cmsapi-publica: ${{ steps.filter.outputs.cmsapi-publica }}
       cmsui: ${{ steps.filter.outputs.cmsui }}
       publicui: ${{ steps.filter.outputs.publicui }}
-      k8s: ${{ steps.filter.outputs.k8s }}
     steps:
       - uses: actions/checkout@v4
       - uses: dorny/paths-filter@v3
@@ -32,6 +31,7 @@ jobs:
               - 'CMSXData/**'
               - 'CMSXRepo/**'
               - 'ICMSX/**'
+              - 'k8s/**'
             cmsapi-publica:
               - 'CMSAPI.Publica/**'
               - 'CMSXData/**'
@@ -41,8 +41,6 @@ jobs:
               - 'CMSUI/**'
             publicui:
               - 'PublicUI/**'
-            k8s:
-              - 'k8s/**'
 
   # ── Setup compartilhado (OCI + Kubeconfig) ──────────────────────────────
   setup:
@@ -52,8 +50,7 @@ jobs:
       needs.changes.outputs.cmsapi == 'true' ||
       needs.changes.outputs['cmsapi-publica'] == 'true' ||
       needs.changes.outputs.cmsui == 'true' ||
-      needs.changes.outputs.publicui == 'true' ||
-      needs.changes.outputs.k8s == 'true'
+      needs.changes.outputs.publicui == 'true'
     steps:
       - name: Setup OCI CLI
         run: |
@@ -173,8 +170,7 @@ jobs:
       needs.build-cmsapi.result == 'success' ||
       needs.build-cmsapi-publica.result == 'success' ||
       needs.build-cmsui.result == 'success' ||
-      needs.build-publicui.result == 'success' ||
-      needs.changes.outputs.k8s == 'true'
+      needs.build-publicui.result == 'success'
       )
     steps:
       - uses: actions/checkout@v4
@@ -209,7 +205,7 @@ jobs:
 
       - name: Restart deployments alterados
         run: |
-          if [ "${{ needs.changes.outputs.cmsapi }}" == "true" ] || [ "${{ needs.changes.outputs.k8s }}" == "true" ]; then
+          if [ "${{ needs.changes.outputs.cmsapi }}" == "true" ]; then
             kubectl apply -f k8s/cmsapi.yaml
             kubectl rollout restart deployment/cmsapi -n multiplai
             kubectl rollout status deployment/cmsapi -n multiplai --timeout=120s
