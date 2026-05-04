@@ -27,7 +27,7 @@ public class LojaController(
         if (app == null)
             return NotFound(new { message = $"Site '{slug}' não encontrado." });
 
-        var token = lojaRepo.GetActiveTokenForApp(app.Aplicacaoid.ToString());
+        var token = lojaRepo.GetActiveTokenForApp(app.Aplicacaoid);
         if (token == null)
             return NotFound(new { message = "Loja não disponível." });
 
