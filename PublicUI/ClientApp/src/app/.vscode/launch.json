@@ -1,0 +1,10 @@
+{
+    "configurations": [
+        {
+            "type": "msedge",
+            "name": "http://localhost:44455/orcamento/novo?ref=tuDTyCNA1WPhcYV4nQgyMyKvn0trzahMIx0HNIEUDQwJdWghIYW5WEMcMUwNDMta",
+            "request": "launch",
+            "url": "http://localhost:44455/orcamento/novo?ref=tuDTyCNA1WPhcYV4nQgyMyKvn0trzahMIx0HNIEUDQwJdWghIYW5WEMcMUwNDMta"
+        }
+    ]
+}
